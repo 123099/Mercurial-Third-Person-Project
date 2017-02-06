@@ -1,0 +1,119 @@
+﻿  QuaternionTest.cpp
+d:\projects\c++\third-person\mge\tests\engine\utils\quaterniontest.cpp(1): fatal error C1083: Cannot open include file: 'gtest\gtest.h': No such file or directory
+  TransformTest.cpp
+d:\projects\c++\third-person\mge\tests\engine\behaviours\transformtest.cpp(1): fatal error C1083: Cannot open include file: 'gtest\gtest.h': No such file or directory
+  DebugHud.cpp
+d:\projects\c++\third-person\mge\src\engine\core\utils\debughud.cpp(1): fatal error C1083: Cannot open include file: 'Utils\DebugHud.hpp': No such file or directory
+  Application.cpp
+d:\projects\c++\third-person\mge\src\game\application.hpp(2): fatal error C1083: Cannot open include file: 'Core\AbstractGame.hpp': No such file or directory
+  Material.cpp
+d:\projects\c++\third-person\mge\src\engine\core\material.cpp(1): fatal error C1083: Cannot open include file: 'Core\Material.hpp': No such file or directory
+  Texture.cpp
+d:\projects\c++\third-person\mge\src\engine\core\textures\texture.cpp(1): fatal error C1083: Cannot open include file: 'Textures\Texture.hpp': No such file or directory
+  Shader.cpp
+d:\projects\c++\third-person\mge\src\engine\core\shader.hpp(7): fatal error C1083: Cannot open include file: 'GL\glew.h': No such file or directory
+  Renderer.cpp
+d:\projects\c++\third-person\mge\src\engine\core\managers\renderer.cpp(1): fatal error C1083: Cannot open include file: 'Managers\Renderer.hpp': No such file or directory
+  Mesh.cpp
+d:\projects\c++\third-person\mge\src\engine\core\mesh.cpp(1): fatal error C1083: Cannot open include file: 'Core\Mesh.hpp': No such file or directory
+  GameObject.cpp
+d:\projects\c++\third-person\mge\src\engine\core\gameobject.cpp(1): fatal error C1083: Cannot open include file: 'Core\GameObject.hpp': No such file or directory
+  Camera.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\camera.cpp(1): fatal error C1083: Cannot open include file: 'Behaviours\Camera.hpp': No such file or directory
+  AbstractGame.cpp
+d:\projects\c++\third-person\mge\src\engine\core\abstractgame.hpp(4): fatal error C1083: Cannot open include file: 'GL/glew.h': No such file or directory
+  WobbleBehaviour.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\wobblebehaviour.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  RotatingBehaviour.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\rotatingbehaviour.cpp(1): fatal error C1083: Cannot open include file: 'Game\Behaviours\RotatingBehaviour.hpp': No such file or directory
+  LookAt.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\lookat.cpp(1): fatal error C1083: Cannot open include file: 'Game\Behaviours\LookAt.hpp': No such file or directory
+  KeysBehaviour.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\keysbehaviour.cpp(1): fatal error C1083: Cannot open include file: 'Game\Behaviours\KeysBehaviour.hpp': No such file or directory
+  Flashlight.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\flashlight.cpp(1): fatal error C1083: Cannot open include file: 'Game\Behaviours\Flashlight.hpp': No such file or directory
+  CameraOrbit.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\cameraorbit.cpp(1): fatal error C1083: Cannot open include file: 'Game\Behaviours\CameraOrbit.hpp': No such file or directory
+  AbstractBehaviour.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\abstractbehaviour.cpp(1): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  Transform.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\transform.cpp(1): fatal error C1083: Cannot open include file: 'Behaviours\Transform.hpp': No such file or directory
+  Generating Code...
+  Compiling...
+  Time.cpp
+d:\projects\c++\third-person\mge\src\engine\core\time.cpp(1): fatal error C1083: Cannot open include file: 'Core\Time.hpp': No such file or directory
+  Terrain.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\terrain.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  ObjImporter.cpp
+d:\projects\c++\third-person\mge\src\engine\core\importers\objimporter.hpp(4): fatal error C1083: Cannot open include file: 'Core\Mesh.hpp': No such file or directory
+  Math.cpp
+d:\projects\c++\third-person\mge\src\engine\core\utils\math.cpp(1): fatal error C1083: Cannot open include file: 'Utils\Math.hpp': No such file or directory
+  InputManager.cpp
+d:\projects\c++\third-person\mge\src\engine\core\managers\inputmanager.cpp(1): fatal error C1083: Cannot open include file: 'Managers\InputManager.hpp': No such file or directory
+  InputAxes.cpp
+d:\projects\c++\third-person\mge\src\engine\core\input\inputaxes.cpp(1): fatal error C1083: Cannot open include file: 'Input\InputAxes.hpp': No such file or directory
+  Input.cpp
+d:\projects\c++\third-person\mge\src\engine\core\input\input.cpp(1): fatal error C1083: Cannot open include file: 'Input\Input.hpp': No such file or directory
+  File.cpp
+  StringUtils.cpp
+  Skybox.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\skybox.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  ShaderManager.cpp
+d:\projects\c++\third-person\mge\src\engine\core\managers\shadermanager.hpp(5): fatal error C1083: Cannot open include file: 'Core\Shader.hpp': No such file or directory
+  SceneManager.cpp
+d:\projects\c++\third-person\mge\src\engine\core\managers\scenemanager.cpp(2): fatal error C1083: Cannot open include file: 'Core\Scene.hpp': No such file or directory
+  Scene.cpp
+d:\projects\c++\third-person\mge\src\engine\core\scene.cpp(1): fatal error C1083: Cannot open include file: 'Core\Scene.hpp': No such file or directory
+  QuitBehaviour.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\quitbehaviour.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  Profiler.cpp
+d:\projects\c++\third-person\mge\src\engine\core\utils\profiler.hpp(4): fatal error C1083: Cannot open include file: 'SFML\System\Clock.hpp': No such file or directory
+  MeshRenderer.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\meshrenderer.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  MaterialImporter.cpp
+d:\projects\c++\third-person\mge\src\engine\core\importers\materialimporter.hpp(2): fatal error C1083: Cannot open include file: 'Core\Material.hpp': No such file or directory
+  Script.cpp
+d:\projects\c++\third-person\mge\src\lua\script.cpp(1): fatal error C1083: Cannot open include file: 'Lua\Script.hpp': No such file or directory
+  LevelImporter.cpp
+d:\projects\c++\third-person\mge\src\lua\levelimporter.cpp(2): fatal error C1083: Cannot open include file: 'Lua\Environment.hpp': No such file or directory
+  LightManager.cpp
+d:\projects\c++\third-person\mge\src\engine\core\managers\lightmanager.hpp(2): fatal error C1083: Cannot open include file: 'GL\glew.h': No such file or directory
+  Generating Code...
+  Compiling...
+  Light.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\light.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  ICacheable.cpp
+d:\projects\c++\third-person\mge\src\engine\core\utils\icacheable.cpp(1): fatal error C1083: Cannot open include file: 'Utils\ICacheable.hpp': No such file or directory
+  FreeLookCamera.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\freelookcamera.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  CubeMap.cpp
+d:\projects\c++\third-person\mge\src\engine\core\textures\cubemap.hpp(2): fatal error C1083: Cannot open include file: 'Textures\Texture.hpp': No such file or directory
+  BehaviourAttributesBases.cpp
+  BehaviourAttributes.cpp
+  main.cpp
+d:\projects\c++\third-person\mge\src\main.cpp(1): fatal error C1083: Cannot open include file: 'Game\Application.hpp': No such file or directory
+  LuaUtils.cpp
+d:\projects\c++\third-person\mge\src\lua\luautils.hpp(3): fatal error C1083: Cannot open include file: 'LuaAPI\lua.hpp': No such file or directory
+  Environment.cpp
+d:\projects\c++\third-person\mge\src\lua\environment.hpp(2): fatal error C1083: Cannot open include file: 'LuaAPI\lua.hpp': No such file or directory
+  Closure.cpp
+d:\projects\c++\third-person\mge\src\lua\closure.cpp(1): fatal error C1083: Cannot open include file: 'Lua\Closure.hpp': No such file or directory
+  LuaGame.cpp
+d:\projects\c++\third-person\mge\src\game\luagame.cpp(1): fatal error C1083: Cannot open include file: 'Game\LuaGame.hpp': No such file or directory
+  Player.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\player.cpp(1): fatal error C1083: Cannot open include file: 'Game\Behaviours\Player.hpp': No such file or directory
+  NPC.cpp
+d:\projects\c++\third-person\mge\src\game\behaviours\npc.cpp(1): fatal error C1083: Cannot open include file: 'Game\Behaviours\NPC.hpp': No such file or directory
+  Quaternion.cpp
+d:\projects\c++\third-person\mge\src\engine\core\utils\quaternion.cpp(1): fatal error C1083: Cannot open include file: 'Utils\Quaternion.hpp': No such file or directory
+  LuaScript.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\lua\luascript.cpp(1): fatal error C1083: Cannot open include file: 'Behaviours\Lua\LuaScript.hpp': No such file or directory
+  LuaEnvironment.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\lua\luaenvironment.cpp(1): fatal error C1083: Cannot open include file: 'Behaviours\Lua\LuaEnvironment.hpp': No such file or directory
+  AudioSource.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\audiosource.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  AudioListener.cpp
+d:\projects\c++\third-person\mge\src\engine\core\behaviours\audiolistener.hpp(2): fatal error C1083: Cannot open include file: 'Behaviours\AbstractBehaviour.hpp': No such file or directory
+  AudioClip.cpp
+d:\projects\c++\third-person\mge\src\engine\core\audio\audioclip.hpp(2): fatal error C1083: Cannot open include file: 'SFML\Audio\Music.hpp': No such file or directory
+  Generating Code...
