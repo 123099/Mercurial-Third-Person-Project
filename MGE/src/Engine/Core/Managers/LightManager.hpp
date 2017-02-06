@@ -25,6 +25,8 @@ public:
 	float GetFogStartDistance() const;
 
 	void UpdateLightData(glm::mat4 viewMatrix);
+	
+	void LoadFromConfig();
 private:
 	std::vector<Light*> m_lights;
 

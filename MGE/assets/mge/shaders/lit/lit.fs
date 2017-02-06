@@ -168,10 +168,10 @@ vec4 calculateReflection(vec4 currentColor)
 vec4 calculateFog(vec4 currentColor)
 {
 	//Calculate the fog coord based on the z distance in cartesian plane of the fragment
-	const float fogCoord = vertex_cameraSpace.z / vertex_cameraSpace.w;
+	const float fogCoord = abs(vertex_cameraSpace.z / vertex_cameraSpace.w);
 	
 	//Calculate the fog factor using an exponential squared equation
-	const float factor = clamp(1.0 - ( exp( -pow( ( fogDensity * ( fogCoord - fogStartDistance ) ), 2.0) ) ), 0.0, 1.0);
+	const float factor = clamp(1.0 - ( exp( -( fogDensity * ( fogCoord - fogStartDistance )) ) ), 0.0, 1.0);
 	
 	return vec4(mix(currentColor, fogColor, factor).xyz, currentColor.a);
 }

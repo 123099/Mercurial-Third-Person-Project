@@ -1,10 +1,12 @@
 #define MAX_LIGHTS 20
 
 #include "LightManager.hpp"
-#include <memory>
 #include <Behaviours\Light.hpp>
 #include <Managers\ShaderManager.hpp>
 #include <Utils\Profiler.hpp>
+#include <Core\config.hpp>
+#include <fstream>
+#include <memory>
 
 LightManager::LightManager() : 
 	m_lightBufferID(InitializeLightBuffer()),
@@ -145,6 +147,63 @@ void LightManager::UpdateLightData(glm::mat4 viewMatrix)
 	//Finalize
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	UnbindLightBuffer();
+}
+
+void LightManager::LoadFromConfig()
+{
+	const std::string fullPath = config::MGE_CONFIG_PATH + "lightManager.cfg";
+
+	//Open the file
+	std::ifstream file(fullPath);
+
+	//Make sure we opened the file
+	if (file.is_open())
+	{
+		//Start reading the file line by line
+		std::string propertyName;
+		while (file >> propertyName)
+		{
+			bool success = true;
+
+			if (propertyName == "globalAmbient")
+			{
+				if (!(file >> m_globalAmbient.x >> m_globalAmbient.y >> m_globalAmbient.z >> m_globalAmbient.w))
+				{
+					success = false;
+				}
+			}
+			else if (propertyName == "fogColor")
+			{
+				if (!(file >> m_fogColor.x >> m_fogColor.y >> m_fogColor.z >> m_fogColor.w))
+				{
+					success = false;
+				}
+			}
+			else if (propertyName == "fogDensity")
+			{
+				if (!(file >> m_fogDensity))
+				{
+					success = false;
+				}
+			}
+			else if (propertyName == "fogStartDistance")
+			{
+				if (!(file >> m_fogStartDistance))
+				{
+					success = false;
+				}
+			}
+
+			if (success == false)
+			{
+				std::cerr << "[Error] Reading light manager config property " << propertyName << "!\n";
+			}
+		}
+	}
+	else
+	{
+		std::cerr << "Failed to open the config file for the light manager at " << fullPath << "!\n";
+	}
 }
 
 const size_t LightManager::BindLightBuffer(GLuint bufferID, bool useMaxSize)

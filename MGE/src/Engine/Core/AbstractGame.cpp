@@ -96,7 +96,7 @@ void AbstractGame::InitializeShaders()
 void AbstractGame::InitializeLight()
 {
 	std::cout << "Initializing light manager..." << '\n';
-	LightManager::Instance();
+	LightManager::Instance().LoadFromConfig();
 	std::cout << "Light manager initialized." << '\n' << '\n';
 }
 
