@@ -1,0 +1,473 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Behaviours">
+      <UniqueIdentifier>{90814ab2-f749-4c58-b89e-ca6b300a87b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine">
+      <UniqueIdentifier>{7e5438c3-0110-4a51-9e04-991c7784e61c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core">
+      <UniqueIdentifier>{7ab3af64-0a39-4737-9a88-828a321702bc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Lua">
+      <UniqueIdentifier>{f0e0ba18-8d6c-4957-8eaf-fc1d78452628}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Behaviours">
+      <UniqueIdentifier>{a6112622-947f-4329-8e67-b37183e29f93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Textures">
+      <UniqueIdentifier>{6734a120-c344-41e7-bb2b-6249a0a39ef1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Utils">
+      <UniqueIdentifier>{0e5b445d-2a5d-48a6-996e-9322b3ec84f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Input">
+      <UniqueIdentifier>{7a8f938d-a2ac-4c53-8355-d351444e06da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Managers">
+      <UniqueIdentifier>{8dcbd9ef-20fa-4774-853e-b00689f3fe9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Importers">
+      <UniqueIdentifier>{1c59437d-c714-4a4a-bcf5-9be7557a8c09}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine">
+      <UniqueIdentifier>{1e5f1408-8752-4c05-987e-2c3745e5464c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Behaviours">
+      <UniqueIdentifier>{62d415de-1d4b-45fa-bcff-cde76b492c0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core">
+      <UniqueIdentifier>{71c593e2-2528-42f1-a8e9-0dee9fff7954}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Lua">
+      <UniqueIdentifier>{af966802-ef7f-4468-bf31-d1c3e9e99e2b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Behaviours">
+      <UniqueIdentifier>{578fcff5-74a0-48f4-94a4-1f2933811356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Utils">
+      <UniqueIdentifier>{d9679da1-3282-47be-8ae6-2112186f464a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Textures">
+      <UniqueIdentifier>{a9f8c0e0-362b-4575-94df-6be75081cafd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Input">
+      <UniqueIdentifier>{a14ccb51-b992-44e2-a1df-10d8e3bbfb29}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Managers">
+      <UniqueIdentifier>{ec519430-8b69-4e2f-b367-d5acdf638a05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Importers">
+      <UniqueIdentifier>{f1eccf5e-715a-4a6a-8ce5-7f8fb742a1aa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Behaviours\Lua">
+      <UniqueIdentifier>{4bd2f254-c441-4a9f-9cbb-3f7ef8f1666f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Behaviours\Lua">
+      <UniqueIdentifier>{45593ea0-ac90-4171-8895-8c467a0b4bbd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests">
+      <UniqueIdentifier>{19ebe6b6-4f06-4900-83ba-f43ac2f7212d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Engine">
+      <UniqueIdentifier>{a2ecc768-8d5d-4bce-a381-8bb75c4dfaaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Engine\Behaviours">
+      <UniqueIdentifier>{b6b9d2c2-d975-4305-b77e-0452c0a23ba4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Tests\Engine\Utils">
+      <UniqueIdentifier>{e1843daa-c97a-4390-ac96-cfc5f55c51a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Audio">
+      <UniqueIdentifier>{870914ea-0381-49b1-b72d-b72edca0db0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Audio">
+      <UniqueIdentifier>{e3b4d984-4022-4e85-8f2b-fda07f9a449b}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lua\LuaUtils.hpp">
+      <Filter>Header Files\Engine\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\BehaviourAttributes.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\BehaviourAttributesBases.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Textures\CubeMap.hpp">
+      <Filter>Header Files\Engine\Core\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\File.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\FreeLookCamera.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\ICacheable.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Input\Input.hpp">
+      <Filter>Header Files\Engine\Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Input\InputAxes.hpp">
+      <Filter>Header Files\Engine\Core\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Managers\InputManager.hpp">
+      <Filter>Header Files\Engine\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Managers\LightManager.hpp">
+      <Filter>Header Files\Engine\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Managers\SceneManager.hpp">
+      <Filter>Header Files\Engine\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Managers\ShaderManager.hpp">
+      <Filter>Header Files\Engine\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\InstanceCache.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Light.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Importers\MaterialImporter.hpp">
+      <Filter>Header Files\Engine\Core\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Importers\ObjImporter.hpp">
+      <Filter>Header Files\Engine\Core\Importers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Math.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\StringUtils.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\MeshRenderer.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Terrain.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Transform.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Profiler.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\glm.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\QuitBehaviour.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Scene.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Time.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Skybox.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\AbstractBehaviour.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\CameraOrbit.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\Flashlight.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\KeysBehaviour.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\LookAt.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\RotatingBehaviour.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\WobbleBehaviour.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\AbstractGame.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\GameObject.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Mesh.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Shader.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\ShaderProperty.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Camera.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Managers\Renderer.hpp">
+      <Filter>Header Files\Engine\Core\Managers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Textures\Texture.hpp">
+      <Filter>Header Files\Engine\Core\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Material.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\DebugHud.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Application.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\config.hpp">
+      <Filter>Header Files\Engine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\LuaGame.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\NPC.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lua\Script.hpp">
+      <Filter>Header Files\Engine\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lua\LevelImporter.hpp">
+      <Filter>Header Files\Engine\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lua\Environment.hpp">
+      <Filter>Header Files\Engine\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Lua\Closure.hpp">
+      <Filter>Header Files\Engine\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaScript.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours\Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\Player.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\AudioSource.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\AudioListener.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Audio\AudioClip.hpp">
+      <Filter>Header Files\Engine\Core\Audio</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lua\LuaUtils.cpp">
+      <Filter>Source Files\Engine\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\BehaviourAttributes.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\BehaviourAttributesBases.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Textures\CubeMap.cpp">
+      <Filter>Source Files\Engine\Core\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\File.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\FreeLookCamera.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\ICacheable.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Input\Input.cpp">
+      <Filter>Source Files\Engine\Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Input\InputAxes.cpp">
+      <Filter>Source Files\Engine\Core\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Managers\InputManager.cpp">
+      <Filter>Source Files\Engine\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Managers\LightManager.cpp">
+      <Filter>Source Files\Engine\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Managers\SceneManager.cpp">
+      <Filter>Source Files\Engine\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Managers\ShaderManager.cpp">
+      <Filter>Source Files\Engine\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Light.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Importers\MaterialImporter.cpp">
+      <Filter>Source Files\Engine\Core\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Importers\ObjImporter.cpp">
+      <Filter>Source Files\Engine\Core\Importers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\Math.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\StringUtils.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\MeshRenderer.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Terrain.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Transform.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\Profiler.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\QuitBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Scene.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Time.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Skybox.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\AbstractBehaviour.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\CameraOrbit.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\Flashlight.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\KeysBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\LookAt.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\RotatingBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\WobbleBehaviour.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\AbstractGame.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\GameObject.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Mesh.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Shader.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Camera.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Managers\Renderer.cpp">
+      <Filter>Source Files\Engine\Core\Managers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Textures\Texture.cpp">
+      <Filter>Source Files\Engine\Core\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Material.cpp">
+      <Filter>Source Files\Engine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\DebugHud.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\LuaGame.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\NPC.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lua\Closure.cpp">
+      <Filter>Source Files\Engine\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lua\Environment.cpp">
+      <Filter>Source Files\Engine\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lua\LevelImporter.cpp">
+      <Filter>Source Files\Engine\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Lua\Script.cpp">
+      <Filter>Source Files\Engine\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaScript.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours\Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\Player.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\Engine\Behaviours\TransformTest.cpp">
+      <Filter>Tests\Engine\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="tests\Engine\Utils\QuaternionTest.cpp">
+      <Filter>Tests\Engine\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\AudioSource.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\AudioListener.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Audio\AudioClip.cpp">
+      <Filter>Source Files\Engine\Core\Audio</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="MGE.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+</Project>
