@@ -1,14 +1,19 @@
 #define MAX_LIGHTS 20
 
 #include "LightManager.hpp"
-#include <memory>
 #include <Behaviours\Light.hpp>
 #include <Managers\ShaderManager.hpp>
 #include <Utils\Profiler.hpp>
+#include <Core\config.hpp>
+#include <fstream>
+#include <memory>
 
 LightManager::LightManager() : 
 	m_lightBufferID(InitializeLightBuffer()),
-	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)) {}
+	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)),
+	m_fogColor(glm::vec4(1.0)),
+	m_fogDensity(0.03f),
+	m_fogStartDistance(10.0f) {}
 
 LightManager & LightManager::Instance()
 {
@@ -39,14 +44,44 @@ int LightManager::GetLightCount() const
 	return m_lights.size();
 }
 
-void LightManager::SetGlobalAmbientColor(glm::vec4 globalAmbientColor)
+void LightManager::SetGlobalAmbientColor(glm::vec4 color)
 {
-	m_globalAmbient = globalAmbientColor;
+	m_globalAmbient = color;
+}
+
+void LightManager::SetFogColor(glm::vec4 color)
+{
+	m_fogColor = color;
+}
+
+void LightManager::SetFogDensity(float density)
+{
+	m_fogDensity = density;
+}
+
+void LightManager::SetFogStartDistance(float distance)
+{
+	m_fogStartDistance = distance;
 }
 
 glm::vec4 LightManager::GetGlobalAmbientColor() const
 {
 	return m_globalAmbient;
+}
+
+glm::vec4 LightManager::GetFogColor() const
+{
+	return m_fogColor;
+}
+
+float LightManager::GetFogDensity() const
+{
+	return m_fogDensity;
+}
+
+float LightManager::GetFogStartDistance() const
+{
+	return m_fogStartDistance;
 }
 
 GLuint LightManager::InitializeLightBuffer()
@@ -112,6 +147,63 @@ void LightManager::UpdateLightData(glm::mat4 viewMatrix)
 	//Finalize
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	UnbindLightBuffer();
+}
+
+void LightManager::LoadFromConfig()
+{
+	const std::string fullPath = config::MGE_CONFIG_PATH + "lightManager.cfg";
+
+	//Open the file
+	std::ifstream file(fullPath);
+
+	//Make sure we opened the file
+	if (file.is_open())
+	{
+		//Start reading the file line by line
+		std::string propertyName;
+		while (file >> propertyName)
+		{
+			bool success = true;
+
+			if (propertyName == "globalAmbient")
+			{
+				if (!(file >> m_globalAmbient.x >> m_globalAmbient.y >> m_globalAmbient.z >> m_globalAmbient.w))
+				{
+					success = false;
+				}
+			}
+			else if (propertyName == "fogColor")
+			{
+				if (!(file >> m_fogColor.x >> m_fogColor.y >> m_fogColor.z >> m_fogColor.w))
+				{
+					success = false;
+				}
+			}
+			else if (propertyName == "fogDensity")
+			{
+				if (!(file >> m_fogDensity))
+				{
+					success = false;
+				}
+			}
+			else if (propertyName == "fogStartDistance")
+			{
+				if (!(file >> m_fogStartDistance))
+				{
+					success = false;
+				}
+			}
+
+			if (success == false)
+			{
+				std::cerr << "[Error] Reading light manager config property " << propertyName << "!\n";
+			}
+		}
+	}
+	else
+	{
+		std::cerr << "Failed to open the config file for the light manager at " << fullPath << "!\n";
+	}
 }
 
 const size_t LightManager::BindLightBuffer(GLuint bufferID, bool useMaxSize)

@@ -12,4 +12,5 @@ namespace config
 	static const std::string MGE_SCRIPTS_PATH		= "mge/scripts/";
 	static const std::string MGE_AUDIO_PATH			= "mge/audio/";
 	static const std::string MGE_LEVELS_PATH		= "levels/";
+	static const std::string MGE_CONFIG_PATH		= "mge/configs/";
 }

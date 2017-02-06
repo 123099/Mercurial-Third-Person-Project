@@ -99,7 +99,11 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 	m_shader.SetProperty(ShaderProperty("mvpMatrix", viewProjectionMatrix * modelMatrix));
 
 	//Send the global light properties to the shader
-	m_shader.SetProperty(ShaderProperty("globalAmbient", LightManager::Instance().GetGlobalAmbientColor()));
+	const LightManager& lightManager = LightManager::Instance();
+	m_shader.SetProperty(ShaderProperty("globalAmbient", lightManager.GetGlobalAmbientColor()));
+	m_shader.SetProperty(ShaderProperty("fogColor", lightManager.GetFogColor()));
+	m_shader.SetProperty(ShaderProperty("fogDensity", lightManager.GetFogDensity()));
+	m_shader.SetProperty(ShaderProperty("fogStartDistance", lightManager.GetFogStartDistance()));
 
 	GLuint currentTextureUnit = 0;
 
