@@ -61,8 +61,8 @@ int hudTris;
 void Application::InitializeScene()
 {
 	//InitSceneWobble();
-	//InitSceneLighting();
-	InitSceneTerrain();
+	InitSceneLighting();
+	//InitSceneTerrain();
 
 	AudioClip* ac = AudioClip::Load("test.wav", true, false);
 	AudioClip* ac2 = AudioClip::Load("test.wav", true, false);
@@ -77,24 +77,6 @@ void Application::InitializeScene()
 	as->SetVolume(0.7f);
 	as->SetAttenuation(0.1f);
 	as->SetSpatialBlend(0.5f);
-
-	/*as = bgm->AddBehaviour<AudioSource>();
-	as->SetAudioClip(ac2);
-	as->SetPlayOnAwake(true);
-	as->SetLooping(true);
-	as->SetPitch(0.5f);
-	as->SetVolume(0.7f);
-	as->SetAttenuation(0.1f);
-	as->SetSpatialBlend(0.5f);
-
-	as = bgm->AddBehaviour<AudioSource>();
-	as->SetAudioClip(ac3);
-	as->SetPlayOnAwake(true);
-	as->SetLooping(true);
-	as->SetPitch(0.2f);
-	as->SetVolume(0.7f);
-	as->SetAttenuation(0.1f);
-	as->SetSpatialBlend(0.5f);*/
 
 	GameObject* quitter = new GameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();

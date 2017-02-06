@@ -2,6 +2,9 @@
 const vec4 gamma = vec4(1.0 / 2.2);
 
 uniform vec4 globalAmbient;
+uniform vec4 fogColor;
+uniform float fogStartDistance;
+uniform float fogDensity;
 
 uniform vec4 materialAmbient;
 uniform vec4 materialDiffuse;
@@ -140,7 +143,7 @@ vec4 calculateLight(int index, vec4 normal)
 	if(currentAngleCos <= lights[index].spotInnerAngleCos) //As cos increases, angle decreases
 	{
 		//Calculate the difference in cosine between both cones
-		float innerMinusOuterAngleCos = lights[index].spotInnerAngleCos - lights[index].spotOuterAngleCos;
+		const float innerMinusOuterAngleCos = lights[index].spotInnerAngleCos - lights[index].spotOuterAngleCos;
 		
 		//The falloff is the ratio between the current angle between both cones and the difference between both cones
 		spotFalloff = clamp((currentAngleCos - lights[index].spotOuterAngleCos) / innerMinusOuterAngleCos, 0.0, 1.0);
@@ -150,7 +153,27 @@ vec4 calculateLight(int index, vec4 normal)
 	const vec4 diffuse = calculateDiffuse(index, L, normal);
 	const vec4 specular = calculateSpecular(index, L, normal);
 	
-	return (ambient + diffuse + specular) * vec4(vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff), 1.0);
+	return vec4((ambient.xyz + diffuse.xyz + specular.xyz) * vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff), (ambient.a + diffuse.a + specular.a) * 0.34);
+}
+
+vec4 calculateReflection(vec4 currentColor)
+{
+	//Calculate vector to skybox in world space since the environment map pixels are in world space and camera translation should be ignored
+	const vec3 direction = vec3(transpose(viewMatrix) * vec4(reflect(vertex_cameraSpace, normal_cameraSpace).xyz, 0));
+	
+	//Calculate reflection of the environment map
+	return vec4(mix(currentColor, texture(environmentMap, direction), 0.4).xyz, currentColor.a);
+}
+
+vec4 calculateFog(vec4 currentColor)
+{
+	//Calculate the fog coord based on the z distance in cartesian plane of the fragment
+	const float fogCoord = vertex_cameraSpace.z / vertex_cameraSpace.w;
+	
+	//Calculate the fog factor using an exponential squared equation
+	const float factor = clamp(1.0 - ( exp( -pow( ( fogDensity * ( fogCoord - fogStartDistance ) ), 2.0) ) ), 0.0, 1.0);
+	
+	return vec4(mix(currentColor, fogColor, factor).xyz, currentColor.a);
 }
 
 void main ( void )
@@ -167,21 +190,19 @@ void main ( void )
 	}
 	
 	//Add the global ambient and emission color of the material
-	fragColor += globalAmbient + materialEmission;
+	fragColor += vec4(globalAmbient.xyz + materialEmission.xyz, (globalAmbient.a + materialEmission.a + fragColor.a) * 0.34);
 	
 	//Apply the light color to the texture
 	fragColor *= texture(diffuseTexture, frag_uv);
 	
-	//Calculate vector to skybox in world space since the environment map pixels are in world space and camera translation should be ignored
-	vec3 direction = vec3(transpose(viewMatrix) * vec4(reflect(vertex_cameraSpace, normal_cameraSpace).xyz, 0));
-	
 	//Apply reflection
-	fragColor = mix(fragColor, texture(environmentMap, direction), 0.4);
+	fragColor = calculateReflection(fragColor);
+	
+	//Apply fog
+	fragColor = calculateFog(fragColor);
 	
 	//Apply gamma adjustments to coincide with the monitor being darker than it actually is
 	fragColor = pow(fragColor, gamma);
-	
-	//fragColor = vec4(normal.xyz, 1);
 }
 
 

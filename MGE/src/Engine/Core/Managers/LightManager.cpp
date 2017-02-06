@@ -8,7 +8,10 @@
 
 LightManager::LightManager() : 
 	m_lightBufferID(InitializeLightBuffer()),
-	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)) {}
+	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)),
+	m_fogColor(glm::vec4(1.0)),
+	m_fogDensity(0.03f),
+	m_fogStartDistance(10.0f) {}
 
 LightManager & LightManager::Instance()
 {
@@ -39,14 +42,44 @@ int LightManager::GetLightCount() const
 	return m_lights.size();
 }
 
-void LightManager::SetGlobalAmbientColor(glm::vec4 globalAmbientColor)
+void LightManager::SetGlobalAmbientColor(glm::vec4 color)
 {
-	m_globalAmbient = globalAmbientColor;
+	m_globalAmbient = color;
+}
+
+void LightManager::SetFogColor(glm::vec4 color)
+{
+	m_fogColor = color;
+}
+
+void LightManager::SetFogDensity(float density)
+{
+	m_fogDensity = density;
+}
+
+void LightManager::SetFogStartDistance(float distance)
+{
+	m_fogStartDistance = distance;
 }
 
 glm::vec4 LightManager::GetGlobalAmbientColor() const
 {
 	return m_globalAmbient;
+}
+
+glm::vec4 LightManager::GetFogColor() const
+{
+	return m_fogColor;
+}
+
+float LightManager::GetFogDensity() const
+{
+	return m_fogDensity;
+}
+
+float LightManager::GetFogStartDistance() const
+{
+	return m_fogStartDistance;
 }
 
 GLuint LightManager::InitializeLightBuffer()
