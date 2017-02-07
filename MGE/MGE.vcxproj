@@ -177,8 +177,11 @@
     <ClInclude Include="src\Engine\Core\Behaviours\AudioSource.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaScript.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp" />
+    <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\glm.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\Screen.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp" />
     <ClInclude Include="src\Game\Behaviours\NPC.hpp" />
     <ClInclude Include="src\Game\Behaviours\Player.hpp" />
@@ -240,7 +243,10 @@
     <ClCompile Include="src\Engine\Core\Behaviours\AudioSource.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaScript.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />
+    <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
     <ClCompile Include="src\Game\Behaviours\NPC.cpp" />
     <ClCompile Include="src\Game\Behaviours\Player.cpp" />
     <ClCompile Include="src\Game\LuaGame.cpp" />
