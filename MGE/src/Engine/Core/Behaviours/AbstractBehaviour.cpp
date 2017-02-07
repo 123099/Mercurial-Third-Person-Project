@@ -9,7 +9,7 @@ void AbstractBehaviour::SetGameObject(GameObject* gameObject)
     m_gameObject = gameObject;
 }
 
-GameObject * AbstractBehaviour::GetGameObject()
+GameObject * AbstractBehaviour::GetGameObject() const
 {
 	return m_gameObject;
 }

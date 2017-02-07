@@ -17,7 +17,7 @@ public:
 	AbstractBehaviour();
 	virtual ~AbstractBehaviour() = 0;
 
-	GameObject* GetGameObject();
+	GameObject* GetGameObject() const;
 
 	virtual void Awake() {}
 	virtual void Start() {}
