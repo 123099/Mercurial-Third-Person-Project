@@ -1,9 +1,9 @@
 #include <Managers\InputManager.hpp>
+#include <Utils\Screen.hpp>
 #include <Utils\glm.hpp>
-#include <iostream>
 
 int InputManager::s_mouseWheelDelta = 0;
-sf::Vector2i InputManager::s_mousePosition;
+glm::vec2 InputManager::s_mousePosition;
 
 bool InputManager::s_anyKey = false;
 bool InputManager::s_anyKeyUp = false;
@@ -97,7 +97,7 @@ void InputManager::Update(sf::Event & event)
 	}
 	else if (event.type == sf::Event::MouseMoved)
 	{
-		this->s_mousePosition = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
+		this->s_mousePosition = glm::vec2(event.mouseMove.x, Screen::Instance().GetHeight() - event.mouseMove.y);
 	}
 	else if (event.type == sf::Event::MouseWheelMoved)
 	{
@@ -120,7 +120,7 @@ int InputManager::GetMouseWheelDelta()
 	return s_mouseWheelDelta;
 }
 
-sf::Vector2i InputManager::GetMousePosition()
+glm::vec2 InputManager::GetMousePosition()
 {
 	return s_mousePosition;
 }

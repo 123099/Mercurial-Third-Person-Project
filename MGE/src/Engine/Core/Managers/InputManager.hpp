@@ -1,6 +1,7 @@
 #pragma once
 #include "SFML\Graphics.hpp"
 #include <Core\Input\InputAxes.hpp>
+#include <Utils\glm.hpp>
 
 class InputManager
 {
@@ -16,7 +17,7 @@ private:
 	void resetArray(bool* l_array, int arraySize);
 
 	static int s_mouseWheelDelta;
-	static sf::Vector2i s_mousePosition;
+	static glm::vec2 s_mousePosition;
 
     static bool s_anyKey;
     static bool s_anyKeyUp;
@@ -30,7 +31,7 @@ private:
 	static bool s_mouseButtonsReleased[sf::Mouse::ButtonCount];
 
 	static int GetMouseWheelDelta();
-	static sf::Vector2i GetMousePosition();
+	static glm::vec2 GetMousePosition();
 
     static bool IsAnyKeyHeld();
     static bool IsAnyKeyUp();

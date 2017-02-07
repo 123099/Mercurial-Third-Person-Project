@@ -5,6 +5,7 @@
 uniform vec4 diffuseColor;
 out vec4 fragment_color;
 
-void main( void ) {
+void main( void ) 
+{
 	fragment_color = diffuseColor;
 }

@@ -3,6 +3,7 @@
 #define RENDERER_H
 
 #include <Utils\glm.hpp>
+#include <Utils\Singleton.hpp>
 #include <vector>
 
 class Scene;
@@ -13,13 +14,12 @@ class MeshRenderer;
 /**
  * Renderer implements a default single pass forward renderer.
  */
-class Renderer final
+class Renderer final : public Singleton<Renderer>
 {
+friend Singleton<Renderer>;
 friend MeshRenderer;
 
 public:
-	static Renderer& Instance();
-
     void SetClearColor (float r, float g, float b);
 
 	glm::mat4 GetViewMatrix() const;

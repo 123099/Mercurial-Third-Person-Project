@@ -97,6 +97,12 @@
     <Filter Include="Header Files\Engine\Core\Audio">
       <UniqueIdentifier>{e3b4d984-4022-4e85-8f2b-fda07f9a449b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Core\Physics">
+      <UniqueIdentifier>{f473ac54-8a4c-4f76-ae4e-b91dd9d2ded5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Physics">
+      <UniqueIdentifier>{2477021d-6cff-461d-9b22-c711de97d6f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -285,6 +291,12 @@
     <ClInclude Include="src\Engine\Core\Audio\AudioClip.hpp">
       <Filter>Header Files\Engine\Core\Audio</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Screen.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Physics\Ray.hpp">
+      <Filter>Header Files\Engine\Core\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -463,6 +475,12 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Audio\AudioClip.cpp">
       <Filter>Source Files\Engine\Core\Audio</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\Screen.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Physics\Ray.cpp">
+      <Filter>Source Files\Engine\Core\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

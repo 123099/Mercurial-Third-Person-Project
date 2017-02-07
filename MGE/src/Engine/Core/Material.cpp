@@ -105,7 +105,8 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 	m_shader.SetProperty(ShaderProperty("fogDensity", lightManager.GetFogDensity()));
 	m_shader.SetProperty(ShaderProperty("fogStartDistance", lightManager.GetFogStartDistance()));
 
-	GLuint currentTextureUnit = 0;
+	//Since the default sampler2D value is 0, start from 1, and make 0 represent a non existent texture
+	GLuint currentTextureUnit = 1;
 
 	//Pass all the properties to the shader
 	for (const auto& propertyPair : m_shaderProperties)
@@ -134,14 +135,15 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 	);
 
 	//Unbind any texture that may have been active
+	currentTextureUnit = 1;
 	for (const auto& propertyPair : m_shaderProperties)
 	{
-		const ShaderProperty& propety = *propertyPair.second;
+		const ShaderProperty& property = *propertyPair.second;
 
-		if (propety.type == PropertyType::Texture)
+		if (property.type == PropertyType::Texture)
 		{
-			--currentTextureUnit;
-			propety.textureValue->Unbind(currentTextureUnit);
+			property.textureValue->Unbind(currentTextureUnit);
+			++currentTextureUnit;
 		}
 	}
 

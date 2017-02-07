@@ -1,17 +1,17 @@
 #pragma once
 #include <GL\glew.h>
 #include <Utils\glm.hpp>
+#include <Utils\Singleton.hpp>
 #include <vector>
 
 class Light;
 
-class LightManager
+class LightManager final : public Singleton<LightManager>
 {
+friend Singleton<LightManager>;
 friend Light;
 
 public:
-	static LightManager& Instance();
-
 	int GetLightCount() const;
 
 	void SetGlobalAmbientColor(glm::vec4 color);

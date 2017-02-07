@@ -2,14 +2,10 @@
 #define CAMERA_H
 
 #include <Behaviours\AbstractBehaviour.hpp>
-#include <string>
+#include <Physics\Ray.hpp>
 #include <Utils\glm.hpp>
+#include <string>
 
-/**
- * Camera is just a Behaviour with an additional projection matrix.
- * The camera's own transform is used to generate a world to view matrix by taking the inverse of the camera transform
- * (see renderer).
- */
 class Camera final : public AbstractBehaviour
 {
 public:
@@ -23,13 +19,17 @@ public:
 	void SetNearPlane(float nearPlane);
 	void SetFarPlane(float farPlane);
 
-	float GetFieldOfView();
-	float GetAspect();
-	float GetNearPlane();
-	float GetFarPlane();
+	float GetFieldOfView() const;
+	float GetAspect() const;
+	float GetNearPlane() const;
+	float GetFarPlane() const;
 
 	void ResetProjectionMatrix();
-    const glm::mat4& GetProjectionMatrix();
+
+	glm::mat4 GetViewMatrix() const;
+    const glm::mat4& GetProjectionMatrix() const;
+
+	Ray ScreenPointToRay(glm::vec2 point);
 private:
 	static Camera* s_mainCamera;
 
