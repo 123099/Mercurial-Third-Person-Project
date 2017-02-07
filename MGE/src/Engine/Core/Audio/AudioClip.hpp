@@ -23,6 +23,7 @@ public:
 	void SetPitch(float pitch);
 	void Seek(float normalizedTime);
 
+	void UseRelativePosition(bool relativePosition);
 	void SetWorldPosition(const glm::vec3& position);
 private:
 	AudioClip(const std::string& name, bool stream);

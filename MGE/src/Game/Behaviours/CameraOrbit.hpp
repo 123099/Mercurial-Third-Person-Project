@@ -1,6 +1,6 @@
 #pragma once
 #include <Behaviours\AbstractBehaviour.hpp>
-#include <SFML\Graphics.hpp>
+#include <Utils\glm.hpp>
 
 class CameraOrbit :	public AbstractBehaviour
 {
@@ -24,6 +24,6 @@ private:
 
 	float m_accumulatedYRotation;
 	float m_accumulatedXRotation;
-	sf::Vector2i m_previousMousePos;
+	glm::vec2 m_previousMousePos;
 };
 

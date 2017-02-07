@@ -15,12 +15,6 @@ LightManager::LightManager() :
 	m_fogDensity(0.03f),
 	m_fogStartDistance(10.0f) {}
 
-LightManager & LightManager::Instance()
-{
-	static LightManager instance;
-	return instance;
-}
-
 void LightManager::AddLight(Light * light)
 {
 	if (m_lights.size() < MAX_LIGHTS && HasLight(light) == false)

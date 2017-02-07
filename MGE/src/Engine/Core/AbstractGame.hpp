@@ -41,6 +41,9 @@ private:
 	//Initialize SFML rendering context
 	void InitializeWindow();
 
+	//Initialize the Screen instance
+	void InitializeScreen();
+
 	//Print info about the current driver version etc
 	void PrintVersionInfo();
 

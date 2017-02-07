@@ -40,18 +40,17 @@ void FreeLookCamera::Rotate()
 	if (Input::GetMouseButton(sf::Mouse::Button::Right))
 	{
 		//Calculate the delta mouse movement
-		sf::Vector2i deltaMousePosition = Input::GetMousePosition() - m_previousMousePos;
+		glm::vec2 deltaMousePosition = Input::GetMousePosition() - m_previousMousePos;
 
 		//Update the previous position
 		m_previousMousePos = Input::GetMousePosition();
 
 		//Convert sf vector to glm vector for math operations
-		glm::vec2 delta = glm::vec2(deltaMousePosition.x, deltaMousePosition.y);
-		delta *= m_rotationSpeed;
+		deltaMousePosition *= m_rotationSpeed;
 
 		//Calculate the new rotation angles
-		m_accumulatedXRotation -= delta.y;
-		m_accumulatedYRotation -= delta.x;
+		m_accumulatedXRotation += deltaMousePosition.y;
+		m_accumulatedYRotation -= deltaMousePosition.x;
 
 		//Apply rotation
 		m_gameObject->GetTransform()->SetLocalRotation(glm::quat(glm::vec3(m_accumulatedXRotation, m_accumulatedYRotation, 0)));

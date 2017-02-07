@@ -33,6 +33,8 @@
 #include <Game\Behaviours\CameraOrbit.hpp>
 #include <Game\Behaviours\KeysBehaviour.hpp>
 
+#include <Input\Input.hpp>
+
 #include <Utils\DebugHud.hpp>
 #include <Utils\Profiler.hpp>
 
@@ -57,12 +59,10 @@ int hudTris;
 #include <Audio\AudioClip.hpp>
 #include <Behaviours\AudioSource.hpp>
 #include <Behaviours\AudioListener.hpp>
-
+#include <Physics\Ray.hpp>
 void Application::InitializeScene()
 {
-	//InitSceneWobble();
 	InitSceneLighting();
-	//InitSceneTerrain();
 
 	AudioClip* ac = AudioClip::Load("test.wav", true, false);
 	AudioClip* ac2 = AudioClip::Load("test.wav", true, false);
@@ -76,12 +76,28 @@ void Application::InitializeScene()
 	as->SetPitch(1.0f);
 	as->SetVolume(0.7f);
 	as->SetAttenuation(0.1f);
-	as->SetSpatialBlend(0.5f);
+	as->SetSpatialBlend(AudioSource::Type::TwoD);
 
 	GameObject* quitter = new GameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
 
 	Camera::GetMainCamera()->GetGameObject()->AddBehaviour<AudioListener>();
+
+	GameObject* cockpit = new GameObject("Cockpit");
+	MeshRenderer* ms = cockpit->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	ms->SetSharedMesh(ObjImporter::LoadObj("Cockpit"));
+
+	GameObject* windows = new GameObject("Windows");
+	ms = windows->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("litWindows"));
+	ms->SetSharedMesh(ObjImporter::LoadObj("Windows"));
+
+	GameObject* sphere = new GameObject("Sphere");
+	sphere->GetTransform()->SetLocalScale(glm::vec3(3, 3, 3));
+	ms = sphere->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	ms->SetSharedMesh(ObjImporter::LoadObj("Shape"));
 }
 
 void Application::Render() {
@@ -130,8 +146,6 @@ void Application::InitSceneLighting()
 	flc->SetRotationSpeed(0.005f);
 	flc->SetMoveSpeed(3.5f);
 
-	Mesh* planeMesh = ObjImporter::LoadObj("plane");
-	Mesh* sphereMesh = ObjImporter::LoadObj("Shape");
 	Mesh* cubeMesh = ObjImporter::LoadObj("cube_flat");
 
 	CubeMap* cubeMap = new CubeMap();
@@ -188,55 +202,6 @@ void Application::InitSceneLighting()
 	light->SetDiffuseColor(glm::vec4(0.9, 0.9, 0.7, 1));
 	light->SetSpecularColor(glm::vec4(1));
 	light->SetIntensity(0.5f);
-
-	colorMaterial->SetColor("diffuseColor", light->GetDiffuseColor());
-
-	std::vector<GameObject*> objects = LevelImporter::LoadLevel("Level1");
-	for (auto object : objects)
-	{
-		if (object->GetBehaviour<MeshRenderer>() != nullptr && object->GetBehaviour<MeshRenderer>()->GetMaterial() != nullptr)
-		{
-			object->GetBehaviour<MeshRenderer>()->GetMaterial()->SetTexture("environmentMap", cubeMap);
-		}
-
-		if (Light* light = object->GetBehaviour<Light>())
-		{			
-			const auto& mat = MaterialImporter::LoadMaterial("color");
-			mat->SetColor("diffuseColor", light->GetDiffuseColor());
-
-			object->GetBehaviour<MeshRenderer>()->SetMesh(cubeMesh);
-			object->GetBehaviour<MeshRenderer>()->SetMaterial(mat);
-			object->GetTransform()->SetLocalScale(glm::vec3(0.1, 0.1, 0.5));
-		}
-	}
-
-	for (int x = -30; x < 30; x += 2)
-		for (int z = -30; z < 30; z += 2)
-		{
-			GameObject* plane = new GameObject("plane");
-			plane->GetTransform()->SetLocalPosition(glm::vec3(x, -4, z));
-			plane->GetTransform()->SetStatic(true);
-			plane->AddBehaviour<MeshRenderer>();
-			plane->GetBehaviour<MeshRenderer>()->SetSharedMesh(planeMesh);
-			plane->GetBehaviour<MeshRenderer>()->SetMaterial(litMaterial);
-		}
-
-	float radius = 30;
-	for(float x = -radius; x < radius; x+=2)
-	{
-		for (float z = -radius; z < radius; z += 2)
-		{
-			if (x * x + z * z <= radius * radius)
-			{
-				GameObject* myShape = new GameObject("shape");
-				myShape->GetTransform()->SetLocalPosition(glm::vec3(x, 0, z));
-				myShape->GetTransform()->SetStatic(true);
-				myShape->AddBehaviour<MeshRenderer>();
-				myShape->GetBehaviour<MeshRenderer>()->SetMesh(sphereMesh);
-				myShape->GetBehaviour<MeshRenderer>()->SetMaterial(litMaterial);
-			}
-		}
-	}
 
 	for (const auto& rootGameObject : SceneManager::GetActiveScene()->GetRootGameObjects())
 	{
