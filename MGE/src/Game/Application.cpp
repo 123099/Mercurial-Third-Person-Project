@@ -59,7 +59,7 @@ int hudTris;
 #include <Audio\AudioClip.hpp>
 #include <Behaviours\AudioSource.hpp>
 #include <Behaviours\AudioListener.hpp>
-#include <Physics\Ray.hpp>
+#include <Behaviours\SphereCollider.hpp>
 void Application::InitializeScene()
 {
 	InitSceneLighting();
@@ -98,6 +98,7 @@ void Application::InitializeScene()
 	ms = sphere->AddBehaviour<MeshRenderer>();
 	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
 	ms->SetSharedMesh(ObjImporter::LoadObj("Shape"));
+	sphere->AddBehaviour<SphereCollider>()->SetRadius(3);
 }
 
 void Application::Render() {

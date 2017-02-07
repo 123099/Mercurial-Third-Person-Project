@@ -178,6 +178,7 @@
     <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaScript.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp" />
+    <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\glm.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
@@ -244,6 +245,7 @@
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaScript.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />
+    <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />

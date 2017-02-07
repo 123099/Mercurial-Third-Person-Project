@@ -133,9 +133,6 @@ public:
 	template <typename T>
 	static T* FindObjectOfType()
 	{
-		//Make sure T is a behaviour
-		static_assert(std::is_base_of<AbstractBehaviour, T>(), "Type must be a behaviour!");
-
 		if (SceneManager::GetActiveScene() != nullptr)
 		{
 			//Do a sweep search through only the root game objects in the scene
@@ -148,23 +145,56 @@ public:
 					return behaviour;
 				}
 			}
+		}
 
-			//If we are here, none of the root game objects contained the behaviour. Do a deep search
+		//If we are here, none of the root game objects contained the behaviour. Do a deep search
+		const std::vector<T*> object = FindObjectsOfType<T>(true);
+		if (object.size() == 1)
+		{
+			return object[0];
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+
+	template <typename T>
+	static std::vector<T*> FindObjectsOfType(bool returnFirst = false)
+	{
+		//Make sure T is a behaviour
+		static_assert(std::is_base_of<AbstractBehaviour, T>(), "Type must be a behaviour!");
+
+		std::vector<T*> objects;
+
+		if (SceneManager::GetActiveScene() != nullptr)
+		{
 			for (auto rootObject : SceneManager::GetActiveScene()->GetRootGameObjects())
 			{
+				//Retrieve all the children of the game object
 				auto children = rootObject->GetTransform()->GetAllChildrenRecursively();
+
+				//Add the game object to the list to be included in the search
+				children.push_back(rootObject->GetTransform());
+
+				//Go through all the objects and find the behaviour
 				for (auto child : children)
 				{
 					T* behaviour = child->GetGameObject()->GetBehaviour<T>();
 					if (behaviour != nullptr)
 					{
-						return behaviour;
+						objects.push_back(behaviour);
+
+						if (returnFirst == true)
+						{
+							return objects;
+						}
 					}
 				}
 			}
 		}
 
-		return nullptr;
+		return objects;
 	}
 
 #pragma endregion
