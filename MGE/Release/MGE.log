@@ -1,4 +1,34 @@
-﻿  Application.cpp
+﻿  AbstractGame.cpp
+  AudioClip.cpp
+  AudioSource.cpp
+  Camera.cpp
+  FreeLookCamera.cpp
+  Light.cpp
+  MeshRenderer.cpp
+  Skybox.cpp
+  SphereCollider.cpp
+  Terrain.cpp
+  GameObject.cpp
+  MaterialImporter.cpp
+  Input.cpp
+  InputManager.cpp
+  LightManager.cpp
+  Renderer.cpp
+  Material.cpp
+  Ray.cpp
+  Shader.cpp
+  Screen.cpp
+  Application.cpp
+  CameraOrbit.cpp
+  Flashlight.cpp
+  KeysBehaviour.cpp
+  NPC.cpp
+  QuitBehaviour.cpp
+  RotatingBehaviour.cpp
+  WobbleBehaviour.cpp
+  LuaGame.cpp
+  LevelImporter.cpp
+  main.cpp
 lua.lib(lapi.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
 LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
