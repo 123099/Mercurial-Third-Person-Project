@@ -9,6 +9,7 @@
 #include <Managers\ShaderManager.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Managers\LightManager.hpp>
+#include <Utils\Screen.hpp>
 #include <Utils\Profiler.hpp>
 
 void AbstractGame::Initialize() 
@@ -17,6 +18,7 @@ void AbstractGame::Initialize()
 	//TODO: InitializeConfig();
 	//TODO: InitializeSkybox(); (Add RenderSettings)
     InitializeWindow();
+	InitializeScreen();
     PrintVersionInfo();
     InitializeGlew();
 	InitializeShaders();
@@ -46,6 +48,12 @@ void AbstractGame::InitializeWindow()
 	std::cout << "Initializing window..." << '\n';
 	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800,600), "My Game!", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
 	std::cout << "Window initialized." << '\n' << '\n';
+}
+
+void AbstractGame::InitializeScreen()
+{
+	std::cout << "Initializing screen..." << '\n';
+	Screen::Instance().SetWindow(m_window.get());
 }
 
 void AbstractGame::PrintVersionInfo() 

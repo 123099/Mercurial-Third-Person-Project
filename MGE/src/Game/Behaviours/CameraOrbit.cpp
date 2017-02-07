@@ -38,10 +38,10 @@ void CameraOrbit::SetRotationSpeed(float rotationSpeed)
 void CameraOrbit::Update()
 {
 	//Get the current mouse position
-	sf::Vector2i mousePos = Input::GetMousePosition();
+	glm::vec2 mousePos = Input::GetMousePosition();
 
 	//Calculate the displacement of the mouse
-	sf::Vector2i mouseDisplacement = mousePos - m_previousMousePos;
+	glm::vec2 mouseDisplacement = mousePos - m_previousMousePos;
 
 	//Store the current mouse position
 	m_previousMousePos = mousePos;

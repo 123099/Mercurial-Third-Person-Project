@@ -5,7 +5,7 @@ class Input
 {
 public:
 	static int GetMouseWheelDelta();
-	static sf::Vector2i GetMousePosition();
+	static glm::vec2 GetMousePosition();
 
     static bool IsAnyKeyHeld();
     static bool IsAnyKeyUp();

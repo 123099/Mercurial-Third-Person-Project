@@ -193,7 +193,11 @@ void main ( void )
 	fragColor += vec4(globalAmbient.xyz + materialEmission.xyz, (globalAmbient.a + materialEmission.a + fragColor.a) * 0.34);
 	
 	//Apply the light color to the texture
-	fragColor *= texture(diffuseTexture, frag_uv);
+	const vec4 diffuseTextureColor = texture(diffuseTexture, frag_uv);
+	if(diffuseTextureColor != vec4(0.0))
+	{
+		fragColor *= diffuseTextureColor;
+	}
 	
 	//Apply reflection
 	fragColor = calculateReflection(fragColor);

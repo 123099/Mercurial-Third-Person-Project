@@ -6,9 +6,9 @@
 AudioSource::AudioSource() :
 	m_loop(false),
 	m_attenuation(1.0f),
-	m_minDistance(1.0f),
 	m_volume(1.0f),
-	m_pitch(1.0f) {}
+	m_pitch(1.0f),
+	m_spatialType(Type::ThreeD) {}
 
 void AudioSource::SetAudioClip(AudioClip * audioClip)
 {
@@ -27,18 +27,21 @@ void AudioSource::SetPlayOnAwake(bool playOnAwake)
 	m_playOnAwake = playOnAwake;
 }
 
-void AudioSource::SetSpatialBlend(float spatialBlend)
+void AudioSource::SetSpatialBlend(Type spatialBlendType)
 {
-	//Clamp the blend value between 0 and 1
-	spatialBlend = glm::clamp(spatialBlend, 0.0f, 1.0f);
+	//Cache the value for ourselves to use in the Update method
+	m_spatialType = spatialBlendType;
 
-	//Calculate the minimum sound loudness distance based on the spatial blend.
-	//As the value decreases, the min distance increases and the sound is more 2D and vice-a-versa
-	m_minDistance = 1.0f + (1.0f - spatialBlend) * 1000.0f;
-
-	if (m_clip != nullptr)
+	//Disable or enable spatialization based on the sound type
+	switch (spatialBlendType)
 	{
-		m_clip->SetMinimumDistance(m_minDistance);
+	case TwoD:
+		m_clip->UseRelativePosition(true);
+		m_clip->SetWorldPosition(glm::vec3(0.0));
+		break;
+	case ThreeD:
+		m_clip->UseRelativePosition(false);
+		break;
 	}
 }
 
@@ -48,7 +51,6 @@ void AudioSource::Play()
 	{
 		//Apply source volume, pitch and loop values
 		m_clip->SetAttenuation(m_attenuation);
-		m_clip->SetMinimumDistance(m_minDistance);
 		m_clip->SetVolume(m_volume);
 		m_clip->SetPitch(m_pitch);
 		m_clip->SetLooping(m_loop);
@@ -80,7 +82,6 @@ void AudioSource::PlayOneShot(AudioClip& audioClip)
 	audioClip.SetVolume(m_volume);
 	audioClip.SetPitch(m_pitch);
 	audioClip.SetAttenuation(m_attenuation);
-	audioClip.SetMinimumDistance(m_minDistance);
 	audioClip.SetWorldPosition(m_gameObject->GetTransform()->GetWorldPosition());
 	audioClip.Play();
 }
@@ -143,7 +144,7 @@ void AudioSource::Awake()
 
 void AudioSource::Update()
 {
-	if (m_clip != nullptr)
+	if (m_clip != nullptr && m_spatialType != Type::TwoD)
 	{
 		m_clip->SetWorldPosition(m_gameObject->GetTransform()->GetWorldPosition());
 	}

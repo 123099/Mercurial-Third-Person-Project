@@ -5,7 +5,7 @@ int Input::GetMouseWheelDelta()
 	return InputManager::GetMouseWheelDelta();
 }
 
-sf::Vector2i Input::GetMousePosition()
+glm::vec2 Input::GetMousePosition()
 {
 	return InputManager::GetMousePosition();
 }

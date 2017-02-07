@@ -2,6 +2,7 @@
 #include <GL\glew.h>
 #include <Utils\Singleton.hpp>
 #include <Utils\glm.hpp>
+#include <Utils\Singleton.hpp>
 #include <vector>
 
 class Light;

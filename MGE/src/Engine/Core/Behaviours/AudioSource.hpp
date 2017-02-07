@@ -8,13 +8,18 @@ class AudioClip;
 class AudioSource final : public AbstractBehaviour
 {
 public:
+	enum Type
+	{
+		TwoD, ThreeD
+	};
+
 	AudioSource();
 
 	void SetAudioClip(AudioClip* audioClip);
 
 	void SetPlayOnAwake(bool playOnAwake);
 
-	void SetSpatialBlend(float spatialBlend);
+	void SetSpatialBlend(Type spatialBlendType);
 
 	void Play();
 	void Pause();
@@ -41,5 +46,5 @@ private:
 	float m_volume;
 	float m_pitch;
 
-	float m_minDistance;
+	Type m_spatialType;
 };

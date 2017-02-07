@@ -175,7 +175,7 @@ void Shader::SetProperty(const ShaderProperty & property)
 		GLint activeTextureUnit = 0;
 		glGetIntegerv(GL_ACTIVE_TEXTURE, &activeTextureUnit);
 		activeTextureUnit -= GL_TEXTURE0;
-
+		
 		//Pass the currently active texture unit to the shader as the uniform variable
 		glUniform1i(propertyID, activeTextureUnit);
 	}
