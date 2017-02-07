@@ -300,6 +300,9 @@
     <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp">
       <Filter>Header Files\Engine\Core\Behaviours</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Physics\Physics.hpp">
+      <Filter>Header Files\Engine\Core\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -487,6 +490,9 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp">
       <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Physics\Physics.cpp">
+      <Filter>Source Files\Engine\Core\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

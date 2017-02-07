@@ -4,22 +4,22 @@ Ray::Ray(const glm::vec3 & origin, const glm::vec3 & direction) :
 	m_origin(origin),
 	m_direction(glm::normalize(direction)) {}
 
-glm::vec3 Ray::GetOrigin()
+glm::vec3 Ray::GetOrigin() const
 {
 	return m_origin;
 }
 
-glm::vec3 Ray::GetDirection()
+glm::vec3 Ray::GetDirection() const
 {
 	return m_direction;
 }
 
-glm::vec3 Ray::GetPoint(float distanceAlong)
+glm::vec3 Ray::GetPoint(float distanceAlong) const
 {
 	return m_origin + distanceAlong * m_direction;
 }
 
-glm::vec3 Ray::GetPointClosestTo(const glm::vec3 & point)
+glm::vec3 Ray::GetPointClosestTo(const glm::vec3 & point) const
 {
 	const glm::vec3 originToPoint = point - m_origin;
 	const glm::vec3 parallelToRay = glm::proj(originToPoint, m_direction);

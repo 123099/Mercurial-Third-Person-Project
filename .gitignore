@@ -9,3 +9,7 @@
 **/*.pch
 
 .vs/
+Release/MGE.bsc
+Release/MGE.iobj
+Release/MGE.ipdb
+Release/MGE.pdb
