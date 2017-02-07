@@ -180,7 +180,7 @@ vec4 calculateFog(vec4 currentColor)
 	}
 	
 	//Calculate the fog factor using an exponential squared equation
-	const float factor = clamp(1.0 - ( exp( -pow(( fogDensity * ( fogCoordShifted )), 3.0) ) ), 0.0, 1.0);
+	const float factor = clamp(1.0 - ( exp( -pow(( fogDensity * ( fogCoordShifted )), 2.0) ) ), 0.0, 1.0);
 	
 	return vec4(mix(currentColor, fogColor, factor).xyz, currentColor.a);
 }
