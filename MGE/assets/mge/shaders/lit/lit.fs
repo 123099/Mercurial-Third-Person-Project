@@ -170,8 +170,17 @@ vec4 calculateFog(vec4 currentColor)
 	//Calculate the fog coord based on the z distance in cartesian plane of the fragment
 	const float fogCoord = abs(vertex_cameraSpace.z / vertex_cameraSpace.w);
 	
+	//Calculate the shift of the fogCoord from the origin
+	const float fogCoordShifted = fogCoord - fogStartDistance;
+	
+	//If the shifted coordinate is whitin the starting distance, there should be no fog
+	if(fogCoordShifted < 0)
+	{
+		return currentColor;
+	}
+	
 	//Calculate the fog factor using an exponential squared equation
-	const float factor = clamp(1.0 - ( exp( -( fogDensity * ( fogCoord - fogStartDistance )) ) ), 0.0, 1.0);
+	const float factor = clamp(1.0 - ( exp( -pow(( fogDensity * ( fogCoordShifted )), 3.0) ) ), 0.0, 1.0);
 	
 	return vec4(mix(currentColor, fogColor, factor).xyz, currentColor.a);
 }
