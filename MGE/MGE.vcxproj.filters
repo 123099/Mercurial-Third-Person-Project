@@ -303,6 +303,9 @@
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp">
       <Filter>Header Files\Engine\Core\Physics</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -493,6 +496,9 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp">
       <Filter>Source Files\Engine\Core\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

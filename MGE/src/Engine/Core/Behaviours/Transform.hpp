@@ -21,6 +21,7 @@ class Transform : public AbstractBehaviour
 {
 public:
 	Transform();
+	~Transform();
 
 	void SetLocalPosition(const glm::vec3& position);
 	void SetWorldPosition(const glm::vec3& position);

@@ -180,6 +180,7 @@
     <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\glm.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Screen.hpp" />
@@ -247,6 +248,7 @@
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
     <ClCompile Include="src\Game\Behaviours\NPC.cpp" />

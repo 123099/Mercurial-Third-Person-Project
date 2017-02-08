@@ -36,6 +36,9 @@ GameObject::~GameObject()
 {
 	//Remove this game object from the active scene
 	RemoveFromSceneRootList();
+
+	m_transform = nullptr;
+	m_scene = nullptr;
 }
 
 void GameObject::SetName (const std::string& name)
@@ -77,7 +80,15 @@ void GameObject::Initialize()
 			behaviour->Start();
 		}
 
+		//Mark self as initialized
 		m_initialized = true;
+
+		//Mark all children as initialized
+		const std::vector<Transform*> children = GetTransform()->GetAllChildrenRecursively();
+		for (auto child : children)
+		{
+			child->GetGameObject()->m_initialized = true;
+		}
 	}
 }
 
@@ -118,14 +129,26 @@ bool GameObject::IsInitialized()
 
 void GameObject::AddToSceneRootList()
 {
-	if (SceneManager::GetActiveScene() == nullptr) throw std::exception();
-	SceneManager::GetActiveScene()->AddGameObject(this);
-	m_scene = SceneManager::GetActiveScene();
+	Scene* activeScene = SceneManager::Instance().GetActiveScene();
+
+	if (activeScene == nullptr)
+	{
+		std::cout << "Trying to add object to no scene" << '\n';
+		throw std::exception();
+	}
+
+	activeScene->AddGameObject(this);
+	m_scene = activeScene;
 }
 
 void GameObject::RemoveFromSceneRootList()
 {
-	if (SceneManager::GetActiveScene() == nullptr) throw std::exception();
-	SceneManager::GetActiveScene()->RemoveGameObject(this);
+	Scene* activeScene = SceneManager::Instance().GetActiveScene();
+	std::cout << "Destroying GameObject ... Removing from scene " << activeScene << " root - " << m_name << '\n';
+
+	if (activeScene != nullptr)
+	{
+		activeScene->RemoveGameObject(this);
+	}
 }
 

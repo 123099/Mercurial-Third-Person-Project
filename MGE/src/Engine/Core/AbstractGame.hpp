@@ -41,8 +41,8 @@ private:
 	//Initialize SFML rendering context
 	void InitializeWindow();
 
-	//Initialize the Screen instance
-	void InitializeScreen();
+	//Initialize the helper singleton instances, such as Screen and Cursor
+	void InitializeHelperSingletons();
 
 	//Print info about the current driver version etc
 	void PrintVersionInfo();

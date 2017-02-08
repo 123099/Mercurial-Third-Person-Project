@@ -11,7 +11,6 @@ LuaEnvironment * LuaEnvironment::GetLua()
 	//If nothing was found, create a new environment
 	if (environment == nullptr)
 	{
-		std::cout << "New environment" << '\n';
 		GameObject* envGO = new GameObject("LuaEnvironment");
 		environment = envGO->AddBehaviour<LuaEnvironment>();
 	}

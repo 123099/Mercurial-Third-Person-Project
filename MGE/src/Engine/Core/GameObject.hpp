@@ -133,10 +133,12 @@ public:
 	template <typename T>
 	static T* FindObjectOfType()
 	{
-		if (SceneManager::GetActiveScene() != nullptr)
+		const Scene* activeScene = SceneManager::Instance().GetActiveScene();
+		if (activeScene != nullptr)
 		{
 			//Do a sweep search through only the root game objects in the scene
-			for (auto rootObject : SceneManager::GetActiveScene()->GetRootGameObjects())
+			const auto rootGameObjects = activeScene->GetRootGameObjects();
+			for (auto rootObject : rootGameObjects)
 			{
 				//Retrieve the behaviour
 				T* behaviour = rootObject->GetBehaviour<T>();
@@ -148,7 +150,7 @@ public:
 		}
 
 		//If we are here, none of the root game objects contained the behaviour. Do a deep search
-		const std::vector<T*> object = FindObjectsOfType<T>(true);
+		const auto object = FindObjectsOfType<T>(true);
 		if (object.size() == 1)
 		{
 			return object[0];
@@ -167,9 +169,11 @@ public:
 
 		std::vector<T*> objects;
 
-		if (SceneManager::GetActiveScene() != nullptr)
+		const Scene* activeScene = SceneManager::Instance().GetActiveScene();
+		if (activeScene != nullptr)
 		{
-			for (auto rootObject : SceneManager::GetActiveScene()->GetRootGameObjects())
+			const auto rootGameObjects = activeScene->GetRootGameObjects();
+			for (auto rootObject : rootGameObjects)
 			{
 				//Retrieve all the children of the game object
 				auto children = rootObject->GetTransform()->GetAllChildrenRecursively();
@@ -178,7 +182,7 @@ public:
 				children.push_back(rootObject->GetTransform());
 
 				//Go through all the objects and find the behaviour
-				for (auto child : children)
+				for (const auto child : children)
 				{
 					T* behaviour = child->GetGameObject()->GetBehaviour<T>();
 					if (behaviour != nullptr)
@@ -199,7 +203,7 @@ public:
 
 #pragma endregion
 
-	GameObject(const std::string& name = "");
+	GameObject(const std::string& name = "New GameObject");
 	~GameObject();
 
     void SetName (const std::string& name);

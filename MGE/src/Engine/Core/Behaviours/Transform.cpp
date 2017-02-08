@@ -11,6 +11,15 @@ Transform::Transform() :
 	m_isStatic(false)
 {}
 
+Transform::~Transform()
+{
+	//Destroy all the children
+	for (Transform* child : m_children)
+	{
+		delete child->GetGameObject();
+	}
+}
+
 void Transform::SetLocalPosition(const glm::vec3 & position)
 {
 	//If the transform is static, it is not allowed to move
