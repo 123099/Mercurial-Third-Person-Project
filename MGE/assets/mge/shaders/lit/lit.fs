@@ -209,7 +209,7 @@ void main ( void )
 	}
 	
 	//Apply reflection
-	fragColor = calculateReflection(fragColor);
+	//fragColor = calculateReflection(fragColor);
 	
 	//Apply fog
 	fragColor = calculateFog(fragColor);
