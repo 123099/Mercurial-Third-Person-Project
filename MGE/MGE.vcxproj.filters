@@ -306,6 +306,9 @@
     <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp">
       <Filter>Header Files\Engine\Core\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp">
+      <Filter>Header Files\Engine\Core\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -499,6 +502,9 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp">
       <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp">
+      <Filter>Source Files\Engine\Core\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

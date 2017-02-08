@@ -35,3 +35,8 @@ glm::vec3 Ray::GetPointClosestTo(const glm::vec3 & point) const
 		return point - perpendicularToRay;
 	}
 }
+
+float Ray::GetDistanceToPointOnRay(const glm::vec3 & point) const
+{
+	return (point.x - m_origin.x) / m_direction.x; //X = A + tB -> t = (X-A)/B. x,y,z should all equal t, when X is on ray and B is no zero
+}

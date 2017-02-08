@@ -48,7 +48,7 @@ void Application::Initialize()
     AbstractGame::Initialize();
 
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
-	Cursor::Instance().SetCursorVisible(false);
+	//Cursor::Instance().SetCursorVisible(false);
 	Renderer::Instance().SetClearColor(0.5, 0, 0);
 
 	std::cout << "Initializing HUD" << '\n';
@@ -67,30 +67,8 @@ void Application::InitializeScene()
 {
 	InitSceneLighting();
 
-	AudioClip* ac = AudioClip::Load("test.wav", true, false);
-	AudioClip* ac2 = AudioClip::Load("test.wav", true, false);
-	AudioClip* ac3 = AudioClip::Load("test.wav", true, false);
-	GameObject* bgm = new GameObject("BGM");
-	bgm->GetTransform()->SetLocalPosition(glm::vec3(20, 10, 20));
-	AudioSource* as = bgm->AddBehaviour<AudioSource>();
-	as->SetAudioClip(ac);
-	as->SetPlayOnAwake(true);
-	as->SetLooping(true);
-	as->SetPitch(1.0f);
-	as->SetVolume(0.7f);
-	as->SetAttenuation(0.1f);
-	as->SetSpatialBlend(AudioSource::Type::TwoD);
-
 	GameObject* quitter = new GameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
-
-
-	Camera::GetMainCamera()->GetGameObject()->AddBehaviour<AudioListener>();
-	std::cout << Camera::GetMainCamera()->GetGameObject()->GetTransform()->GetForwardVector() << '\n';
-	std::cout << quitter->AddBehaviour<Camera>()->GetGameObject()->GetTransform()->GetForwardVector() << '\n';
-	std::vector<Player*> players = GameObject::FindObjectsOfType<Player>();
-	for(auto player : players)
-		std::cout << player->GetGameObject()->GetTransform()->GetForwardVector() << '\n';
 }
 
 void Application::Render() 

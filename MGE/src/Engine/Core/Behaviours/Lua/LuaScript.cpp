@@ -13,7 +13,7 @@ void LuaScript::SetEnvironment(LuaEnvironment* environment)
 	m_environment = environment;
 }
 
-void LuaScript::Execute() 
+void LuaScript::Execute()
 {
 	if (m_script != nullptr)
 	{

@@ -12,13 +12,13 @@ public:
 	void SetID(int ID);
 
 	void Awake() override final;
-	void Update() override final;
 
+	void StartInteraction();
+
+	int GetTransform(lua_State* luaState);
 	int DestroySelf(lua_State* luaState);
 	static const luaL_Reg* GetFunctionList();
 private:
 	int m_ID;
 	LuaScript* m_script;
-
-	Transform* m_player;
 };

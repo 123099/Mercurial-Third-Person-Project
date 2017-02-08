@@ -10,7 +10,7 @@ Script::Script(Environment & luaEnvironment, const std::string & scriptName) :
 	m_luaFunction = luaEnvironment.LoadScriptAsFunction(scriptName);
 }
 
-void Script::Execute() 
+void Script::Execute()
 {
 	m_luaFunction->Call();
 }

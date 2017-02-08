@@ -153,7 +153,16 @@ vec4 calculateLight(int index, vec4 normal)
 	const vec4 diffuse = calculateDiffuse(index, L, normal);
 	const vec4 specular = calculateSpecular(index, L, normal);
 	
-	return vec4((ambient.xyz + diffuse.xyz + specular.xyz) * vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff), (ambient.a + diffuse.a + specular.a) * 0.34);
+	vec3 ambientAndDiffuse = ambient.xyz + diffuse.xyz;
+	
+	//Decide whether to apply a diffuse texture or not
+	const vec4 diffuseTextureColor = texture(diffuseTexture, frag_uv);
+	if(diffuseTextureColor != vec4(0.0))
+	{
+		ambientAndDiffuse *= diffuseTextureColor.xyz;
+	}
+	
+	return vec4((ambientAndDiffuse.xyz + specular.xyz) * vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff), (ambient.a + diffuse.a + specular.a) * 0.34);
 }
 
 vec4 calculateReflection(vec4 currentColor)
@@ -201,15 +210,8 @@ void main ( void )
 	//Add the global ambient and emission color of the material
 	fragColor += vec4(globalAmbient.xyz + materialEmission.xyz, (globalAmbient.a + materialEmission.a + fragColor.a) * 0.34);
 	
-	//Apply the light color to the texture
-	const vec4 diffuseTextureColor = texture(diffuseTexture, frag_uv);
-	if(diffuseTextureColor != vec4(0.0))
-	{
-		fragColor *= diffuseTextureColor;
-	}
-	
 	//Apply reflection
-	//fragColor = calculateReflection(fragColor);
+	fragColor = calculateReflection(fragColor);
 	
 	//Apply fog
 	fragColor = calculateFog(fragColor);
