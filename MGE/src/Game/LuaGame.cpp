@@ -13,7 +13,7 @@
 void LuaGame::InitializeScene()
 {
 	LightManager::Instance().SetGlobalAmbientColor(glm::vec4(0.05, 0.05, 0, 1));
-	SceneManager::CreateScene("Scene1");
+	SceneManager::Instance().CreateScene("Scene1");
 	LevelImporter::LoadLevel("Escape_Room");
 
 	GameObject* cam = new GameObject("Camera");

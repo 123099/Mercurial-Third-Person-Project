@@ -6,6 +6,7 @@ class Input
 public:
 	static int GetMouseWheelDelta();
 	static glm::vec2 GetMousePosition();
+	static glm::vec2 GetMouseMovement();
 
     static bool IsAnyKeyHeld();
     static bool IsAnyKeyUp();

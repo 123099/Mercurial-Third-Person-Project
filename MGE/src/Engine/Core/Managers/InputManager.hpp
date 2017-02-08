@@ -11,13 +11,17 @@ public:
 	InputManager();
 
 	void Reset(bool l_fullReset = false);
-	void Update(sf::Event& event);
+	void ResetMouse(const sf::RenderWindow& window);
+
+	void Update(const sf::RenderWindow& window, const sf::Event& event);
 
 private:
+	glm::vec2 convertSFtoGLM(const sf::RenderWindow& window, const sf::Vector2i& vec);
 	void resetArray(bool* l_array, int arraySize);
 
 	static int s_mouseWheelDelta;
 	static glm::vec2 s_mousePosition;
+	static glm::vec2 s_mouseDelta;
 
     static bool s_anyKey;
     static bool s_anyKeyUp;
@@ -32,6 +36,7 @@ private:
 
 	static int GetMouseWheelDelta();
 	static glm::vec2 GetMousePosition();
+	static glm::vec2 GetMouseMovement();
 
     static bool IsAnyKeyHeld();
     static bool IsAnyKeyUp();

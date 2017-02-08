@@ -10,6 +10,11 @@ glm::vec2 Input::GetMousePosition()
 	return InputManager::GetMousePosition();
 }
 
+glm::vec2 Input::GetMouseMovement()
+{
+	return InputManager::GetMouseMovement();
+}
+
 bool Input::IsAnyKeyHeld()
 {
     return InputManager::IsAnyKeyHeld();

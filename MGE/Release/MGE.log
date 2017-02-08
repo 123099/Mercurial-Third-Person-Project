@@ -1,39 +1,10 @@
-﻿  AbstractGame.cpp
-  AudioListener.cpp
-  AudioSource.cpp
-  Camera.cpp
-  FreeLookCamera.cpp
-  Light.cpp
-  LuaEnvironment.cpp
-  MeshRenderer.cpp
-  Skybox.cpp
-  SphereCollider.cpp
-  Terrain.cpp
-  Transform.cpp
-  GameObject.cpp
-  Renderer.cpp
-  Physics.cpp
-  Ray.cpp
-  Scene.cpp
-  Application.cpp
-  CameraOrbit.cpp
-  Flashlight.cpp
-  KeysBehaviour.cpp
-  LookAt.cpp
-  NPC.cpp
-  Player.cpp
-  QuitBehaviour.cpp
-  RotatingBehaviour.cpp
-  WobbleBehaviour.cpp
-  LuaGame.cpp
-  LevelImporter.cpp
-  TransformTest.cpp
+﻿  Material.cpp
 lua.lib(lapi.obj) : warning LNK4075: ignoring '/EDITANDCONTINUE' due to '/OPT:ICF' specification
 LINK : warning LNK4098: defaultlib 'MSVCRTD' conflicts with use of other libs; use /NODEFAULTLIB:library
   Generating code
-  37 of 8787 functions ( 0.4%) were compiled, the rest were copied from previous compilation.
+  0 of 8235 functions ( 0.0%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    21 functions had inline decision re-evaluated but remain unchanged
+    37 functions had inline decision re-evaluated but remain unchanged
   Finished generating code
 glew32s.lib(glew.obj) : warning LNK4099: PDB 'glew_static.pdb' was not found with 'glew32s.lib(glew.obj)' or at 'D:\Projects\c++\Third-Person\Release\glew_static.pdb'; linking object as if no debug info
   MGE.vcxproj -> D:\Projects\c++\Third-Person\Release\MGE.exe

@@ -54,7 +54,7 @@ static GameObject* CreateGameObjectFromBaseData(lua_State* luaState)
 	//Pop the used values from the stack
 	for (int i = 0; i < 18; ++i)
 		lua_remove(luaState, 1);
-
+	
 	//Create a game object
 	GameObject* gameObject = new GameObject(name);
 
@@ -362,7 +362,7 @@ std::vector<GameObject*> LevelImporter::LoadLevel(const std::string & levelName)
 	//Execute the loading script
 	script.Execute();
 
-	std::cout << "[Loaded successfully!]\n\n";
+	std::cout << "[Level loaded successfully!]\n\n";
 
 	//Return the loaded objects list
 	return s_loadedObjects;
