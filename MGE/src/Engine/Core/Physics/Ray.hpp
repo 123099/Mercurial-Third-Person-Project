@@ -11,6 +11,8 @@ public:
 
 	glm::vec3 GetPoint(float distanceAlong) const;
 	glm::vec3 GetPointClosestTo(const glm::vec3& point) const;
+
+	float GetDistanceToPointOnRay(const glm::vec3& point) const;
 private:
 	glm::vec3 m_origin;
 	glm::vec3 m_direction;
