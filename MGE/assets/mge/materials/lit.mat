@@ -6,6 +6,6 @@ materialSpecular color 1 1 1 1
 materialEmission color 0.1 0 0 1
 materialShininess float 10
 
-diffuseTexture texture mge/textures/tex.jpg
-normalMap texture mge/textures/normal.jpg
+#diffuseTexture texture mge/textures/tex.jpg
+#normalMap texture mge/textures/normal.jpg
 specularMap texture mge/textures/specular.jpg

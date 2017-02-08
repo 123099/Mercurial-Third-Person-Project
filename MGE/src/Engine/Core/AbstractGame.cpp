@@ -9,6 +9,8 @@
 #include <Managers\ShaderManager.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Managers\LightManager.hpp>
+#include <Utils\Screen.hpp>
+#include <Utils\Cursor.hpp>
 #include <Utils\Profiler.hpp>
 
 void AbstractGame::Initialize() 
@@ -17,6 +19,7 @@ void AbstractGame::Initialize()
 	//TODO: InitializeConfig();
 	//TODO: InitializeSkybox(); (Add RenderSettings)
     InitializeWindow();
+	InitializeHelperSingletons();
     PrintVersionInfo();
     InitializeGlew();
 	InitializeShaders();
@@ -39,13 +42,22 @@ bool AbstractGame::IsVsyncEnabled()
 	return m_vsyncEnabled;
 }
 
-///SETUP
-
 void AbstractGame::InitializeWindow() 
 {
 	std::cout << "Initializing window..." << '\n';
-	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800,600), "My Game!", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
+	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800,600), "Mercurial", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
 	std::cout << "Window initialized." << '\n' << '\n';
+}
+
+void AbstractGame::InitializeHelperSingletons()
+{
+	std::cout << "Initializing screen..." << '\n';
+	Screen::Instance().SetWindow(m_window.get());
+	std::cout << "Screen initialized" << '\n' << '\n';
+
+	std::cout << "Initializing cursor..." << '\n';
+	Cursor::Instance().SetWindow(m_window.get());
+	std::cout << "Cursor initialized" << '\n' << '\n';
 }
 
 void AbstractGame::PrintVersionInfo() 
@@ -96,7 +108,7 @@ void AbstractGame::InitializeShaders()
 void AbstractGame::InitializeLight()
 {
 	std::cout << "Initializing light manager..." << '\n';
-	LightManager::Instance();
+	LightManager::Instance().LoadFromConfig();
 	std::cout << "Light manager initialized." << '\n' << '\n';
 }
 
@@ -106,8 +118,6 @@ void AbstractGame::InitializeInputManager()
 	m_inputManager = std::make_unique<InputManager>();
 	std::cout << "Input manager initialized." << '\n' << '\n';
 }
-
-///LOOP
 
 void AbstractGame::Run()
 {
@@ -121,6 +131,13 @@ void AbstractGame::Run()
 	{
 		//Update the game time
 		Time::s_gameTime = clock.getElapsedTime().asSeconds();
+
+		Profiler::BeginSample("Events");
+		//Process Events
+		ProcessEvents();
+		Profiler::EndSample();
+
+		if (m_window->isOpen() == false) break;
 
 		//Fixed Update
 		Profiler::BeginSample("FixedUpdate");
@@ -136,16 +153,13 @@ void AbstractGame::Run()
 
 		//Render
 		PreRender();
+
 		Profiler::BeginSample("Render");
 		Render();
 		Profiler::EndSample();
+
 		Profiler::BeginSample("PostRender");
 		PostRender();
-		Profiler::EndSample();
-
-		Profiler::BeginSample("Events");
-		//Process Events
-		ProcessEvents();
 		Profiler::EndSample();
 
 		//Calculate time per frame
@@ -154,9 +168,19 @@ void AbstractGame::Run()
 		//Update the frame rate
 		Time::s_frameRate = 1.0f / Time::s_deltaTime;
 
+		//Update the cursor
+		Cursor::Instance().Update();
+
+		//Reset the mouse values of the input manager
+		//m_inputManager->ResetMouse(*m_window);
+
+		//Update frame count
+		++Time::s_frameCount;
+
+		//Display Hierarchy
 		if (Input::IsKeyPressed(sf::Keyboard::H))
 		{
-			auto hierarchy = SceneManager::GetActiveScene()->GetRootGameObjects();
+			const auto hierarchy = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
 			for (auto o : hierarchy)
 			{
 				std::cout << o->GetName() << '\n';
@@ -181,22 +205,7 @@ void AbstractGame::Quit()
 	m_window->close();
 }
 
-void AbstractGame::PostInitializeScene()
-{
-	std::cout << "Behaviour initialization in progress.." << '\n';
-
-	//Retrieve the game objects at the root of the currently active scene
-	//These are retrieved both in Awake and Start since Awake may have changed the objects in the Scene
-	const auto& activeObjects = SceneManager::GetActiveScene()->GetRootGameObjects();
-
-	//Go through each object, initialize its components and the components of its children
-	for (const auto& object : activeObjects)
-	{
-		object->Initialize();
-	}
-
-	std::cout << "Behaviours initialized successfully!" << '\n' << '\n';
-}
+void AbstractGame::PostInitializeScene() {}
 
 void AbstractGame::ProcessEvents()
 {
@@ -209,7 +218,7 @@ void AbstractGame::ProcessEvents()
 	while( m_window->pollEvent( event ) ) 
 	{
 		//Handle Input events by the Input Manager
-		m_inputManager->Update(event);
+		m_inputManager->Update(*m_window, event);
 
 		//Handle other types of misc. events
         switch (event.type) 
@@ -223,6 +232,8 @@ void AbstractGame::ProcessEvents()
             glViewport(0, 0, event.size.width, event.size.height);
 			Camera::GetMainCamera()->SetAspect((float) event.size.width, (float) event.size.height);
             break;
+		default:
+			break;
         }
 	}
 }
@@ -248,7 +259,7 @@ float AbstractGame::FixedUpdate(float accumulator)
 
 		//Retrieve the root game objects in the scene
 		//This is done every call to FixedUpdate in case the scene graph has changed
-		const auto& rootGameObjects = SceneManager::GetActiveScene()->GetRootGameObjects();
+		const auto& rootGameObjects = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
 
 		for (const auto& gameObject : rootGameObjects)
 		{
@@ -265,9 +276,10 @@ float AbstractGame::FixedUpdate(float accumulator)
 
 void AbstractGame::Update() 
 {
-	SceneManager::GetActiveScene()->ProcessUninitializedObjects();
+	Scene* activeScene = SceneManager::Instance().GetActiveScene();
+	activeScene->ProcessUninitializedObjects();
 
-	const auto& rootGameObjects = SceneManager::GetActiveScene()->GetRootGameObjects();
+	const auto& rootGameObjects = activeScene->GetRootGameObjects();
 	for (const auto& gameObject : rootGameObjects)
 	{
 		gameObject->Update();
@@ -287,8 +299,9 @@ void AbstractGame::PreRender()
 
 void AbstractGame::Render() 
 {
-	if(SceneManager::GetActiveScene() != nullptr)
-		Renderer::Instance().Render(*SceneManager::GetActiveScene());
+	const Scene* activeScene = SceneManager::Instance().GetActiveScene();
+	if(activeScene != nullptr)
+		Renderer::Instance().Render(*activeScene);
 }
 
 void AbstractGame::PostRender() 

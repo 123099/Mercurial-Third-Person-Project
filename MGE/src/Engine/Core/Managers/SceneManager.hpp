@@ -1,27 +1,35 @@
 #pragma once
 
+#include <Utils\Singleton.hpp>
 #include <vector>
 #include <string>
+#include <memory>
 
 class Scene;
 class GameObject;
 
-class SceneManager
+class SceneManager final : public Singleton<SceneManager>
 {
+friend Singleton<SceneManager>;
+
 public:
-	SceneManager() = delete;
+	~SceneManager();
 
-	static Scene* CreateScene(const std::string& name);
+	Scene* CreateScene(const std::string& name);
+	void DestroyScene(Scene* scene);
+	void DestroyActiveScene();
 
-	static void SetActiveScene(Scene* scene);
+	void SetActiveScene(Scene* scene);
 
-	static Scene* GetActiveScene();
-	static Scene* GetSceneByName(const std::string& name);
-	static Scene* GetSceneByIndex(int index);
+	Scene* GetActiveScene();
+	Scene* GetSceneByName(const std::string& name);
+	Scene* GetSceneByIndex(int index);
 
-	static int GetSceneCount();
+	int GetSceneCount();
 private:
-	static std::vector<Scene*> s_scenes;
-	static Scene* s_activeScene;
+	std::vector<std::unique_ptr<Scene>> m_scenes;
+	Scene* m_activeScene;
+
+	SceneManager() = default;
 };
 

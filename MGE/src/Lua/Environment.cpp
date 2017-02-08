@@ -56,14 +56,13 @@ Environment::~Environment()
 
 #pragma region Public members
 void Environment::RegisterFunction(lua_CFunction function, const std::string& functionName)
-{
+{	
 	//Register the function in lua
 	lua_register(m_luaState, functionName.c_str(), function);
 }
 
 void Environment::RequireModule(const std::string & moduleName, const std::string& bindingName)
 {
-	//std::cout << "-------------Mod" << lua_gettop(m_luaState) << '\n';
 	//Load module as script
 	Closure* module = LoadScriptAsFunction(moduleName);
 
@@ -72,12 +71,10 @@ void Environment::RequireModule(const std::string & moduleName, const std::strin
 
 	//Store the module table returned at the top of the stack in the globals table
 	lua_setglobal(m_luaState, bindingName.c_str());
-	//std::cout << "-------------" << lua_gettop(m_luaState) << '\n';
 }
 
 Closure * Environment::LoadScriptAsFunction(const std::string & scriptName)
 {
-	//std::cout << "-------------Load" << lua_gettop(m_luaState) << '\n';
 	//Pull up the functions table
 	lua_getglobal(m_luaState, s_functionsTableName);
 
@@ -92,7 +89,10 @@ Closure * Environment::LoadScriptAsFunction(const std::string & scriptName)
 
 	//Store the compiled function chunk in the functions table
 	lua_settable(m_luaState, -3);
-	//std::cout << "-------------" << lua_gettop(m_luaState) << '\n';
+
+	//Pop the functions table from the stack
+	lua_pop(m_luaState, 1);
+	
 	return closure;
 }
 
@@ -109,6 +109,9 @@ void Environment::ExecuteFunction(Closure* closure, int results, char* typesList
 
 		//Retrieve the function from the functions table
 		lua_gettable(m_luaState, -2);
+
+		//Remove the functions table from the stack
+		lua_remove(m_luaState, -2); 
 
 		//Store parameter count to pass on to the function
 		int i = 0;

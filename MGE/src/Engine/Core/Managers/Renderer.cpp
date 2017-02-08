@@ -21,12 +21,6 @@ Renderer::Renderer()
 	SetClearColor(0.0f, 0.0f, 0.0f);
 }
 
-Renderer & Renderer::Instance()
-{
-	static Renderer instance;
-	return instance;
-}
-
 void Renderer::SetClearColor(float r, float g, float b)
 {
     glClearColor(r, g, b, 1.0f );
@@ -34,7 +28,7 @@ void Renderer::SetClearColor(float r, float g, float b)
 
 glm::mat4 Renderer::GetViewMatrix() const
 {
-	return glm::inverse(Camera::GetMainCamera()->GetGameObject()->GetTransform()->GetModelMatrix());
+	return Camera::GetMainCamera()->GetViewMatrix();
 }
 
 glm::mat4 Renderer::GetProjectionMatrix() const

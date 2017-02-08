@@ -6,13 +6,13 @@ Scene::Scene(const std::string & name) : m_name(name) {}
 
 Scene::~Scene()
 {
-	for (auto gameObject : m_rootGameObjects)
+	for (GameObject* gameObject : m_rootGameObjects)
 	{
 		delete gameObject;
 	}
 }
 
-std::string Scene::GetName()
+std::string Scene::GetName() const
 {
 	return m_name;
 }
@@ -27,7 +27,7 @@ void Scene::ProcessUninitializedObjects()
 	m_uninitializedGameObjects.clear();
 }
 
-int Scene::GetRootCount()
+int Scene::GetRootCount() const
 {
 	return m_rootGameObjects.size();
 }

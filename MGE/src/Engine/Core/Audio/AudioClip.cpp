@@ -168,6 +168,18 @@ void AudioClip::Seek(float normalizedTime)
 	}
 }
 
+void AudioClip::UseRelativePosition(bool relativePosition)
+{
+	if (m_stream == true)
+	{
+		m_music.setRelativeToListener(relativePosition);
+	}
+	else
+	{
+		m_sound.setRelativeToListener(relativePosition);
+	}
+}
+
 void AudioClip::SetWorldPosition(const glm::vec3& position)
 {
 	if (m_stream == true)

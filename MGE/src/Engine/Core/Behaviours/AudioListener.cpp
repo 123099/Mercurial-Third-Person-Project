@@ -17,7 +17,7 @@ void AudioListener::Awake()
 
 	if (s_listenerCount > 1)
 	{
-		std::cerr << "[Warning!] There are " << s_listenerCount << " audio listeners in the scene! Only 1 listener is allowed, otherweise, the results are unpredictable." << '\n';
+		std::cerr << "[Warning!] There are " << s_listenerCount << " audio listeners in the scene! Only 1 listener is allowed, otherwise, the results are unpredictable." << '\n';
 	}
 }
 

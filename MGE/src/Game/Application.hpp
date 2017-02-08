@@ -17,9 +17,7 @@ protected:
 private:
 	DebugHud* m_hud;
 
-	void InitSceneWobble();
 	void InitSceneLighting();
-	void InitSceneTerrain();
     void UpdateHud();
 
 	Application() = default;

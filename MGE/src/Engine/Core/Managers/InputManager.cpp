@@ -1,9 +1,11 @@
 #include <Managers\InputManager.hpp>
+#include <Utils\Cursor.hpp>
 #include <Utils\glm.hpp>
-#include <iostream>
+#include <Core\Time.hpp>
 
 int InputManager::s_mouseWheelDelta = 0;
-sf::Vector2i InputManager::s_mousePosition;
+glm::vec2 InputManager::s_mousePosition;
+glm::vec2 InputManager::s_mouseDelta;
 
 bool InputManager::s_anyKey = false;
 bool InputManager::s_anyKeyUp = false;
@@ -40,7 +42,21 @@ void InputManager::Reset(bool l_fullReset)
 	}
 }
 
-void InputManager::Update(sf::Event & event)
+void InputManager::ResetMouse(const sf::RenderWindow & window)
+{
+	/*
+	//Skip first frame
+	if (Time::s_frameCount == 0)
+	{
+		this->s_previousMousePosition = convertSFtoGLM(window, sf::Mouse::getPosition(window));
+		return;
+	}
+
+	this->s_previousMousePosition = this->s_mousePosition;
+	this->s_mousePosition = convertSFtoGLM(window, sf::Mouse::getPosition(window));*/
+}
+
+void InputManager::Update(const sf::RenderWindow& window, const sf::Event & event)
 {
 //Update the static arrays based on the event data//
 	//**Keyboard**//
@@ -97,12 +113,33 @@ void InputManager::Update(sf::Event & event)
 	}
 	else if (event.type == sf::Event::MouseMoved)
 	{
-		this->s_mousePosition = sf::Vector2i(event.mouseMove.x, event.mouseMove.y);
+		//On mouse move, calculate the delta of the mouse
+		//If the cursor is centered, calculate relative to center,
+		//else, calculate relative to previous pos
+		const glm::vec2 anchorPoint = [&]() 
+		{
+			if (Cursor::Instance().GetCursorMode() == Cursor::Mode::LockedAndCentered)
+			{
+				return glm::vec2(window.getSize().x * 0.5f, window.getSize().y * 0.5f);
+			}
+			else
+			{
+				return this->s_mousePosition;
+			}
+		}();
+
+		this->s_mousePosition = glm::vec2(event.mouseMove.x, window.getSize().y - event.mouseMove.y);
+		this->s_mouseDelta = this->s_mousePosition - anchorPoint;
 	}
 	else if (event.type == sf::Event::MouseWheelMoved)
 	{
 		this->s_mouseWheelDelta += event.mouseWheel.delta;
 	}
+}
+
+glm::vec2 InputManager::convertSFtoGLM(const sf::RenderWindow& window, const sf::Vector2i& vec)
+{
+	return glm::vec2(vec.x, window.getSize().y - vec.y);
 }
 
 void InputManager::resetArray(bool* l_array, int arraySize)
@@ -120,9 +157,14 @@ int InputManager::GetMouseWheelDelta()
 	return s_mouseWheelDelta;
 }
 
-sf::Vector2i InputManager::GetMousePosition()
+glm::vec2 InputManager::GetMousePosition()
 {
 	return s_mousePosition;
+}
+
+glm::vec2 InputManager::GetMouseMovement()
+{
+	return s_mouseDelta;
 }
 
 bool InputManager::IsAnyKeyHeld()
