@@ -48,7 +48,7 @@ void Application::Initialize()
     AbstractGame::Initialize();
 
 	SetVsync(true);
-	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
+	//Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
 	Renderer::Instance().SetClearColor(0.5, 0, 0);
 
