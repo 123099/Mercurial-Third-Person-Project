@@ -67,3 +67,13 @@ glm::mat4 Quaternion::ToMat4()
 {
 	return glm::mat4_cast(m_quaternion);
 }
+
+Quaternion::operator glm::quat()
+{
+	return m_quaternion;
+}
+
+Quaternion::operator btQuaternion()
+{
+	return btQuaternion(GetX(), GetY(), GetZ(), GetW());
+}

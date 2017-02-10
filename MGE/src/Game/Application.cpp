@@ -48,7 +48,7 @@ void Application::Initialize()
     AbstractGame::Initialize();
 
 	SetVsync(true);
-	//Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
+	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
 	Renderer::Instance().SetClearColor(0.5, 0, 0);
 
@@ -59,17 +59,45 @@ void Application::Initialize()
 
 int hudVerts;
 int hudTris;
-#include <Audio\AudioClip.hpp>
-#include <Behaviours\AudioSource.hpp>
-#include <Behaviours\AudioListener.hpp>
-#include <Behaviours\SphereCollider.hpp>
-#include <Game\Behaviours\Player.hpp>
+
+#include <bullet\btBulletDynamicsCommon.h>
 void Application::InitializeScene()
 {
 	InitSceneLighting();
 
 	GameObject* quitter = new GameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
+
+	btBroadphaseInterface* broadphase = new btDbvtBroadphase();
+	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
+	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
+	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver();
+	btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
+	dynamicsWorld->setGravity(btVector3(0, -10, 0));
+
+	btCollisionShape* ground = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
+	btCollisionShape* sphere = new btSphereShape(1);
+
+	btMotionState* motionState = new btDefaultMotionState(btTransform(Quaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
+	btRigidBody::btRigidBodyConstructionInfo groundRigidbodyCI(0, motionState, ground, btVector3(0, 0, 0));
+	btRigidBody* groundRB = new btRigidBody(groundRigidbodyCI);
+	dynamicsWorld->addRigidBody(groundRB);
+
+	btMotionState* sphereMotionState = new btDefaultMotionState(btTransform(Quaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
+	btVector3 inertia(0,0,0);
+	sphere->calculateLocalInertia(1, inertia);
+	btRigidBody::btRigidBodyConstructionInfo sphereRigidbodyCI(1, sphereMotionState, sphere, inertia);
+	btRigidBody* sphereRB = new btRigidBody(sphereRigidbodyCI);
+	dynamicsWorld->addRigidBody(sphereRB);
+
+	for (int i = 0; i < 300; ++i)
+	{
+		dynamicsWorld->stepSimulation(1 / 60.0f, 10);
+
+		btTransform trans;
+		sphereRB->getMotionState()->getWorldTransform(trans);
+		std::cout << "Sphere height: " << trans.getOrigin().getY() << '\n';
+	}
 }
 
 void Application::Render() 

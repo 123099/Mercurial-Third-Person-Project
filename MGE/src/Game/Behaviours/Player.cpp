@@ -47,7 +47,7 @@ void Player::Look()
 	if (mouseMovement.x != 0)
 	{
 		//Rotate the player around the y axis based on the horizontal movement
-		m_gameObject->GetTransform()->Rotate(glm::vec3(0.0f, -mouseMovement.x * Time::s_deltaTime * 10, 0.0f));
+		m_gameObject->GetTransform()->Rotate(glm::vec3(0.0f, -mouseMovement.x * Time::s_deltaTime * 2, 0.0f));
 	}
 
 	if (mouseMovement.y != 0)
@@ -56,7 +56,7 @@ void Player::Look()
 		glm::vec3 cameraEuler = m_camera->GetGameObject()->GetTransform()->GetEulerAngles();
 
 		//Rotate the camera around the x axis based on the vertical movement
-		cameraEuler.x = glm::clamp(cameraEuler.x + mouseMovement.y * Time::s_deltaTime * 10, -90.0f, 90.0f);
+		cameraEuler.x = glm::clamp(cameraEuler.x + mouseMovement.y * Time::s_deltaTime * 2, -90.0f, 90.0f);
 		m_camera->GetGameObject()->GetTransform()->SetLocalRotation(Quaternion::EulerAngles(cameraEuler));
 	}
 }
