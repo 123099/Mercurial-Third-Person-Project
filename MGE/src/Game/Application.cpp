@@ -47,6 +47,7 @@ void Application::Initialize()
 {
     AbstractGame::Initialize();
 
+	SetVsync(true);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
 	Renderer::Instance().SetClearColor(0.5, 0, 0);
@@ -58,39 +59,30 @@ void Application::Initialize()
 
 int hudVerts;
 int hudTris;
-#include <Audio\AudioClip.hpp>
-#include <Behaviours\AudioSource.hpp>
-#include <Behaviours\AudioListener.hpp>
+
+#include <bullet\btBulletDynamicsCommon.h>
+#include <Physics\Physics.hpp>
 #include <Behaviours\SphereCollider.hpp>
-#include <Game\Behaviours\Player.hpp>
+#include <Behaviours\BoxCollider.hpp>
+#include <Behaviours\CapsuleCollider.hpp>
+#include <Behaviours\Rigidbody.hpp>
 void Application::InitializeScene()
 {
 	InitSceneLighting();
 
-	AudioClip* ac = AudioClip::Load("test.wav", true, false);
-	AudioClip* ac2 = AudioClip::Load("test.wav", true, false);
-	AudioClip* ac3 = AudioClip::Load("test.wav", true, false);
-	GameObject* bgm = new GameObject("BGM");
-	bgm->GetTransform()->SetLocalPosition(glm::vec3(20, 10, 20));
-	AudioSource* as = bgm->AddBehaviour<AudioSource>();
-	as->SetAudioClip(ac);
-	as->SetPlayOnAwake(true);
-	as->SetLooping(true);
-	as->SetPitch(1.0f);
-	as->SetVolume(0.7f);
-	as->SetAttenuation(0.1f);
-	as->SetSpatialBlend(AudioSource::Type::TwoD);
-
 	GameObject* quitter = new GameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
 
+	Physics::Instance().SetGravity(glm::vec3(0, -10, 0));
 
-	Camera::GetMainCamera()->GetGameObject()->AddBehaviour<AudioListener>();
-	std::cout << Camera::GetMainCamera()->GetGameObject()->GetTransform()->GetForwardVector() << '\n';
-	std::cout << quitter->AddBehaviour<Camera>()->GetGameObject()->GetTransform()->GetForwardVector() << '\n';
-	std::vector<Player*> players = GameObject::FindObjectsOfType<Player>();
-	for(auto player : players)
-		std::cout << player->GetGameObject()->GetTransform()->GetForwardVector() << '\n';
+	GameObject* ground = new GameObject("Ground");
+	ground->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(50, 0.5, 50));
+	ground->GetTransform()->Translate(glm::vec3(30, -50, -20));
+	ground->GetTransform()->SetLocalScale(glm::vec3(50, 0.5, 50));
+	ground->AddBehaviour<Rigidbody>()->SetMass(0);
+	MeshRenderer* ms = ground->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
 }
 
 void Application::Render() 
@@ -108,7 +100,6 @@ void Application::InitSceneLighting()
 	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/SunSet/", ".png");
 
 	GameObject* skyboxObject = new GameObject("SkyBox");
-	skyboxObject->AddBehaviour<MeshRenderer>();
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
 	skybox->SetSkyboxCubeMap(cubeMap);
 	skybox->SetExposure(5);

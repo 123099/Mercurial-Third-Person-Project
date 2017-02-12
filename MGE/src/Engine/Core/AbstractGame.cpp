@@ -1,17 +1,24 @@
 #include "AbstractGame.hpp"
-#include <iostream>
 #include <Behaviours\Camera.hpp>
+
 #include <Core\GameObject.hpp>
-#include <Managers\Renderer.hpp>
 #include <Core\Time.hpp>
-#include <Input\Input.hpp>
 #include <Core\Scene.hpp>
+
+#include <Input\Input.hpp>
+
+#include <Managers\Renderer.hpp>
 #include <Managers\ShaderManager.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Managers\LightManager.hpp>
+
+#include <Physics\Physics.hpp>
+
 #include <Utils\Screen.hpp>
 #include <Utils\Cursor.hpp>
 #include <Utils\Profiler.hpp>
+
+#include <iostream>
 
 void AbstractGame::Initialize() 
 {
@@ -22,6 +29,7 @@ void AbstractGame::Initialize()
 	InitializeHelperSingletons();
     PrintVersionInfo();
     InitializeGlew();
+	InitializePhysics();
 	InitializeShaders();
 	InitializeLight();
     InitializeRenderer();
@@ -91,6 +99,13 @@ void AbstractGame::InitializeGlew()
 	std::cout << "GLEW Status: " << (glewStatus == GLEW_OK ? "Initialized" : "Failed to Initialize") << '\n' << '\n';
 }
 
+void AbstractGame::InitializePhysics()
+{
+	std::cout << "Initialize Physics..." << '\n';
+	Physics::Instance().Initialize();
+	std::cout << "Physics Initialize" << '\n' << '\n';
+}
+
 void AbstractGame::InitializeRenderer() 
 {
 	std::cout << "Initializing renderer..." << '\n';
@@ -144,6 +159,9 @@ void AbstractGame::Run()
 		accumulator = FixedUpdate(accumulator);
 		Profiler::EndSample();
 
+		//Bullet Physics Simulation
+		Physics::Instance().StepSimulation();
+
 		Profiler::BeginSample("Update");
 		//Update 
 		Update();		
@@ -169,7 +187,10 @@ void AbstractGame::Run()
 		Time::s_frameRate = 1.0f / Time::s_deltaTime;
 
 		//Update the cursor
-		Cursor::Instance().Update();
+		if (m_window->hasFocus() == true)
+		{
+			Cursor::Instance().Update();
+		}
 
 		//Reset the mouse values of the input manager
 		//m_inputManager->ResetMouse(*m_window);

@@ -4,8 +4,8 @@ materialAmbient color 1 1 1 1
 materialDiffuse color 1 1 1 1
 materialSpecular color 1 1 1 1
 materialEmission color 0.1 0 0 1
-materialShininess float 10
+materialShininess float 1
 
-#diffuseTexture texture mge/textures/tex.jpg
-#normalMap texture mge/textures/normal.jpg
-specularMap texture mge/textures/specular.jpg
+diffuseTexture texture mge/textures/tex.jpg
+normalMap texture mge/textures/New_Graph_normal.png
+specularMap texture mge/textures/New_Graph_roughness.png

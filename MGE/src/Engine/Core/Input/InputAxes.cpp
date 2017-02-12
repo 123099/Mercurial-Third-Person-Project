@@ -36,3 +36,12 @@ InputAxes::Axis InputAxes::s_quit =
 	sf::Keyboard::Unknown
 };
 
+InputAxes::Axis InputAxes::s_interact =
+{
+	"Interact",
+	sf::Mouse::Button::Left,
+	sf::Keyboard::Unknown,
+	sf::Keyboard::F,
+	sf::Keyboard::Unknown
+};
+

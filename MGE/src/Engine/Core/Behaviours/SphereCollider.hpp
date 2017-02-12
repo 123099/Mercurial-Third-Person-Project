@@ -1,13 +1,15 @@
 #pragma once
-#include <Behaviours\AbstractBehaviour.hpp>
+#include <Behaviours\Collider.hpp>
 
-class SphereCollider final : public AbstractBehaviour
+class SphereCollider final : public Collider
 {
 public:
+	SphereCollider();
+
 	float GetRadius() const;
 	void SetRadius(float radius);
-
-	bool IsCollidingWith(const SphereCollider& sphereCollider);
+protected:
+	void SetupCollisionShape() override final;
 private:
 	float m_radius;
 };

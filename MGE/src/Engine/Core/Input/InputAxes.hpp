@@ -38,5 +38,6 @@ public:
     static Axis s_horizontal;
     static Axis s_vertical;
 	static Axis s_quit;
+	static Axis s_interact;
 };
 

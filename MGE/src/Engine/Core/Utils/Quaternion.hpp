@@ -1,5 +1,6 @@
 #pragma once
 #include <Utils\glm.hpp>
+#include <bullet\LinearMath\btQuaternion.h>
 
 class Quaternion final
 {
@@ -8,6 +9,7 @@ public:
 	static Quaternion EulerAngles(glm::vec3 eulerAngles);
 	static Quaternion EulerAngles(float x, float y, float z);
 
+	Quaternion(const btQuaternion& quat);
 	Quaternion(const glm::quat& quat);
 	Quaternion(float x, float y, float z, float w);
 
@@ -22,6 +24,9 @@ public:
 
 	glm::vec3 GetEulerAngles() const;
 	glm::mat4 ToMat4();
+
+	operator glm::quat();
+	operator btQuaternion();
 
 	friend Quaternion operator*(const Quaternion& a, const Quaternion& b);
 	friend glm::vec3 operator*(const Quaternion& a, const glm::vec3& b);

@@ -11,6 +11,11 @@
 #include <Behaviours\Terrain.hpp>
 #include <Behaviours\FreeLookCamera.hpp>
 #include <Behaviours\MeshRenderer.hpp>
+#include <Behaviours\AudioSource.hpp>
+#include <Behaviours\SphereCollider.hpp>
+#include <Behaviours\BoxCollider.hpp>
+#include <Behaviours\CapsuleCollider.hpp>
+#include <Behaviours\Rigidbody.hpp>
 
 #include <Game\Behaviours\NPC.hpp>
 #include <Game\Behaviours\RotatingBehaviour.hpp>
@@ -39,7 +44,7 @@ static GameObject* CreateGameObjectFromBaseData(lua_State* luaState)
 
 	//Retrieve whether the game object is static
 	bool isStatic = (bool)lua_toboolean(luaState, 2);
-
+	
 	//Retrieve the local model matrix
 	float matrixValues[16];
 	const int matrixStartIndex = 3;
@@ -297,6 +302,69 @@ static int AddPlayer(GameObject* gameObject, lua_State* luaState)
 	return 0;
 }
 
+static int AddAudioSource(GameObject* gameObject, lua_State* luaState)
+{
+	//Command Structure:
+	//1 - file name
+	//2 - stream clip
+	//3 - cache clip
+	//4 - play on awake
+	//5 - loop
+	//6 - pitch
+	//7 - volume
+	//8 - is 2D?
+
+	//Retrieve file name
+	const std::string fileName = luaL_checkstring(luaState, 1);
+
+	//Retrieve whether to stream
+	const bool streamClip = (bool)lua_toboolean(luaState, 2);
+
+	//Retrieve whether to cache
+	const bool cacheClip = (bool)lua_toboolean(luaState, 3);
+
+	//Retrieve whether to play on awake
+	const bool playOnAwake = (bool)lua_toboolean(luaState, 4);
+
+	//Retrieve whether to loop
+	const bool loop = (bool)lua_toboolean(luaState, 5);
+
+	//Retrieve the pitch
+	const float pitch = (float)luaL_checknumber(luaState, 6);
+
+	//Retrieve the volume
+	const float volume = (float)luaL_checknumber(luaState, 7);
+
+	//Retrieve whether the sound is 2D or 3D
+	const bool is2D = (bool)lua_toboolean(luaState, 8);
+
+	//Add the behaviour
+	AudioSource* audioSource = gameObject->AddBehaviour<AudioSource>();
+
+	//Apply values
+	audioSource->SetAudioClip(AudioClip::Load(fileName, streamClip, cacheClip));
+	audioSource->SetPlayOnAwake(playOnAwake);
+	audioSource->SetLooping(loop);
+	audioSource->SetPitch(pitch);
+	audioSource->SetVolume(volume);
+	audioSource->SetSpatialBlend(is2D ? AudioSource::Type::TwoD : AudioSource::Type::ThreeD);
+	
+	return 0;
+}
+
+static int AddSphereCollider(GameObject* gameObject, lua_State* luaState)
+{
+	//Command Structure:
+	//1 - radius
+
+	//Get radius
+	const float radius = (float)luaL_checknumber(luaState, 1);
+
+	gameObject->AddBehaviour<SphereCollider>()->SetRadius(radius);
+
+	return 0;
+}
+
 using func = std::add_pointer_t<int(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
@@ -307,7 +375,9 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("camera", AddCamera),
 	std::make_pair("freelookcamera", AddFreeLookCamera),
 	std::make_pair("npc", AddNPC),
-	std::make_pair("player", AddPlayer)
+	std::make_pair("player", AddPlayer),
+	std::make_pair("audiosource", AddAudioSource),
+	std::make_pair("spherecollider", AddSphereCollider)
 };
 
 static int AddBehaviour(lua_State* luaState)

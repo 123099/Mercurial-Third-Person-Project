@@ -306,6 +306,24 @@
     <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp">
       <Filter>Header Files\Engine\Core\Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp">
+      <Filter>Header Files\Engine\Core\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Textures\RenderTexture.hpp">
+      <Filter>Header Files\Engine\Core\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Rigidbody.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\Collider.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\BoxCollider.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\CapsuleCollider.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -499,6 +517,24 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp">
       <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp">
+      <Filter>Source Files\Engine\Core\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Textures\RenderTexture.cpp">
+      <Filter>Source Files\Engine\Core\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Rigidbody.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Collider.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\BoxCollider.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\CapsuleCollider.cpp">
+      <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
