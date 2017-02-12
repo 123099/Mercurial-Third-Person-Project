@@ -1,11 +1,15 @@
 #pragma once
 #include <Behaviours\AbstractBehaviour.hpp>
+#include <Behaviours\BehaviourAttributes.hpp>
 #include <LuaAPI\lua.hpp>
+
+#include <Behaviours\Rigidbody.hpp>
+#include <Behaviours\CapsuleCollider.hpp>
 
 class Transform;
 class Camera;
 
-class Player final : public AbstractBehaviour
+class Player final : public AbstractBehaviour//, public RequireBehaviours<CapsuleCollider, Rigidbody>
 {
 public:
 	void Awake() override final;

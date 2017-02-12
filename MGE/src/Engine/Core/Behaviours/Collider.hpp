@@ -1,10 +1,11 @@
 #pragma once
 #include <Behaviours\AbstractBehaviour.hpp>
+#include <Behaviours\BehaviourAttributes.hpp>
 
 #include <bullet\btBulletDynamicsCommon.h>
 #include <memory>
 
-class Collider : public AbstractBehaviour
+class Collider : public AbstractBehaviour, public DisallowMultiple
 {
 public:
 	~Collider() = 0;

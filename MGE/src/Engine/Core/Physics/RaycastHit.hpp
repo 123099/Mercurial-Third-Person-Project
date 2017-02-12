@@ -1,20 +1,25 @@
 #pragma once
 #include <Utils\glm.hpp>
 
-class SphereCollider;
+class Collider;
 class Transform;
 
 class RaycastHit final
 {
 public:
-	void SetPoint(glm::vec3 point);
-	void SetCollider(SphereCollider* collider);
+	void SetPoint(const glm::vec3& point);
+	void SetNormal(const glm::vec3& normal);
+	void SetCollider(Collider* collider);
 
 	glm::vec3 GetPoint();
+	glm::vec3 GetNormal();
+
 	Transform* GetTransform();
-	SphereCollider* GetCollider();
+	Collider* GetCollider();
 private:
 	glm::vec3 m_point;
+	glm::vec3 m_normal;
+
 	Transform* m_transform;
-	SphereCollider* m_collider;
+	Collider* m_collider;
 };

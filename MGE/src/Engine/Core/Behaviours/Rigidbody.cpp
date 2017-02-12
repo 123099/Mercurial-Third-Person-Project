@@ -58,3 +58,8 @@ void Rigidbody::SetMass(float mass)
 		Physics::Instance().AddRigidbody(*m_rigidbody);
 	}
 }
+
+btRigidBody * Rigidbody::GetBulletRigidbody()
+{
+	return m_rigidbody.get();
+}

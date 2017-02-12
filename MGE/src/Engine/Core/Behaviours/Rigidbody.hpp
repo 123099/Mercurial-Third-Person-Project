@@ -15,6 +15,8 @@ public:
 	void Update() override final;
 
 	void SetMass(float mass);
+
+	btRigidBody* GetBulletRigidbody();
 private:
 	std::unique_ptr<btRigidBody> m_rigidbody;
 	std::unique_ptr<btDefaultMotionState> m_rigidbodyMotion;

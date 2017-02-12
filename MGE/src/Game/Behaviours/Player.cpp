@@ -74,7 +74,7 @@ void Player::Interact()
 		if (Physics::Instance().Raycast(ray, hitInfo, 0.0f) == true)
 		{
 			std::cout << "HIT " << hitInfo.GetCollider()->GetGameObject()->GetName() << " at " << hitInfo.GetPoint() << '\n';
-			const SphereCollider* collider = hitInfo.GetCollider();
+			const Collider* collider = hitInfo.GetCollider();
 
 			//Check if the collider is also an NPC
 			NPC* npc = collider->GetGameObject()->GetBehaviour<NPC>();

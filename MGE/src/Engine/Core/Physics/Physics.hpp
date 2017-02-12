@@ -22,6 +22,7 @@ public:
 	bool Raycast(const Ray& ray);
 	bool Raycast(const Ray& ray, float maxDistance);
 	bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance);
+	std::vector<RaycastHit> RaycastAll(const Ray& ray, float maxDistance);
 
 	void StepSimulation();
 private:
@@ -33,4 +34,6 @@ private:
 
 	void AddRigidbody(btRigidBody& rigidbody);
 	void RemoveRigidbody(btRigidBody& rigidbody);
+
+	Rigidbody* BulletToMGERigidbody(const btCollisionObject* collisionObject);
 };
