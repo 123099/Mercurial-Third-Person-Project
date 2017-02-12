@@ -28,7 +28,7 @@ public:
 #pragma region Behaviour Templates
 
 	template <typename T>
-	T* AddBehaviour() 
+	T* AddBehaviour(bool checkIfExists = false) 
 	{
 		//Make sure the type is a behaviour
 		static_assert(std::is_base_of<AbstractBehaviour, T>(), "Only behaviours can be added to a Game Object using AddBehaviour!");
@@ -39,6 +39,18 @@ public:
 		if (std::is_base_of<DisallowMultiple, T>() == true && GetBehaviour<T>() != nullptr)
 		{
 			std::cerr << "[Warning - GameObject: " << m_name << "] Only 1 Instance of type " << typeid(T).name() << " is allowed!" << '\n';
+		}
+
+		//If check is enabled, check if we already have the behaviour attached
+		if (checkIfExists == true)
+		{
+			//Try to retrieve the behaviour
+			T* behaviour = GetBehaviour<T>();
+			if (behaviour != nullptr)
+			{
+				//If the behaviour was already attached, return it
+				return behaviour;
+			}
 		}
 
 		//Create a new instance of the behaviour
