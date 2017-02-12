@@ -13,6 +13,9 @@
 #include <Behaviours\MeshRenderer.hpp>
 #include <Behaviours\AudioSource.hpp>
 #include <Behaviours\SphereCollider.hpp>
+#include <Behaviours\BoxCollider.hpp>
+#include <Behaviours\CapsuleCollider.hpp>
+#include <Behaviours\Rigidbody.hpp>
 
 #include <Game\Behaviours\NPC.hpp>
 #include <Game\Behaviours\RotatingBehaviour.hpp>

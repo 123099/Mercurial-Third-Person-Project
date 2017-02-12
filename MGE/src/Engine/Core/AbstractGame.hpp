@@ -50,6 +50,9 @@ private:
 	//Initialize the extension wrangler
 	void InitializeGlew();
 
+	//Initialize bullet physics
+	void InitializePhysics();
+
 	//Create our own custom renderer instance
 	void InitializeRenderer();
 

@@ -15,6 +15,8 @@ Quaternion Quaternion::EulerAngles(float x, float y, float z)
 	return glm::quat(glm::vec3(glm::radians(x), glm::radians(y), glm::radians(z)));
 }
 
+Quaternion::Quaternion(const btQuaternion & quat) : Quaternion(quat.getX(), quat.getY(), quat.getZ(), quat.getW()) {}
+
 Quaternion::Quaternion(const glm::quat & quat) : m_quaternion(quat), euler(GetEulerAngles()) {}
 
 Quaternion::Quaternion(float x, float y, float z, float w) : m_quaternion(w, x, y, z), euler(GetEulerAngles()) {}

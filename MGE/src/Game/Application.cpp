@@ -61,6 +61,11 @@ int hudVerts;
 int hudTris;
 
 #include <bullet\btBulletDynamicsCommon.h>
+#include <Physics\Physics.hpp>
+#include <Behaviours\SphereCollider.hpp>
+#include <Behaviours\BoxCollider.hpp>
+#include <Behaviours\CapsuleCollider.hpp>
+#include <Behaviours\Rigidbody.hpp>
 void Application::InitializeScene()
 {
 	InitSceneLighting();
@@ -68,36 +73,16 @@ void Application::InitializeScene()
 	GameObject* quitter = new GameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
 
-	btBroadphaseInterface* broadphase = new btDbvtBroadphase();
-	btDefaultCollisionConfiguration* collisionConfiguration = new btDefaultCollisionConfiguration();
-	btCollisionDispatcher* dispatcher = new btCollisionDispatcher(collisionConfiguration);
-	btSequentialImpulseConstraintSolver* solver = new btSequentialImpulseConstraintSolver();
-	btDiscreteDynamicsWorld* dynamicsWorld = new btDiscreteDynamicsWorld(dispatcher, broadphase, solver, collisionConfiguration);
-	dynamicsWorld->setGravity(btVector3(0, -10, 0));
+	Physics::Instance().SetGravity(glm::vec3(0, -10, 0));
 
-	btCollisionShape* ground = new btStaticPlaneShape(btVector3(0, 1, 0), 1);
-	btCollisionShape* sphere = new btSphereShape(1);
-
-	btMotionState* motionState = new btDefaultMotionState(btTransform(Quaternion(0, 0, 0, 1), btVector3(0, -1, 0)));
-	btRigidBody::btRigidBodyConstructionInfo groundRigidbodyCI(0, motionState, ground, btVector3(0, 0, 0));
-	btRigidBody* groundRB = new btRigidBody(groundRigidbodyCI);
-	dynamicsWorld->addRigidBody(groundRB);
-
-	btMotionState* sphereMotionState = new btDefaultMotionState(btTransform(Quaternion(0, 0, 0, 1), btVector3(0, 50, 0)));
-	btVector3 inertia(0,0,0);
-	sphere->calculateLocalInertia(1, inertia);
-	btRigidBody::btRigidBodyConstructionInfo sphereRigidbodyCI(1, sphereMotionState, sphere, inertia);
-	btRigidBody* sphereRB = new btRigidBody(sphereRigidbodyCI);
-	dynamicsWorld->addRigidBody(sphereRB);
-
-	for (int i = 0; i < 300; ++i)
-	{
-		dynamicsWorld->stepSimulation(1 / 60.0f, 10);
-
-		btTransform trans;
-		sphereRB->getMotionState()->getWorldTransform(trans);
-		std::cout << "Sphere height: " << trans.getOrigin().getY() << '\n';
-	}
+	GameObject* ground = new GameObject("Ground");
+	ground->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(50, 0.5, 50));
+	ground->GetTransform()->Translate(glm::vec3(30, -50, -20));
+	ground->GetTransform()->SetLocalScale(glm::vec3(50, 0.5, 50));
+	ground->AddBehaviour<Rigidbody>()->SetMass(0);
+	MeshRenderer* ms = ground->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
 }
 
 void Application::Render() 
@@ -115,7 +100,6 @@ void Application::InitSceneLighting()
 	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/SunSet/", ".png");
 
 	GameObject* skyboxObject = new GameObject("SkyBox");
-	skyboxObject->AddBehaviour<MeshRenderer>();
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
 	skybox->SetSkyboxCubeMap(cubeMap);
 	skybox->SetExposure(5);

@@ -5,9 +5,9 @@ addbehaviour(objects[0], "audiosource", "test.wav", true, true, true, true, 1, 1
 objects[1] = creategameobject("Point light", false, 1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,-0.53543,-4.09778,-43.14000,1.00000, "", "")
 addbehaviour(objects[1], "light", "point", 0.2797576, 0.1695502, 0.7205882, 1, 1, 30)
 
-objects[2] = creategameobject("Cockpit", false, 1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,21.30000,-41.47000,1.00000, "Cockpit.obj", "lit")
-objects[3] = creategameobject("Windows", false, 1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000, "Glass.obj", "litWindows")
-addchild(objects[2], objects[3], false)
+--objects[2] = creategameobject("Cockpit", false, 1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,21.30000,-41.47000,1.00000, "Cockpit.obj", "lit")
+--objects[3] = creategameobject("Windows", false, 1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000, "Glass.obj", "litWindows")
+--addchild(objects[2], objects[3], false)
 
 objects[4] = creategameobject("Sphere", false, 1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,0.00000,0.00000,0.00000,1.00000,0.00000,-1.92159,-0.52744,-7.39000,1.00000, "Shape.obj", "lit")
 addbehaviour(objects[4], "spherecollider", 1)

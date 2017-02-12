@@ -9,6 +9,7 @@ public:
 	static Quaternion EulerAngles(glm::vec3 eulerAngles);
 	static Quaternion EulerAngles(float x, float y, float z);
 
+	Quaternion(const btQuaternion& quat);
 	Quaternion(const glm::quat& quat);
 	Quaternion(float x, float y, float z, float w);
 
