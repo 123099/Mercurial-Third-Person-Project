@@ -27,6 +27,11 @@ void AudioSource::SetPlayOnAwake(bool playOnAwake)
 	m_playOnAwake = playOnAwake;
 }
 
+void AudioSource::SetDestroyOnEnd(bool destroyOnEnd)
+{
+	m_destroyOnEnd = destroyOnEnd;
+}
+
 void AudioSource::SetSpatialBlend(Type spatialBlendType)
 {
 	//Cache the value for ourselves to use in the Update method
@@ -57,6 +62,8 @@ void AudioSource::Play()
 
 		//Play the clip
 		m_clip->Play();
+
+		m_hasPlayedOnce = true;
 	}
 }
 
@@ -144,8 +151,16 @@ void AudioSource::Awake()
 
 void AudioSource::Update()
 {
-	if (m_clip != nullptr && m_spatialType != Type::TwoD)
+	if (m_clip != nullptr)
 	{
-		m_clip->SetWorldPosition(m_gameObject->GetTransform()->GetWorldPosition());
+		if (m_spatialType != Type::TwoD)
+		{
+			m_clip->SetWorldPosition(m_gameObject->GetTransform()->GetWorldPosition());
+		}
+
+		if (m_destroyOnEnd == true && m_hasPlayedOnce == true && m_clip->IsPlaying() == false)
+		{
+			delete m_gameObject;
+		}
 	}
 }

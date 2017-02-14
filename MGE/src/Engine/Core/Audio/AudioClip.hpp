@@ -23,6 +23,8 @@ public:
 	void SetPitch(float pitch);
 	void Seek(float normalizedTime);
 
+	bool IsPlaying();
+
 	void UseRelativePosition(bool relativePosition);
 	void SetWorldPosition(const glm::vec3& position);
 private:

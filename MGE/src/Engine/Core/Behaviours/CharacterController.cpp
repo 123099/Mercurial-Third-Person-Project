@@ -56,7 +56,7 @@ void CharacterController::Update()
 	m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(origin.getX(), origin.getY(), origin.getZ()));
 	m_gameObject->GetTransform()->SetWorldRotation(rotation);
 
-	std::cout << m_characterController->getAngularVelocity().getY() << ',' << rotation.GetEulerAngles() << '\n';
+	//std::cout << m_characterController->getAngularVelocity().getY() << ',' << rotation.GetEulerAngles() << '\n';
 }
 
 void CharacterController::SetHeight(float height)

@@ -3,10 +3,10 @@
 #include <string>
 #include <unordered_map>
 #include <Utils\glm.hpp>
-#include <memory>
 #include <Core\Shader.hpp>
 #include <Managers\Renderer.hpp>
 #include <Utils\InstanceCache.hpp>
+#include <memory>
 
 class Mesh;
 
@@ -34,9 +34,9 @@ private:
 	Shader& m_shader;
 	int m_setTextureCount;
 	
-	std::unordered_map<std::string, ShaderProperty*> m_shaderProperties;
+	std::unordered_map<std::string, std::shared_ptr<ShaderProperty>> m_shaderProperties;
 
-	void SetProperty(ShaderProperty& property);
+	void SetProperty(const ShaderProperty& property);
 	ShaderProperty* GetProperty(const std::string& propertyName);
 	bool HasProperty(const std::string& propertyName);
 
