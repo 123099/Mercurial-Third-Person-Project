@@ -214,7 +214,7 @@ void main ( void )
 	fragColor = calculateReflection(fragColor);
 	
 	//Apply fog
-	//fragColor = calculateFog(fragColor);
+	fragColor = calculateFog(fragColor);
 	
 	//Apply gamma adjustments to coincide with the monitor being darker than it actually is
 	fragColor = pow(fragColor, gamma);

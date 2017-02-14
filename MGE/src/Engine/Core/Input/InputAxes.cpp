@@ -27,6 +27,15 @@ InputAxes::Axis InputAxes::s_vertical =
     sf::Keyboard::S
 };
 
+InputAxes::Axis InputAxes::s_jump = 
+{
+	"Jump",
+	sf::Keyboard::Space,
+	sf::Keyboard::Unknown,
+	sf::Keyboard::Unknown,
+	sf::Keyboard::Unknown
+};
+
 InputAxes::Axis InputAxes::s_quit =
 {
 	"Quit",

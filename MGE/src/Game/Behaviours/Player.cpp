@@ -22,15 +22,29 @@ void Player::Awake()
 	LuaEnvironment::GetLua()->BindObject<Player>(this, "Player", "player");
 
 	m_camera = m_gameObject->GetBehavioursInChildren<Camera>()[0];
+	m_characterController = m_gameObject->GetBehaviour<CharacterController>();
+	m_characterController->SetWalkVelocity(5);
+	m_characterController->SetStepHeight(0.35f);
+	m_characterController->SetSlopeLimit(45);
 }
 
 void Player::FixedUpdate()
 {
+	const glm::vec2 mouseMovement = Input::GetMouseMovement();
+
+	if (mouseMovement.x != 0)
+	{
+		m_characterController->SetAngularVelocity(glm::vec3(0, 0, Time::s_gameTime * 10));
+	}
 	Move();
 }
 
 void Player::Update()
 {
+	if (Input::GetAxis(InputAxes::s_jump))
+	{
+		m_characterController->Jump();
+	}
 	Look();
 	Interact();
 }
@@ -38,17 +52,13 @@ void Player::Update()
 void Player::Move()
 {
 	const glm::vec3 movement(Input::GetAxis(InputAxes::s_horizontal), 0, -Input::GetAxis(InputAxes::s_vertical));
-	m_gameObject->GetTransform()->Translate(movement * Time::s_deltaTime * 1.5f);
+	const Quaternion cameraRotationExcludingX = Quaternion::EulerAngles(0.0f, m_camera->GetGameObject()->GetTransform()->GetEulerAngles().y, 0.0f);
+	m_characterController->SetWalkDirection(cameraRotationExcludingX * movement);
 }
 
 void Player::Look()
 {
 	const glm::vec2 mouseMovement = Input::GetMouseMovement();
-	if (mouseMovement.x != 0)
-	{
-		//Rotate the player around the y axis based on the horizontal movement
-		m_gameObject->GetTransform()->Rotate(glm::vec3(0.0f, -mouseMovement.x * Time::s_deltaTime * 2, 0.0f));
-	}
 
 	if (mouseMovement.y != 0)
 	{
@@ -59,6 +69,7 @@ void Player::Look()
 		cameraEuler.x = glm::clamp(cameraEuler.x + mouseMovement.y * Time::s_deltaTime * 2, -90.0f, 90.0f);
 		m_camera->GetGameObject()->GetTransform()->SetLocalRotation(Quaternion::EulerAngles(cameraEuler));
 	}
+
 }
 
 void Player::Interact()
@@ -69,12 +80,15 @@ void Player::Interact()
 		//Create a ray from the center of the screen forward
 		Ray ray = m_camera->ScreenPointToRay(Screen::Instance().GetWindowCenter());
 
+		//Move the origin of the ray 2 units forward on the ray line to prevent intersection with the player
+		ray.ChangeOrigin(2);
+
 		//Cast the ray and see if we hit an interactble
 		RaycastHit hitInfo;
-		if (Physics::Instance().Raycast(ray, hitInfo, 0.0f) == true)
+		if (Physics::Instance().Raycast(ray, hitInfo, 4.0f) == true)
 		{
 			std::cout << "HIT " << hitInfo.GetCollider()->GetGameObject()->GetName() << " at " << hitInfo.GetPoint() << '\n';
-			const SphereCollider* collider = hitInfo.GetCollider();
+			const Collider* collider = hitInfo.GetCollider();
 
 			//Check if the collider is also an NPC
 			NPC* npc = collider->GetGameObject()->GetBehaviour<NPC>();

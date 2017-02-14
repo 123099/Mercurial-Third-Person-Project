@@ -5,6 +5,11 @@
 
 Rigidbody::Rigidbody() : m_mass(1.0f) {}
 
+Rigidbody::~Rigidbody()
+{
+	Physics::Instance().RemoveRigidbody(*m_rigidbody);
+}
+
 void Rigidbody::Awake()
 {
 	//Cache the collider on the game object
@@ -26,18 +31,39 @@ void Rigidbody::Awake()
 	const btRigidBody::btRigidBodyConstructionInfo rigidbodyInfo(m_mass, m_rigidbodyMotion.get(), collisionShape, inertia);
 	m_rigidbody = std::make_unique<btRigidBody>(rigidbodyInfo);
 
+	if (m_isKinematic == true)
+	{
+		m_rigidbody->setCollisionFlags(btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT);
+	}
+
+	FreezePosition(m_freezePositionX, m_freezePositionY, m_freezePositionZ);
+	FreezeRotation(m_freezeRotationX, m_freezeRotationY, m_freezeRotationZ);
+
 	Physics::Instance().AddRigidbody(*m_rigidbody);
 }
 
 void Rigidbody::Update()
 {
-	//Get the transform of the rigidbody simulation
-	btTransform rbTransform;
-	m_rigidbodyMotion->getWorldTransform(rbTransform);
+	//Based on whether the rigidbody is kinematic or not, either update the engine's transform or the rigidbody's transform
+	if (m_isKinematic == false)
+	{
+		//Get the transform of the rigidbody simulation
+		btTransform rbTransform;
+		m_rigidbodyMotion->getWorldTransform(rbTransform);
 
-	//Update the game object's transform based on the transform of the rigid body
-	m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(rbTransform.getOrigin().getX(), rbTransform.getOrigin().getY(), rbTransform.getOrigin().getZ()));
-	m_gameObject->GetTransform()->SetWorldRotation(rbTransform.getRotation());
+		//Update the game object's transform based on the transform of the rigid body
+		m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(rbTransform.getOrigin().getX(), rbTransform.getOrigin().getY(), rbTransform.getOrigin().getZ()));
+		m_gameObject->GetTransform()->SetWorldRotation(rbTransform.getRotation());
+	}
+	else
+	{
+		const glm::vec3 worldPos = m_gameObject->GetTransform()->GetWorldPosition();
+
+		btTransform rbTransform;
+		rbTransform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
+		rbTransform.setRotation(m_gameObject->GetTransform()->GetWorldRotation());
+		m_rigidbody->proceedToTransform(rbTransform);
+	}
 }
 
 void Rigidbody::SetMass(float mass)
@@ -57,4 +83,71 @@ void Rigidbody::SetMass(float mass)
 		//Add the rigidbody back to the world
 		Physics::Instance().AddRigidbody(*m_rigidbody);
 	}
+}
+
+void Rigidbody::SetKinematic(bool kinematic)
+{
+	m_isKinematic = kinematic;
+
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->setCollisionFlags(kinematic ? btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT : 0);
+	}
+}
+
+void Rigidbody::AddForce(const glm::vec3 & force)
+{
+	//Activate the rigidbody
+	m_rigidbody->activate(true);
+
+	//Apply the force
+	m_rigidbody->applyCentralForce(btVector3(force.x, force.y, force.z));
+
+	//Set angular velocity to 0 to not affect rotation with the force
+	m_rigidbody->setAngularVelocity(btVector3(0,0,0));
+}
+
+void Rigidbody::AddRelativeForce(const glm::vec3 & force)
+{
+	AddForce(m_gameObject->GetTransform()->GetWorldRotation() * force);
+}
+
+void Rigidbody::FreezePosition(bool xAxis, bool yAxis, bool zAxis)
+{
+	m_freezePositionX = xAxis;
+	m_freezePositionY = yAxis;
+	m_freezePositionZ = zAxis;
+
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->setLinearFactor(btVector3(float(!xAxis), float(!yAxis), float(!zAxis)));
+	}
+}
+
+void Rigidbody::FreezeRotation(bool xAxis, bool yAxis, bool zAxis)
+{
+	m_freezeRotationX = xAxis;
+	m_freezeRotationY = yAxis;
+	m_freezeRotationZ = zAxis;
+
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->setAngularFactor(btVector3(float(!xAxis), float(!yAxis), float(!zAxis)));
+	}
+}
+
+void Rigidbody::SetRotation(Quaternion & rotation)
+{
+	if (m_rigidbody != nullptr)
+	{
+		btTransform transform;
+		m_rigidbodyMotion->getWorldTransform(transform);
+		transform.setRotation(rotation);
+		m_rigidbody->proceedToTransform(transform);
+	}
+}
+
+btRigidBody * Rigidbody::GetBulletRigidbody()
+{
+	return m_rigidbody.get();
 }
