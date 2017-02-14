@@ -183,12 +183,16 @@
     <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaScript.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\BoxCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\ConvexMeshCollider.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\PlayerInput.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Rigidbody.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp" />
     <ClInclude Include="src\Engine\Core\Textures\RenderTexture.hpp" />
+    <ClInclude Include="src\Engine\Core\UI\TextInput.h" />
+    <ClInclude Include="src\Engine\Core\UI\TextLog.hpp" />
+    <ClInclude Include="src\Engine\Core\UI\UI.h" />
     <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\glm.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
@@ -247,6 +251,8 @@
     <ClInclude Include="src\Engine\Core\Material.hpp" />
     <ClInclude Include="src\Game\Application.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\DebugHud.hpp" />
+    <ClInclude Include="src\Engine\Core\TextInput.h" />
+    <ClInclude Include="src\Engine\Core\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Core\Audio\AudioClip.cpp" />
@@ -260,12 +266,16 @@
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaScript.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\ConvexMeshCollider.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PlayerInput.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Rigidbody.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp" />
     <ClCompile Include="src\Engine\Core\Textures\RenderTexture.cpp" />
+    <ClCompile Include="src\Engine\Core\UI\TextInput.cpp" />
+    <ClCompile Include="src\Engine\Core\UI\TextLog.cpp" />
+    <ClCompile Include="src\Engine\Core\UI\UI.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
@@ -322,6 +332,9 @@
     <ClCompile Include="src\Engine\Core\Utils\DebugHud.cpp" />
     <ClCompile Include="tests\Engine\Behaviours\TransformTest.cpp" />
     <ClCompile Include="tests\Engine\Utils\QuaternionTest.cpp" />
+    <ClCompile Include="src\Engine\Core\TextInput.cpp" />
+    <ClCompile Include="src\Engine\Core\textLog.cpp" />
+    <ClCompile Include="src\Engine\Core\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MGE.rc" />
