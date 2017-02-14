@@ -37,6 +37,7 @@ public:
     static Axis s_fire;
     static Axis s_horizontal;
     static Axis s_vertical;
+	static Axis s_jump;
 	static Axis s_quit;
 	static Axis s_interact;
 };

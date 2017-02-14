@@ -77,7 +77,7 @@ void Application::InitializeScene()
 
 	GameObject* ground = new GameObject("Ground");
 	ground->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(50, 0.5, 50));
-	ground->GetTransform()->Translate(glm::vec3(30, -50, -20));
+	ground->GetTransform()->Translate(glm::vec3(30, -2, -20));
 	ground->GetTransform()->SetLocalScale(glm::vec3(50, 0.5, 50));
 	ground->AddBehaviour<Rigidbody>()->SetMass(0);
 	MeshRenderer* ms = ground->AddBehaviour<MeshRenderer>();

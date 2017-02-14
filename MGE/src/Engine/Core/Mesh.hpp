@@ -29,6 +29,8 @@ public:
 	void SetUVs(std::vector<glm::vec2> uvs);
 	void SetTriangles(std::vector<GLuint> triangles);
 
+	const std::vector<glm::vec3>& GetVertices() const;
+
 	int GetVertexCount();
 	int GetTriangleCount();
 

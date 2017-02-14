@@ -7,6 +7,8 @@
 
 #include <Core\Time.hpp>
 
+#include <bullet\BulletCollision\CollisionDispatch\btGhostObject.h>
+
 #include <vector>
 
 void Physics::Initialize()
@@ -18,6 +20,9 @@ void Physics::Initialize()
 	//Collision test
 	m_broadphaseInterface = std::make_unique<btDbvtBroadphase>(); //AABB
 
+	//Ghost objects
+	m_broadphaseInterface->getOverlappingPairCache()->setInternalGhostPairCallback(new btGhostPairCallback());
+
 	//Constraint solver
 	m_constraintSolver = std::make_unique<btSequentialImpulseConstraintSolver>();
 
@@ -28,6 +33,11 @@ void Physics::Initialize()
 void Physics::SetGravity(glm::vec3 gravity)
 {
 	m_physicsWorld->setGravity(btVector3(gravity.x, gravity.y, gravity.z));
+}
+
+glm::vec3 Physics::GetGravity()
+{
+	return glm::vec3(m_physicsWorld->getGravity().getX(), m_physicsWorld->getGravity().getY(), m_physicsWorld->getGravity().getZ());
 }
 
 bool Physics::Raycast(const Ray & ray)
@@ -110,6 +120,26 @@ std::vector<RaycastHit> Physics::RaycastAll(const Ray & ray, float maxDistance)
 	}
 
 	return hitInfoVector;
+}
+
+void Physics::AddCollisionObject(btCollisionObject * bulletCollisionObject)
+{
+	m_physicsWorld->addCollisionObject(bulletCollisionObject, btBroadphaseProxy::AllFilter, btBroadphaseProxy::StaticFilter);
+}
+
+void Physics::RemoveCollisionObject(btCollisionObject * bulletCollisionObject)
+{
+	m_physicsWorld->removeCollisionObject(bulletCollisionObject);
+}
+
+void Physics::AddAction(btActionInterface * bulletAction)
+{
+	m_physicsWorld->addAction(bulletAction);
+}
+
+void Physics::RemoveAction(btActionInterface * bulletAction)
+{
+	m_physicsWorld->removeAction(bulletAction);
 }
 
 void Physics::StepSimulation()

@@ -82,6 +82,11 @@ void Mesh::SetTriangles(std::vector<size_t> triangles)
 	}
 }
 
+const std::vector<glm::vec3>& Mesh::GetVertices() const
+{
+	return m_vertices;
+}
+
 int Mesh::GetVertexCount()
 {
 	return m_vertices.size();

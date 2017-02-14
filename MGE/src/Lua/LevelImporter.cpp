@@ -15,6 +15,8 @@
 #include <Behaviours\SphereCollider.hpp>
 #include <Behaviours\BoxCollider.hpp>
 #include <Behaviours\CapsuleCollider.hpp>
+#include <Behaviours\ConvexMeshCollider.hpp>
+#include <Behaviours\ConcaveMeshCollider.hpp>
 #include <Behaviours\Rigidbody.hpp>
 
 #include <Game\Behaviours\NPC.hpp>
@@ -365,6 +367,100 @@ static int AddSphereCollider(GameObject* gameObject, lua_State* luaState)
 	return 0;
 }
 
+static int AddBoxCollider(GameObject* gameObject, lua_State* luaState)
+{
+	//Command Structure:
+	//1..3 - half extents
+
+	//Get extents
+	float halfExtentsValues[3];
+	for (int i = 1; i < 4; ++i)
+	{
+		halfExtentsValues[i - 1] = (float)luaL_checknumber(luaState, i);
+	}
+	const glm::vec3 halfExtents = glm::make_vec3(halfExtentsValues);
+
+	gameObject->AddBehaviour<BoxCollider>()->SetHalfExtents(halfExtents);
+
+	return 0;
+}
+
+static int AddCapsuleCollider(GameObject* gameObject, lua_State* luaState)
+{
+	//Command Structure:
+	//1 - radius
+	//2 - height
+
+	//Get radius
+	const float radius = (float)luaL_checknumber(luaState, 1);
+
+	//Get height
+	const float height = (float)luaL_checknumber(luaState, 2);
+
+	CapsuleCollider* capsuleCollider = gameObject->AddBehaviour<CapsuleCollider>();
+	capsuleCollider->SetRadius(radius);
+	capsuleCollider->SetHeight(height);
+
+	return 0;
+}
+
+static int AddMeshCollider(GameObject* gameObject, lua_State* luaState)
+{
+	//Command structure:
+	//1 - Is Convex?
+
+	//Retrieve whether the mesh collider is convex or not
+	const bool isConvex = (bool)lua_toboolean(luaState, 1);
+
+	if (isConvex == true)
+	{
+		gameObject->AddBehaviour<ConvexMeshCollider>();
+	}
+	else
+	{
+		gameObject->AddBehaviour<ConcaveMeshCollider>();
+	}
+
+	return 0;
+}
+
+static int AddRigidbody(GameObject* gameObject, lua_State* luaState)
+{
+	//Command Structure:
+	//1 - mass
+	//2 - is kinematic?
+	//3 - freeze x position
+	//4 - freeze y position
+	//5 - freeze z position
+	//6 - freeze x rotation
+	//7 - freeze y rotation
+	//8 - freeze z rotation
+
+	//Get mass
+	const float mass = (float)luaL_checknumber(luaState, 1);
+
+	//Get kinematic state
+	const bool isKinematic = (bool)lua_toboolean(luaState, 2);
+
+	//Get Freeze Position axes
+	const bool freezeXPos = (bool)lua_toboolean(luaState, 3);
+	const bool freezeYPos = (bool)lua_toboolean(luaState, 4);
+	const bool freezeZPos = (bool)lua_toboolean(luaState, 5);
+
+	//Get Freeze Rotation axes
+	const bool freezeXRot = (bool)lua_toboolean(luaState, 6);
+	const bool freezeYRot = (bool)lua_toboolean(luaState, 7);
+	const bool freezeZRot = (bool)lua_toboolean(luaState, 8);
+
+	Rigidbody* rigidbody = gameObject->AddBehaviour<Rigidbody>();
+	rigidbody->SetMass(mass);
+	rigidbody->SetKinematic(isKinematic);
+	rigidbody->FreezePosition(freezeXPos, freezeYPos, freezeZPos);
+	rigidbody->FreezeRotation(freezeXRot, freezeYRot, freezeZRot);
+
+	return 0;
+}
+
 using func = std::add_pointer_t<int(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
@@ -377,7 +473,11 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("npc", AddNPC),
 	std::make_pair("player", AddPlayer),
 	std::make_pair("audiosource", AddAudioSource),
-	std::make_pair("spherecollider", AddSphereCollider)
+	std::make_pair("spherecollider", AddSphereCollider),
+	std::make_pair("boxcollider", AddBoxCollider),
+	std::make_pair("capsulecollider", AddCapsuleCollider),
+	std::make_pair("meshcollider", AddMeshCollider),
+	std::make_pair("rigidbody", AddRigidbody)
 };
 
 static int AddBehaviour(lua_State* luaState)
