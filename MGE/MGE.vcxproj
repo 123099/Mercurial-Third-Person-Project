@@ -125,7 +125,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories);$(SolutionDir)externals\include;$(ProjectDir)src\Engine;$(ProjectDir)src\Engine\Core</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories);$(SolutionDir)externals\include;$(ProjectDir)src\Engine;$(ProjectDir)src\Engine\Core;$(SolutionDir)externals\include\bullet</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;SFML_STATIC;GLEW_STATIC;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <CompileAsManaged>false</CompileAsManaged>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -176,10 +176,13 @@
     <ClInclude Include="src\Engine\Core\Behaviours\AudioListener.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\AudioSource.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\CapsuleCollider.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\CharacterController.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Collider.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Lua\LuaScript.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\BoxCollider.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\ConvexMeshCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Rigidbody.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
@@ -251,9 +254,12 @@
     <ClCompile Include="src\Engine\Core\Behaviours\AudioSource.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\BoxCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\CapsuleCollider.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\CharacterController.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Collider.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaEnvironment.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaScript.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\ConvexMeshCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Rigidbody.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />

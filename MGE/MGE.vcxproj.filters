@@ -324,6 +324,15 @@
     <ClInclude Include="src\Engine\Core\Behaviours\CapsuleCollider.hpp">
       <Filter>Header Files\Engine\Core\Behaviours</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\CharacterController.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\ConvexMeshCollider.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -531,10 +540,19 @@
       <Filter>Source Files\Engine\Core\Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Behaviours\BoxCollider.cpp">
-      <Filter>Source Files\Behaviours</Filter>
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Behaviours\CapsuleCollider.cpp">
-      <Filter>Source Files\Behaviours</Filter>
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\CharacterController.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\ConvexMeshCollider.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

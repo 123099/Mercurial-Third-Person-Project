@@ -1,4 +1,5 @@
 #include <Utils\Quaternion.hpp>
+#include <bullet\LinearMath\btMatrix3x3.h>
 
 Quaternion Quaternion::Mat4(glm::mat4 mat4)
 {
@@ -15,7 +16,14 @@ Quaternion Quaternion::EulerAngles(float x, float y, float z)
 	return glm::quat(glm::vec3(glm::radians(x), glm::radians(y), glm::radians(z)));
 }
 
-Quaternion::Quaternion(const btQuaternion & quat) : Quaternion(quat.getX(), quat.getY(), quat.getZ(), quat.getW()) {}
+Quaternion::Quaternion(const btQuaternion & quat) 
+{
+	btMatrix3x3 matrix;
+	matrix.setRotation(quat);
+	float yaw, pitch, roll;
+	matrix.getEulerYPR(yaw, pitch, roll);
+	m_quaternion = EulerAngles(glm::vec3(pitch, yaw, roll));
+}
 
 Quaternion::Quaternion(const glm::quat & quat) : m_quaternion(quat), euler(GetEulerAngles()) {}
 
@@ -77,5 +85,7 @@ Quaternion::operator glm::quat()
 
 Quaternion::operator btQuaternion()
 {
-	return btQuaternion(GetX(), GetY(), GetZ(), GetW());
+//	return btQuaternion(GetX(), GetY(), GetZ(), GetW());
+	const glm::vec3 euler = GetEulerAngles();
+	return btQuaternion(euler.y, euler.x, euler.z);
 }

@@ -6,6 +6,8 @@ class Ray final
 public:
 	Ray(const glm::vec3& origin, const glm::vec3& direction);
 
+	void ChangeOrigin(float distanceAlongRayToNewOrigin);
+
 	glm::vec3 GetOrigin() const;
 	glm::vec3 GetDirection() const;
 

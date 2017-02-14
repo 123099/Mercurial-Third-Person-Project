@@ -4,6 +4,11 @@ Ray::Ray(const glm::vec3 & origin, const glm::vec3 & direction) :
 	m_origin(origin),
 	m_direction(glm::normalize(direction)) {}
 
+void Ray::ChangeOrigin(float distanceAlongRayToNewOrigin)
+{
+	m_origin = GetPoint(distanceAlongRayToNewOrigin);
+}
+
 glm::vec3 Ray::GetOrigin() const
 {
 	return m_origin;

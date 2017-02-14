@@ -3,13 +3,12 @@
 #include <Behaviours\BehaviourAttributes.hpp>
 #include <LuaAPI\lua.hpp>
 
-#include <Behaviours\Rigidbody.hpp>
-#include <Behaviours\CapsuleCollider.hpp>
+#include <Behaviours\CharacterController.hpp>
 
 class Transform;
 class Camera;
 
-class Player final : public AbstractBehaviour//, public RequireBehaviours<CapsuleCollider, Rigidbody>
+class Player final : public AbstractBehaviour, public RequireBehaviours<CharacterController>
 {
 public:
 	void Awake() override final;
@@ -22,6 +21,7 @@ public:
 private:
 	Camera* m_camera;
 	Transform* m_carriedObject;
+	CharacterController* m_characterController;
 
 	void Move();
 	void Look();

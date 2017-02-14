@@ -17,12 +17,20 @@ friend Rigidbody;
 
 public:
 	void Initialize();
+
 	void SetGravity(glm::vec3 gravity);
+	glm::vec3 GetGravity();
 
 	bool Raycast(const Ray& ray);
 	bool Raycast(const Ray& ray, float maxDistance);
 	bool Raycast(const Ray& ray, RaycastHit& hitInfo, float maxDistance);
 	std::vector<RaycastHit> RaycastAll(const Ray& ray, float maxDistance);
+
+	void AddCollisionObject(btCollisionObject* bulletCollisionObject);
+	void RemoveCollisionObject(btCollisionObject* bulletCollisionObject);
+
+	void AddAction(btActionInterface* bulletAction);
+	void RemoveAction(btActionInterface* bulletAction);
 
 	void StepSimulation();
 private:

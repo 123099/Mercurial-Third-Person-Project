@@ -142,6 +142,9 @@ void AbstractGame::Run()
 	//Create an accumulator to determine how many times the fixed update should run to catch up with the FPS
 	float accumulator = 0;
 
+	//Initialize all behaviours created until now
+	SceneManager::Instance().GetActiveScene()->ProcessUninitializedObjects();
+
 	while (m_window->isOpen())
 	{
 		//Update the game time
