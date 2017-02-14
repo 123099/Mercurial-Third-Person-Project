@@ -2,6 +2,10 @@
 #include <Time.hpp>
 #include <string>
 
+#include <Core\GameObject.hpp>
+#include <Behaviours\AudioSource.hpp>
+#include <Audio\AudioClip.hpp>
+
 #pragma region Public members
 
 void LuaUtils::CheckParameterCount(lua_State* l_luaState, int expectedCount)
@@ -50,6 +54,7 @@ static const luaL_Reg functions[]
 {
 	{"startcoroutine", lua_asmethod<LuaUtils, &LuaUtils::AddCoroutine>},
 	{"getgametime", lua_asmethod<LuaUtils, &LuaUtils::GetGameTime>},
+	{"playsound", lua_asmethod<LuaUtils, &LuaUtils::PlayAudioSource>},
 	{nullptr, nullptr}
 };
 
@@ -97,5 +102,37 @@ int LuaUtils::GetGameTime(lua_State * l_luaState)
 	lua_pushnumber(l_luaState, Time::s_gameTime);
 
 	return 1;
+}
+
+int LuaUtils::PlayAudioSource(lua_State * l_luaState)
+{
+	//Get the sound file name
+	const std::string fileName = luaL_checkstring(l_luaState, 1);
+
+	//Get the location at which to play the sound
+	const float x = (float)luaL_checknumber(l_luaState, 2);
+	const float y = (float)luaL_checknumber(l_luaState, 3);
+	const float z = (float)luaL_checknumber(l_luaState, 4);
+
+	//Get whether to loop the sound or not
+	const bool loop = (bool)lua_toboolean(l_luaState, 5);
+
+	//Get the volume
+	const float volume = (float)luaL_checknumber(l_luaState, 6);
+
+	GameObject* gameObject = new GameObject("Sound");
+	gameObject->GetTransform()->SetWorldPosition(glm::vec3(x, y, z));
+
+	AudioClip* audioClip = AudioClip::Load(fileName, false, true);
+	AudioSource* audioSource = gameObject->AddBehaviour<AudioSource>();
+	
+	audioSource->SetAudioClip(audioClip);
+	audioSource->SetLooping(loop);
+	audioSource->SetVolume(volume);
+	audioSource->SetDestroyOnEnd(true);
+
+	audioSource->Play();
+
+	return 0;
 }
 #pragma endregion

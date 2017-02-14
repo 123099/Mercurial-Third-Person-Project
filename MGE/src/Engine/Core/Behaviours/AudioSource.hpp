@@ -18,6 +18,7 @@ public:
 	void SetAudioClip(AudioClip* audioClip);
 
 	void SetPlayOnAwake(bool playOnAwake);
+	void SetDestroyOnEnd(bool destroyOnEnd);
 
 	void SetSpatialBlend(Type spatialBlendType);
 
@@ -40,6 +41,10 @@ private:
 	AudioClip* m_clip;
 
 	bool m_playOnAwake;
+	bool m_destroyOnEnd;
+	
+	bool m_hasPlayedOnce;
+
 	bool m_loop;
 
 	float m_attenuation;
