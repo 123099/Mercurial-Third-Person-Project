@@ -66,6 +66,7 @@ int hudTris;
 #include <Behaviours\BoxCollider.hpp>
 #include <Behaviours\CapsuleCollider.hpp>
 #include <Behaviours\Rigidbody.hpp>
+#include <Behaviours\PlayerInput.hpp>
 void Application::InitializeScene()
 {
 	InitSceneLighting();
@@ -83,6 +84,9 @@ void Application::InitializeScene()
 	MeshRenderer* ms = ground->AddBehaviour<MeshRenderer>();
 	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
 	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
+
+	GameObject* log = new GameObject("Log");
+	log->AddBehaviour<PlayerInput>();
 }
 
 void Application::Render() 
