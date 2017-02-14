@@ -287,12 +287,23 @@ static int AddNPC(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - NPC ID
+	//2 - Is interactble
+	//3 - Run every frame?
 
 	//Retrieve ID
-	int ID = (int)luaL_checkinteger(luaState, 1);
+	const int ID = (int)luaL_checkinteger(luaState, 1);
+
+	//Retrieve whether interactble
+	const bool isInteractble = (bool)lua_toboolean(luaState, 2);
+
+	//Retrieve whether to run every frame
+	const bool runEveryFrame = (bool)lua_toboolean(luaState, 3);
 
 	//Add NPC to object
-	gameObject->AddBehaviour<NPC>()->SetID(ID);
+	NPC* npc = gameObject->AddBehaviour<NPC>();
+	npc->SetID(ID);
+	npc->SetInteractble(isInteractble);
+	npc->SetRunEveryFrame(runEveryFrame);
 
 	return 0;
 }

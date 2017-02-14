@@ -10,7 +10,7 @@
 class Texture : public ICacheable
 {
 public:
-	static Texture* Load(const std::string& name);
+	static Texture* Load(const std::string& name, bool useFullPath = true);
 
 	GLuint GetID();
 

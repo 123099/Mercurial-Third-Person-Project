@@ -52,7 +52,7 @@ public:
 	static const luaL_Reg* GetFunctionList();
 	int AddCoroutine(lua_State* l_luaState);
 	int GetGameTime(lua_State* l_luaState);
-
+	int PlayAudioSource(lua_State* l_luaState);
 
 private:
 	std::vector<lua_State*> m_coroutines;

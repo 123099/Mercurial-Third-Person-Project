@@ -1,5 +1,6 @@
 #include <Textures\Texture.hpp>
 #include <SFML/Graphics.hpp>
+#include <Core\config.hpp>
 #include <iostream>
 #include <string>
 
@@ -36,14 +37,14 @@ void Texture::Unbind(GLuint textureUnit)
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-Texture* Texture::Load(const std::string& name)
+Texture* Texture::Load(const std::string& name, bool useFullPath)
 {
 	Texture* texture = nullptr;
 
 	//Check if the texture is cached
    	if (s_textureCache.HasValue(name) == false) 
 	{
-        texture = LoadFromFile(name);
+        texture = LoadFromFile(useFullPath ? name : config::MGE_TEXTURES_PATH + name);
 		if (texture != nullptr)
 		{
 			std::cout << "Texture " << name << " with ID " << texture->GetID() << " loaded." << '\n';
@@ -51,8 +52,8 @@ Texture* Texture::Load(const std::string& name)
 			s_textureCache.AddValue(texture);
 		}
     } 
-
-	return s_textureCache.GetValue(name);
+	
+	return s_textureCache.GetValue(useFullPath ? name : config::MGE_TEXTURES_PATH + name);
 }
 
 Texture* Texture::LoadFromFile(const std::string& name)
