@@ -8,7 +8,8 @@ void PlayerInput::Awake()
 }
 
 void PlayerInput::Update()
-{/*
+{
+	/*
 	if (Input::IsKeyPressed(sf::Keyboard::A))
 	{
 		m_textLog->setLogInfo("A");
