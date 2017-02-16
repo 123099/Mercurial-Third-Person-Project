@@ -82,7 +82,7 @@ vec4 calculateSpecular(int lightIndex, vec4 normalizedLightVector, vec4 normal)
 	//Make sure shininess is positive, otherwise the pow behaviour is undefined.
 	const float shininess = materialShininess <= 0 ? 1.0 : materialShininess;
 	
-	return pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular * materialSpecular * texture(specularMap, frag_uv);
+	return pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular * materialSpecular * texture(specularMap, frag_uv).a;
 }
 
 float calculateAttenuation(int lightIndex)
@@ -156,7 +156,7 @@ vec4 calculateLight(int index, vec4 normal)
 	vec3 ambientAndDiffuse = ambient.xyz + diffuse.xyz;
 	
 	//Decide whether to apply a diffuse texture or not
-	const vec4 diffuseTextureColor = texture(diffuseTexture, frag_uv);
+	const vec4 diffuseTextureColor = pow(texture(diffuseTexture, frag_uv), gamma);
 	if(diffuseTextureColor != vec4(0.0))
 	{
 		ambientAndDiffuse *= diffuseTextureColor.xyz;
@@ -171,7 +171,7 @@ vec4 calculateReflection(vec4 currentColor)
 	const vec3 direction = vec3(transpose(viewMatrix) * vec4(reflect(vertex_cameraSpace, normal_cameraSpace).xyz, 0));
 	
 	//Calculate reflection of the environment map
-	return vec4(mix(currentColor, texture(environmentMap, direction), 0.4).xyz, currentColor.a);
+	return vec4(mix(currentColor, pow(texture(environmentMap, direction), gamma), 0.4).xyz, currentColor.a);
 }
 
 vec4 calculateFog(vec4 currentColor)
@@ -215,9 +215,6 @@ void main ( void )
 	
 	//Apply fog
 	fragColor = calculateFog(fragColor);
-	
-	//Apply gamma adjustments to coincide with the monitor being darker than it actually is
-	fragColor = pow(fragColor, gamma);
 }
 
 

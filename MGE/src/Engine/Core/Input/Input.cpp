@@ -15,6 +15,11 @@ glm::vec2 Input::GetMouseMovement()
 	return InputManager::GetMouseMovement();
 }
 
+char Input::GetCharacterTyped()
+{
+	return InputManager::GetCharacterTyped();
+}
+
 bool Input::IsAnyKeyHeld()
 {
     return InputManager::IsAnyKeyHeld();

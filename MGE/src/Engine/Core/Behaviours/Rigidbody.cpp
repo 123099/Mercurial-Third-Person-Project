@@ -27,14 +27,11 @@ void Rigidbody::Awake()
 	btVector3 inertia;
 	collisionShape->calculateLocalInertia(m_mass, inertia);
 
-	//Create the Rigid body
+	//Create the Rigidbody
 	const btRigidBody::btRigidBodyConstructionInfo rigidbodyInfo(m_mass, m_rigidbodyMotion.get(), collisionShape, inertia);
 	m_rigidbody = std::make_unique<btRigidBody>(rigidbodyInfo);
 
-	if (m_isKinematic == true)
-	{
-		m_rigidbody->setCollisionFlags(btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT);
-	}
+	SetKinematic(m_isKinematic);
 
 	FreezePosition(m_freezePositionX, m_freezePositionY, m_freezePositionZ);
 	FreezeRotation(m_freezeRotationX, m_freezeRotationY, m_freezeRotationZ);
@@ -63,6 +60,7 @@ void Rigidbody::Update()
 		rbTransform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
 		rbTransform.setRotation(m_gameObject->GetTransform()->GetWorldRotation());
 		m_rigidbody->proceedToTransform(rbTransform);
+		m_rigidbodyMotion->setWorldTransform(rbTransform);
 	}
 }
 
@@ -91,7 +89,7 @@ void Rigidbody::SetKinematic(bool kinematic)
 
 	if (m_rigidbody != nullptr)
 	{
-		m_rigidbody->setCollisionFlags(kinematic ? btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT : 0);
+		m_rigidbody->setCollisionFlags(kinematic ? btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT : btRigidBody::CollisionFlags::CF_STATIC_OBJECT);
 	}
 }
 
@@ -134,6 +132,11 @@ void Rigidbody::FreezeRotation(bool xAxis, bool yAxis, bool zAxis)
 	{
 		m_rigidbody->setAngularFactor(btVector3(float(!xAxis), float(!yAxis), float(!zAxis)));
 	}
+}
+
+void Rigidbody::Translate(const glm::vec3 & translation)
+{
+	m_rigidbody->translate(btVector3(translation.x, translation.y, translation.z));
 }
 
 void Rigidbody::SetRotation(Quaternion & rotation)

@@ -49,6 +49,11 @@ AudioClip * AudioClip::Load(const std::string & fileName, bool stream, bool cach
 	}
 }
 
+AudioClip::~AudioClip()
+{
+	Stop();
+}
+
 AudioClip::AudioClip(const std::string& name, bool stream) : m_stream(stream)
 {
 	m_name = name;

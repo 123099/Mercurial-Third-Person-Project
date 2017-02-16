@@ -7,6 +7,8 @@ int InputManager::s_mouseWheelDelta = 0;
 glm::vec2 InputManager::s_mousePosition;
 glm::vec2 InputManager::s_mouseDelta;
 
+char InputManager::s_textInputCharacter = '\0';
+
 bool InputManager::s_anyKey = false;
 bool InputManager::s_anyKeyUp = false;
 
@@ -32,6 +34,7 @@ void InputManager::Reset(bool l_fullReset)
 	resetArray(s_mouseButtonsReleased, sizeof s_mouseButtonsReleased);
 
     this->s_anyKeyUp = false;
+	this->s_textInputCharacter = '\0';
 
 	if (l_fullReset)
 	{
@@ -40,20 +43,6 @@ void InputManager::Reset(bool l_fullReset)
 
 		this->s_anyKey = false;
 	}
-}
-
-void InputManager::ResetMouse(const sf::RenderWindow & window)
-{
-	/*
-	//Skip first frame
-	if (Time::s_frameCount == 0)
-	{
-		this->s_previousMousePosition = convertSFtoGLM(window, sf::Mouse::getPosition(window));
-		return;
-	}
-
-	this->s_previousMousePosition = this->s_mousePosition;
-	this->s_mousePosition = convertSFtoGLM(window, sf::Mouse::getPosition(window));*/
 }
 
 void InputManager::Update(const sf::RenderWindow& window, const sf::Event & event)
@@ -84,6 +73,22 @@ void InputManager::Update(const sf::RenderWindow& window, const sf::Event & even
 				this->s_anyKeyUp = true;
 				//Mark any key held as false
 				this->s_anyKey = false;
+			}
+		}
+	}
+	else if (event.type == sf::Event::TextEntered)
+	{
+		//Make sure input is within the ASCII range and is not backspace
+		if (event.text.unicode < 128 && event.text.unicode != 8)
+		{
+			//Convert carriage return (\r) into a new line (\n)
+			if (event.text.unicode == 13)
+			{
+				s_textInputCharacter = '\n';
+			}
+			else
+			{
+				s_textInputCharacter = static_cast<char>(event.text.unicode);
 			}
 		}
 	}
@@ -165,6 +170,11 @@ glm::vec2 InputManager::GetMousePosition()
 glm::vec2 InputManager::GetMouseMovement()
 {
 	return s_mouseDelta;
+}
+
+char InputManager::GetCharacterTyped()
+{
+	return s_textInputCharacter;
 }
 
 bool InputManager::IsAnyKeyHeld()
