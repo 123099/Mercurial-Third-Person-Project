@@ -11,6 +11,8 @@ class AudioClip final : public ICacheable
 public:
 	static AudioClip* Load(const std::string& fileName, bool stream, bool cache);
 
+	~AudioClip();
+
 	void Play();
 	void Pause();
 	void Stop();

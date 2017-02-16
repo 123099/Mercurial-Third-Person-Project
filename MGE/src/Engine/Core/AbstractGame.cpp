@@ -142,9 +142,6 @@ void AbstractGame::Run()
 	//Create an accumulator to determine how many times the fixed update should run to catch up with the FPS
 	float accumulator = 0;
 
-	//Initialize all behaviours created until now
-	SceneManager::Instance().GetActiveScene()->ProcessUninitializedObjects();
-
 	while (m_window->isOpen())
 	{
 		//Update the game time
@@ -154,8 +151,6 @@ void AbstractGame::Run()
 		//Process Events
 		ProcessEvents();
 		Profiler::EndSample();
-
-		if (m_window->isOpen() == false) break;
 
 		//Fixed Update
 		Profiler::BeginSample("FixedUpdate");
@@ -169,8 +164,6 @@ void AbstractGame::Run()
 		//Update 
 		Update();		
 		Profiler::EndSample();
-
-		if (m_window->isOpen() == false) break;
 
 		//Render
 		PreRender();
@@ -189,30 +182,26 @@ void AbstractGame::Run()
 		//Update the frame rate
 		Time::s_frameRate = 1.0f / Time::s_deltaTime;
 
-		//Update the cursor
-		if (m_window->hasFocus() == true)
-		{
-			Cursor::Instance().Update();
-		}
-
-		//Reset the mouse values of the input manager
-		//m_inputManager->ResetMouse(*m_window);
-
 		//Update frame count
 		++Time::s_frameCount;
+
+		PostFrame();
 
 		//Display Hierarchy
 		if (Input::IsKeyPressed(sf::Keyboard::H))
 		{
-			const auto hierarchy = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
-			for (auto o : hierarchy)
+			Scene* activeScene = SceneManager::Instance().GetActiveScene();
+			std::cout << "Scene: " << activeScene->GetName() << ", Root objects: " << activeScene->GetRootCount() << '\n';
+			
+			const auto& hierarchy = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
+			for (const auto& o : hierarchy)
 			{
 				std::cout << o->GetName() << '\n';
 				std::cout << o->GetTransform()->GetLocalPosition() << '\n';
 				std::cout << o->GetTransform()->GetLocalRotation().GetEulerAngles() << '\n';
 				std::cout << o->GetTransform()->GetLocalScale() << '\n';
-				auto children = o->GetTransform()->GetAllChildrenRecursively();
-				for (auto c : children)
+				const auto& children = o->GetTransform()->GetAllChildrenRecursively();
+				for (const auto& c : children)
 				{
 					std::cout << '\t' << c->GetGameObject()->GetName() << '\n';
 					std::cout << '\t' << c->GetLocalPosition() << '\n';
@@ -226,10 +215,14 @@ void AbstractGame::Run()
 
 void AbstractGame::Quit()
 {
-	m_window->close();
+	m_shouldQuit = true;
 }
 
-void AbstractGame::PostInitializeScene() {}
+void AbstractGame::PostInitializeScene() 
+{
+	//Initialize all behaviours created during scene initialization
+	SceneManager::Instance().GetActiveScene()->ProcessUninitializedObjects();
+}
 
 void AbstractGame::ProcessEvents()
 {
@@ -323,14 +316,31 @@ void AbstractGame::PreRender()
 
 void AbstractGame::Render() 
 {
-	const Scene* activeScene = SceneManager::Instance().GetActiveScene();
-	if(activeScene != nullptr)
-		Renderer::Instance().Render(*activeScene);
+	Renderer::Instance().Render();
 }
 
 void AbstractGame::PostRender() 
 {
 	//Swap the buffers
 	m_window->display();
+}
+
+void AbstractGame::PostFrame()
+{
+
+	//Update the cursor
+	if (m_window->hasFocus() == true)
+	{
+		Cursor::Instance().Update();
+	}
+
+	//Process objects marked for destruction
+	SceneManager::Instance().GetActiveScene()->ProcessObjectsToBeDestroyed();
+
+	//Check whether the game should quit
+	if (m_shouldQuit == true)
+	{
+		m_window->close();
+	}
 }
 

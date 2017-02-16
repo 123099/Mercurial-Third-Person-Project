@@ -3,6 +3,8 @@
 #include <string>
 
 #include <Core\GameObject.hpp>
+#include <Managers\SceneManager.hpp>
+#include <Core\Scene.hpp>
 #include <Behaviours\AudioSource.hpp>
 #include <Audio\AudioClip.hpp>
 
@@ -120,7 +122,7 @@ int LuaUtils::PlayAudioSource(lua_State * l_luaState)
 	//Get the volume
 	const float volume = (float)luaL_checknumber(l_luaState, 6);
 
-	GameObject* gameObject = new GameObject("Sound");
+	GameObject* gameObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("Sound");
 	gameObject->GetTransform()->SetWorldPosition(glm::vec3(x, y, z));
 
 	AudioClip* audioClip = AudioClip::Load(fileName, false, true);

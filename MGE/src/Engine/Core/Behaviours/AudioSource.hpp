@@ -14,6 +14,7 @@ public:
 	};
 
 	AudioSource();
+	~AudioSource();
 
 	void SetAudioClip(AudioClip* audioClip);
 

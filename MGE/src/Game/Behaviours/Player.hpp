@@ -23,7 +23,11 @@ private:
 	Transform* m_carriedObject;
 	CharacterController* m_characterController;
 
+	glm::vec2 m_accumulatedCameraRotation;
+
 	void Move();
 	void Look();
 	void Interact();
+
+	void DropCarriedObject();
 };

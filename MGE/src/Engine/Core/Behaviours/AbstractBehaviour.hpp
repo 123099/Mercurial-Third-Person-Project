@@ -1,6 +1,4 @@
 #pragma once
-#ifndef ABSTRACTBEHAVIOUR_H
-#define ABSTRACTBEHAVIOUR_H
 
 class GameObject;
 
@@ -31,5 +29,3 @@ private:
     AbstractBehaviour(const AbstractBehaviour&) = delete;
     AbstractBehaviour& operator=(const AbstractBehaviour&) = delete;
 };
-
-#endif // ABSTRACTBEHAVIOUR_H

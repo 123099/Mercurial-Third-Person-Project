@@ -24,7 +24,7 @@ public:
 	void SetWalkDirection(glm::vec3 direction);
 	void SetAngularVelocity(glm::vec3 velocity);
 
-	void Jump();
+	void Jump(float jumpSpeed);
 private:
 	std::unique_ptr<btKinematicCharacterController> m_characterController;
 	std::unique_ptr<btCapsuleShape> m_capsuleCollider;
