@@ -9,6 +9,9 @@ void PlayerInput::Awake()
 
 void PlayerInput::Update()
 {
+	char lastCharacter = Input::GetCharacterTyped();
+	if (lastCharacter != '\0')
+		m_textLog->AddToLog(std::string(1, lastCharacter));
 	/*
 	if (Input::IsKeyPressed(sf::Keyboard::A))
 	{

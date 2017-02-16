@@ -8,6 +8,7 @@ public:
 	void createLog();
 	void setLogInfo(std::string logInfo);
 	void Draw() override;
+	void AddToLog(std::string message);
 	
 
 private:

@@ -24,4 +24,9 @@ void TextLog::Draw()
 	window->draw(logText);
 }
 
+void TextLog::AddToLog(std::string message)
+{
+	logText.setString(logText.getString() + message);
+}
+
 
