@@ -6,5 +6,5 @@ in vec2 texCoord;
 out vec4 fragment_color;
 
 void main( void ) {
-	fragment_color = texture(textureDiffuse,texCoord);
+	fragment_color = pow(texture(textureDiffuse,texCoord), vec4(1.0/2.2));
 }

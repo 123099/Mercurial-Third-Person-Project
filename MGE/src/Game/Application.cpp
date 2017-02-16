@@ -67,16 +67,17 @@ int hudTris;
 #include <Behaviours\CapsuleCollider.hpp>
 #include <Behaviours\Rigidbody.hpp>
 #include <Behaviours\PlayerInput.hpp>
+
 void Application::InitializeScene()
 {
 	InitSceneLighting();
 
-	GameObject* quitter = new GameObject("Quit");
+	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
 
 	Physics::Instance().SetGravity(glm::vec3(0, -10, 0));
 
-	GameObject* ground = new GameObject("Ground");
+	GameObject* ground = SceneManager::Instance().GetActiveScene()->CreateGameObject("Ground");
 	ground->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(50, 0.5, 50));
 	ground->GetTransform()->Translate(glm::vec3(30, -2, -20));
 	ground->GetTransform()->SetLocalScale(glm::vec3(50, 0.5, 50));
@@ -84,9 +85,6 @@ void Application::InitializeScene()
 	MeshRenderer* ms = ground->AddBehaviour<MeshRenderer>();
 	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
 	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
-
-	GameObject* log = new GameObject("Log");
-	log->AddBehaviour<PlayerInput>();
 }
 
 void Application::Render() 
@@ -98,12 +96,11 @@ void Application::Render()
 void Application::InitSceneLighting()
 {
 	Scene* scene = SceneManager::Instance().CreateScene("Main Scene");
-	//SceneManager::Instance().SetActiveScene(scene);
 
 	CubeMap* cubeMap = new CubeMap();
 	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/SunSet/", ".png");
 
-	GameObject* skyboxObject = new GameObject("SkyBox");
+	GameObject* skyboxObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("SkyBox");
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
 	skybox->SetSkyboxCubeMap(cubeMap);
 	skybox->SetExposure(5);
