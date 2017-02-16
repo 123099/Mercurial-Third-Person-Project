@@ -85,7 +85,6 @@ Quaternion::operator glm::quat()
 
 Quaternion::operator btQuaternion()
 {
-//	return btQuaternion(GetX(), GetY(), GetZ(), GetW());
 	const glm::vec3 euler = GetEulerAngles();
-	return btQuaternion(euler.y, euler.x, euler.z);
+	return btQuaternion(glm::radians(euler.y), glm::radians(euler.x), glm::radians(euler.z));
 }

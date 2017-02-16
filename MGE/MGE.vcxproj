@@ -190,7 +190,6 @@
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp" />
     <ClInclude Include="src\Engine\Core\Textures\RenderTexture.hpp" />
-    <ClInclude Include="src\Engine\Core\UI\TextInput.h" />
     <ClInclude Include="src\Engine\Core\UI\TextLog.hpp" />
     <ClInclude Include="src\Engine\Core\UI\UI.h" />
     <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp" />
@@ -200,7 +199,6 @@
     <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp" />
     <ClInclude Include="src\Game\Behaviours\NPC.hpp" />
     <ClInclude Include="src\Game\Behaviours\Player.hpp" />
-    <ClInclude Include="src\Game\LuaGame.hpp" />
     <ClInclude Include="src\Lua\Closure.hpp" />
     <ClInclude Include="src\Lua\Environment.hpp" />
     <ClInclude Include="src\Lua\LuaUtils.hpp" />
@@ -251,8 +249,6 @@
     <ClInclude Include="src\Engine\Core\Material.hpp" />
     <ClInclude Include="src\Game\Application.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\DebugHud.hpp" />
-    <ClInclude Include="src\Engine\Core\TextInput.h" />
-    <ClInclude Include="src\Engine\Core\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Core\Audio\AudioClip.cpp" />
@@ -273,7 +269,6 @@
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp" />
     <ClCompile Include="src\Engine\Core\Textures\RenderTexture.cpp" />
-    <ClCompile Include="src\Engine\Core\UI\TextInput.cpp" />
     <ClCompile Include="src\Engine\Core\UI\TextLog.cpp" />
     <ClCompile Include="src\Engine\Core\UI\UI.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp" />
@@ -281,7 +276,6 @@
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
     <ClCompile Include="src\Game\Behaviours\NPC.cpp" />
     <ClCompile Include="src\Game\Behaviours\Player.cpp" />
-    <ClCompile Include="src\Game\LuaGame.cpp" />
     <ClCompile Include="src\Lua\Closure.cpp" />
     <ClCompile Include="src\Lua\Environment.cpp" />
     <ClCompile Include="src\Lua\LuaUtils.cpp" />
@@ -332,9 +326,6 @@
     <ClCompile Include="src\Engine\Core\Utils\DebugHud.cpp" />
     <ClCompile Include="tests\Engine\Behaviours\TransformTest.cpp" />
     <ClCompile Include="tests\Engine\Utils\QuaternionTest.cpp" />
-    <ClCompile Include="src\Engine\Core\TextInput.cpp" />
-    <ClCompile Include="src\Engine\Core\textLog.cpp" />
-    <ClCompile Include="src\Engine\Core\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MGE.rc" />

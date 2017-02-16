@@ -94,10 +94,10 @@ void CharacterController::SetAngularVelocity(glm::vec3 velocity)
 	m_angularVelocity = velocity;
 }
 
-void CharacterController::Jump()
+void CharacterController::Jump(float jumpSpeed)
 {
 	if (m_characterController->canJump())
 	{
-		m_characterController->jump(btVector3(0, 5, 0));
+		m_characterController->jump(btVector3(0, jumpSpeed, 0));
 	}
 }

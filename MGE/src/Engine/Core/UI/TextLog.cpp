@@ -3,7 +3,7 @@
 
 void TextLog::createLog()
 {
-	gameFont.loadFromFile(config::MGE_FONTS_PATH + "couree.fon");
+	gameFont.loadFromFile(config::MGE_FONTS_PATH + "arial.ttf");
 
 	logText.setString("");
 	logText.setFont(gameFont);

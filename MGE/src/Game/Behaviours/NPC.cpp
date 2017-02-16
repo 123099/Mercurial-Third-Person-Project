@@ -1,28 +1,14 @@
 #include <Game\Behaviours\NPC.hpp>
 #include <Core\GameObject.hpp>
 #include <Behaviours\Transform.hpp>
-#include <Game\Behaviours\Player.hpp>
 #include <Behaviours\Lua\LuaEnvironment.hpp>
 #include <Behaviours\MeshRenderer.hpp>
+#include <Game\Behaviours\Player.hpp>
 #include <Textures\Texture.hpp>
-#include <Input\Input.hpp>
+#include <Managers\SceneManager.hpp>
+#include <Core\Scene.hpp>
 #include <Utils\glm.hpp>
 #include <string>
-
-void NPC::SetID(int ID)
-{
-	m_ID = ID;
-}
-
-void NPC::SetInteractble(bool interactble)
-{
-	m_isInteractble = interactble;
-}
-
-void NPC::SetRunEveryFrame(bool runEveryFrame)
-{
-	m_runEveryFrame = runEveryFrame;
-}
 
 void NPC::Awake()
 {
@@ -41,6 +27,21 @@ void NPC::Update()
 	}
 }
 
+void NPC::SetID(int ID)
+{
+	m_ID = ID;
+}
+
+void NPC::SetInteractble(bool interactble)
+{
+	m_isInteractble = interactble;
+}
+
+void NPC::SetRunEveryFrame(bool runEveryFrame)
+{
+	m_runEveryFrame = runEveryFrame;
+}
+
 void NPC::StartInteraction()
 {
 	m_script->Execute();
@@ -56,7 +57,7 @@ int NPC::GetTransform(lua_State * luaState)
 
 int NPC::DestroySelf(lua_State * luaState)
 {
-	GameObject::Destroy(m_gameObject);
+	SceneManager::Instance().GetActiveScene()->DestroyGameObject(m_gameObject);
 
 	return 0;
 }
@@ -111,6 +112,20 @@ int NPC::SwapTexture(lua_State * luaState)
 	return 0;
 }
 
+int NPC::DistanceTo(lua_State * luaState)
+{
+	//Retrieve the player
+	Player* player = (Player*)lua_checkType<Player>(luaState, 1);
+
+	//Get distance to player
+	float distance = glm::distance(m_gameObject->GetTransform()->GetWorldPosition(), player->GetGameObject()->GetTransform()->GetWorldPosition());
+
+	//Push distance to lua
+	lua_pushnumber(luaState, distance);
+
+	return 1;
+}
+
 static const luaL_Reg functions[]
 {
 	{"gettransform", lua_asmethod<NPC, &NPC::GetTransform>},
@@ -119,6 +134,7 @@ static const luaL_Reg functions[]
 	{"setenabled", lua_asmethod<NPC, &NPC::SetEnabled>},
 	{"isenabled", lua_asmethod<NPC, &NPC::IsEnabled>},
 	{"swaptexture", lua_asmethod<NPC, &NPC::SwapTexture>},
+	{"distanceto", lua_asmethod<NPC, &NPC::DistanceTo>},
 	{NULL, NULL}
 };
 

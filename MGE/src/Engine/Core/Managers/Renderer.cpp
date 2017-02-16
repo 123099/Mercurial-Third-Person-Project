@@ -36,7 +36,7 @@ glm::mat4 Renderer::GetProjectionMatrix() const
 	return Camera::GetMainCamera()->GetProjectionMatrix();
 }
 
-void Renderer::Render (const Scene& scene)
+void Renderer::Render ()
 {
 	//Get the matrices common to all game objects for this frame
 	const glm::mat4 viewMatrix = GetViewMatrix();
@@ -48,10 +48,7 @@ void Renderer::Render (const Scene& scene)
 	const size_t renderablesCount = m_renderables.size();
 	for (size_t i = 0; i < renderablesCount; ++i)
 	{
-		if (m_renderables[i]->GetGameObject()->GetScene() == &scene)
-		{
-			m_renderables[i]->Render(viewMatrix, projectionMatrix, viewProjectionMatrix);
-		}
+		m_renderables[i]->Render(viewMatrix, projectionMatrix, viewProjectionMatrix);
 	}
 }
 

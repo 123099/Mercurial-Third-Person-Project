@@ -1,12 +1,9 @@
 #pragma once
-#ifndef RENDERER_H
-#define RENDERER_H
 
 #include <Utils\glm.hpp>
 #include <Utils\Singleton.hpp>
 #include <vector>
 
-class Scene;
 class GameObject;
 class Camera;
 class MeshRenderer;
@@ -25,7 +22,7 @@ public:
 	glm::mat4 GetViewMatrix() const;
 	glm::mat4 GetProjectionMatrix() const;
 
-    void Render (const Scene& scene);
+    void Render ();
 private:
 	Renderer();
 	std::vector<MeshRenderer*> m_renderables;
@@ -33,5 +30,3 @@ private:
 	void AddRenderable(MeshRenderer* meshRenderer);
 	void RemoveRenderable(MeshRenderer* meshRenderer);
 };
-
-#endif // RENDERER_H

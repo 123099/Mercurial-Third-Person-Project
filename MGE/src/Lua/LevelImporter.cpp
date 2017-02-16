@@ -63,7 +63,8 @@ static GameObject* CreateGameObjectFromBaseData(lua_State* luaState)
 		lua_remove(luaState, 1);
 	
 	//Create a game object
-	GameObject* gameObject = new GameObject(name);
+	GameObject* gameObject = SceneManager::Instance().GetActiveScene()->CreateGameObject(name);
+	std::cout << gameObject << '\n';
 
 	//Apply the local model matrix
 	gameObject->GetTransform()->SetModelMatrix(matrix, false);
@@ -141,6 +142,9 @@ static int AddChild(lua_State* luaState)
 
 	//Retrieve whether to keep world position
 	bool worldPositionStays = (bool)lua_toboolean(luaState, 3);
+
+	std::cout << "Parent" << parent << "," << parent->GetTransform() << '\n';
+	std::cout << "Child" << child << "," << child->GetTransform() << '\n';
 
 	//Add child to parent
 	child->GetTransform()->SetParent(parent->GetTransform(), worldPositionStays);

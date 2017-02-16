@@ -19,7 +19,6 @@ public:
 	//Returns whether the game window has vertical sync enabled or not
 	bool IsVsyncEnabled();
 
-    //Starts the game loop - process events, update the behaviours and render
     void Run();
 	void Quit();
 protected:
@@ -35,8 +34,8 @@ protected:
 	std::unique_ptr<sf::RenderWindow> m_window;		//SFML window to render into
 	std::unique_ptr<InputManager> m_inputManager;	//Manages Input events and provides the data to all classes in the project
 
-	bool m_vsyncEnabled;			//Keeps track of whether vsync was enabled or disabled
-
+	bool m_vsyncEnabled;							//Keeps track of whether vsync was enabled or disabled
+	bool m_shouldQuit;
 private:
 	//Initialize SFML rendering context
 	void InitializeWindow();
@@ -82,6 +81,9 @@ private:
 
 	//Cleans after itself after rendering, e.g. unbind light buffers
 	void PostRender();
+
+	//Processing needed to be done after the frame ends, such as destroying objects marked as destroyed during the frame
+	void PostFrame();
 
     AbstractGame(const AbstractGame&) = delete;
     AbstractGame& operator=(const AbstractGame&) = delete;

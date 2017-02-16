@@ -1,6 +1,7 @@
 #include <Behaviours\Lua\LuaEnvironment.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Core\GameObject.hpp>
+#include <Core\Scene.hpp>
 #include <Lua\Script.hpp>
 
 LuaEnvironment * LuaEnvironment::GetLua()
@@ -11,7 +12,7 @@ LuaEnvironment * LuaEnvironment::GetLua()
 	//If nothing was found, create a new environment
 	if (environment == nullptr)
 	{
-		GameObject* envGO = new GameObject("LuaEnvironment");
+		GameObject* envGO = SceneManager::Instance().GetActiveScene()->CreateGameObject("LuaEnvironment");
 		environment = envGO->AddBehaviour<LuaEnvironment>();
 	}
 

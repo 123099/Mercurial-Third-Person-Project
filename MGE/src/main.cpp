@@ -1,17 +1,10 @@
 #include <Game\Application.hpp>
-#include <SFML\Graphics.hpp>
-#include <Core\Shader.hpp>
-#include <Managers\InputManager.hpp>
-#include <Game\LuaGame.hpp>
 #include <gtest\gtest.h>
 
 void LaunchGame()
 {
 	Application::Instance().Initialize();
 	Application::Instance().Run();
-
-	//LuaGame::Instance().Initialize();
-	//LuaGame::Instance().Run();
 }
 
 int RunTests(int* argc, char** argv)
@@ -22,14 +15,14 @@ int RunTests(int* argc, char** argv)
 
 int main(int argc, char** argv) 
 {
-	if (RunTests(&argc, argv) == 0)
+	//if (RunTests(&argc, argv) == 0)
 	{
 		LaunchGame();
 	}
-	else
+	/*else
 	{
 		std::getchar();
-	}
+	}*/
 
 	return 0;
 }
