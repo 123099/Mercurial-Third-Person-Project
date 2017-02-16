@@ -1,16 +1,9 @@
-print "Hello! I am a sphere!"
-
-destructionCoroutine = nil
-if destructionCoroutine == nil then
-	destructionCoroutine = luautils:startcoroutine
-	(
-		function()
-			utils.yieldWaitForSeconds(1)
-			print "This is a depressing life..."
-			utils.yieldWaitForSeconds(1)
-			print "I think I am just gonna go end it all!"
-			utils.yieldWaitForSeconds(2)
-			player:carry(npc0:gettransform())
-		end
-	)
+if npc0:isenabled() then
+	local x,y,z = npc0:getposition()
+	print (x)
+	print (y)
+	print (z)
+	npc0:swaptexture("SHELF_TEXTURE.bmp")
+	luautils:playsound("money.wav", 0, 0, 0, true, 1)
+	npc0:setenabled(false)
 end

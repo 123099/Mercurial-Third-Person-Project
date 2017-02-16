@@ -168,6 +168,18 @@ void AudioClip::Seek(float normalizedTime)
 	}
 }
 
+bool AudioClip::IsPlaying()
+{
+	if (m_stream == true)
+	{
+		return m_music.getStatus() == sf::SoundSource::Playing;
+	}
+	else
+	{
+		return m_sound.getStatus() == sf::SoundSource::Playing;
+	}
+}
+
 void AudioClip::UseRelativePosition(bool relativePosition)
 {
 	if (m_stream == true)

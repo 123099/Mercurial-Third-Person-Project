@@ -333,6 +333,24 @@
     <ClInclude Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.hpp">
       <Filter>Header Files\Engine\Core\Behaviours</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\TextInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\PlayerInput.hpp">
+      <Filter>Header Files\Engine\Core\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\UI\UI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\UI\TextInput.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\UI\TextLog.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -553,6 +571,27 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.cpp">
       <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\UI.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\textLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\TextInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\PlayerInput.cpp">
+      <Filter>Source Files\Engine\Core\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\UI\TextInput.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\UI\TextLog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\UI\UI.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

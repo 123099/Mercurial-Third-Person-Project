@@ -173,25 +173,16 @@ void Material::SaveToFile(const std::string & materialName)
 	file.close();
 }
 
-void Material::SetProperty(ShaderProperty& property)
+void Material::SetProperty(const ShaderProperty& property)
 {
-	//If the property already exists, copy the value of the property to the one already stored
-	if (HasProperty(property.name))
-	{
-		*m_shaderProperties[property.name] = property;
-	}
-	else
-	{
-		//Add the property to our property list
-		m_shaderProperties[property.name] = new ShaderProperty(property);
-	}
+	m_shaderProperties[property.name] = std::make_shared<ShaderProperty>(property);
 }
 
 ShaderProperty* Material::GetProperty(const std::string & propertyName)
 {
 	if (HasProperty(propertyName))
 	{
-		return m_shaderProperties[propertyName];
+		return m_shaderProperties[propertyName].get();
 	}
 	else
 	{
