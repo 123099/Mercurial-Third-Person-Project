@@ -4,19 +4,44 @@
 #include <Behaviours\Lua\LuaEnvironment.hpp>
 #include <Behaviours\MeshRenderer.hpp>
 #include <Game\Behaviours\Player.hpp>
+#include <Game\Behaviours\TranslationAnimation.hpp>
 #include <Textures\Texture.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Core\Scene.hpp>
 #include <Utils\glm.hpp>
+#include <Core\config.hpp>
 #include <string>
+
+#include <Utils\StringUtils.hpp>
+#include <experimental\filesystem>
+
+namespace fs = std::experimental::filesystem;
+
+static std::string GetNpcScriptPath(int npcID)
+{
+	const fs::path npcScriptsPath(config::MGE_SCRIPTS_PATH + "npcs/");
+	for (fs::directory_iterator dir(npcScriptsPath), end; dir != end; ++dir)
+	{
+		const fs::path path = dir->path();
+		const std::string fileNameStem = path.stem().string();
+		const std::vector<std::string> split = StringUtils::Split(fileNameStem, '_');
+		if (split[0] == std::to_string(npcID))
+		{
+			return "npcs/" + fileNameStem;
+		}
+	}
+	
+	return "npcs/";
+}
 
 void NPC::Awake()
 {
 	LuaEnvironment::GetLua()->RegisterType<NPC>("NPC");
 	LuaEnvironment::GetLua()->BindObject<NPC>(this, "NPC", "npc" + std::to_string(m_ID));
 
+	
 	m_script = m_gameObject->GetBehaviour<LuaScript>();
-	m_script->SetScript("npcs/" + std::to_string(m_ID));
+	m_script->SetScript(GetNpcScriptPath(m_ID));
 }
 
 void NPC::Update()
@@ -126,6 +151,29 @@ int NPC::DistanceTo(lua_State * luaState)
 	return 1;
 }
 
+int NPC::Translate(lua_State * luaState)
+{
+	//Get translation component
+	TranslationAnimation* animation = m_gameObject->GetBehaviour<TranslationAnimation>();
+
+	if (animation != nullptr)
+	{
+		//Get distance to travel
+		const float distance = (float)luaL_checknumber(luaState, 1);
+
+		//Get NPC to travel to
+		const NPC* npc = (NPC*)lua_checkType<NPC>(luaState, 2);
+
+		//Get travel time
+		const float movementTime = (float)luaL_checknumber(luaState, 3);
+
+		//Start translation
+		animation->MoveTowards(distance, npc->GetGameObject()->GetTransform(), movementTime);
+	}
+
+	return 0;
+}
+
 static const luaL_Reg functions[]
 {
 	{"gettransform", lua_asmethod<NPC, &NPC::GetTransform>},
@@ -135,6 +183,7 @@ static const luaL_Reg functions[]
 	{"isenabled", lua_asmethod<NPC, &NPC::IsEnabled>},
 	{"swaptexture", lua_asmethod<NPC, &NPC::SwapTexture>},
 	{"distanceto", lua_asmethod<NPC, &NPC::DistanceTo>},
+	{"translate", lua_asmethod<NPC, &NPC::Translate>},
 	{NULL, NULL}
 };
 

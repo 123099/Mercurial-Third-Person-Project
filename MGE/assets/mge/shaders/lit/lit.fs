@@ -82,7 +82,7 @@ vec4 calculateSpecular(int lightIndex, vec4 normalizedLightVector, vec4 normal)
 	//Make sure shininess is positive, otherwise the pow behaviour is undefined.
 	const float shininess = materialShininess <= 0 ? 1.0 : materialShininess;
 	
-	return pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular * materialSpecular * texture(specularMap, frag_uv);
+	return pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular * materialSpecular * texture(specularMap, frag_uv).a;
 }
 
 float calculateAttenuation(int lightIndex)

@@ -24,6 +24,7 @@ public:
 	void FreezePosition(bool xAxis, bool yAxis, bool zAxis);
 	void FreezeRotation(bool xAxis, bool yAxis, bool zAxis);
 
+	void Translate(const glm::vec3& translation);
 	void SetRotation(Quaternion& rotation);
 
 	btRigidBody* GetBulletRigidbody();

@@ -134,6 +134,11 @@ void Rigidbody::FreezeRotation(bool xAxis, bool yAxis, bool zAxis)
 	}
 }
 
+void Rigidbody::Translate(const glm::vec3 & translation)
+{
+	m_rigidbody->translate(btVector3(translation.x, translation.y, translation.z));
+}
+
 void Rigidbody::SetRotation(Quaternion & rotation)
 {
 	if (m_rigidbody != nullptr)

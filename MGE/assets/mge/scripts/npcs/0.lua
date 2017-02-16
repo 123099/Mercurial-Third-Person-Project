@@ -6,6 +6,7 @@ if npc0:isenabled() then
 	npc0:swaptexture("SHELF_TEXTURE.bmp")
 	luautils:playsound("money.wav", 0, 0, 0, false, 1)
 	print (npc0:distanceto(player))
-	player:carry(npc0)
+	npc0:translate(2, npc1, 5)
+	--player:carry(npc0)
 	npc0:setenabled(false)
 end

@@ -345,6 +345,12 @@
     <ClInclude Include="src\Engine\Core\UI\UI.h">
       <Filter>Header Files\Engine\Core\UI</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Timer.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\TranslationAnimation.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -571,6 +577,12 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\UI\UI.cpp">
       <Filter>Source Files\Engine\Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\Timer.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\TranslationAnimation.cpp">
+      <Filter>Source Files\Behaviours</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

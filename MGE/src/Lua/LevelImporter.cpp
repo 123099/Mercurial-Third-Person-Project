@@ -23,6 +23,7 @@
 #include <Game\Behaviours\RotatingBehaviour.hpp>
 #include <Game\Behaviours\WobbleBehaviour.hpp>
 #include <Game\Behaviours\Player.hpp>
+#include <Game\Behaviours\TranslationAnimation.hpp>
 
 #include <Importers\ObjImporter.hpp>
 #include <Importers\MaterialImporter.hpp>
@@ -39,7 +40,9 @@ static GameObject* CreateGameObjectFromBaseData(lua_State* luaState)
 	//Base data structure:
 	//1 - Name
 	//2 - Is Static?
-	//3 - 18 - local model matrix
+	//3 - 5 - Position
+	//6 - 9 - Rotation
+	//10 - 12 - Scale
 
 	//Retrieve name
 	std::string name = lua_tostring(luaState, 1);
@@ -47,27 +50,37 @@ static GameObject* CreateGameObjectFromBaseData(lua_State* luaState)
 	//Retrieve whether the game object is static
 	bool isStatic = (bool)lua_toboolean(luaState, 2);
 	
-	//Retrieve the local model matrix
-	float matrixValues[16];
-	const int matrixStartIndex = 3;
-	for (int i = matrixStartIndex; i < matrixStartIndex + 16; ++i)
-	{
-		matrixValues[i - matrixStartIndex] = (float)luaL_checknumber(luaState, i);
-	}
+	//Get the local position
+	float positionValues[3];
+	const int positionStartIndex = 3;
+	for (int i = positionStartIndex; i < positionStartIndex + 3; ++i) positionValues[i - positionStartIndex] = (float)luaL_checknumber(luaState, i);
 
-	//Convert the float array to a matrix
-	const glm::mat4 matrix = glm::make_mat4(matrixValues);
+	//Get the local rotation
+	float rotationValues[4];
+	const int rotationStartIndex = 6;
+	for (int i = rotationStartIndex; i < rotationStartIndex + 3; ++i) rotationValues[i - rotationStartIndex] = (float)luaL_checknumber(luaState, i);
+
+	//Get the local scale
+	float scaleValues[3];
+	const int scaleStartIndex = 10;
+	for (int i = scaleStartIndex; i < scaleStartIndex + 3; ++i) scaleValues[i - scaleStartIndex] = (float)luaL_checknumber(luaState, i);
+
+	//Convert the float arrays to a glm structs
+	const glm::vec3 position = glm::make_vec3(positionValues);
+	const Quaternion rotation = glm::make_quat(rotationValues);
+	const glm::vec3 scale = glm::make_vec3(scaleValues);
 
 	//Pop the used values from the stack
-	for (int i = 0; i < 18; ++i)
+	for (int i = 0; i < 12; ++i)
 		lua_remove(luaState, 1);
 	
 	//Create a game object
 	GameObject* gameObject = SceneManager::Instance().GetActiveScene()->CreateGameObject(name);
-	std::cout << gameObject << '\n';
 
-	//Apply the local model matrix
-	gameObject->GetTransform()->SetModelMatrix(matrix, false);
+	//Apply the local transformations
+	gameObject->GetTransform()->SetLocalPosition(position);
+	gameObject->GetTransform()->SetLocalRotation(rotation);
+	gameObject->GetTransform()->SetLocalScale(scale);
 
 	//Apply whether the object is static
 	gameObject->GetTransform()->SetStatic(isStatic);
@@ -476,6 +489,13 @@ static int AddRigidbody(GameObject* gameObject, lua_State* luaState)
 	return 0;
 }
 
+int AddTranslationAnimation(GameObject* gameObject, lua_State* luaState)
+{
+	gameObject->AddBehaviour<TranslationAnimation>();
+
+	return 0;
+}
+
 using func = std::add_pointer_t<int(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
@@ -492,7 +512,8 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("boxcollider", AddBoxCollider),
 	std::make_pair("capsulecollider", AddCapsuleCollider),
 	std::make_pair("meshcollider", AddMeshCollider),
-	std::make_pair("rigidbody", AddRigidbody)
+	std::make_pair("rigidbody", AddRigidbody),
+	std::make_pair("translationanimation", AddTranslationAnimation)
 };
 
 static int AddBehaviour(lua_State* luaState)

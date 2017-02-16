@@ -67,6 +67,7 @@ int hudTris;
 #include <Behaviours\CapsuleCollider.hpp>
 #include <Behaviours\Rigidbody.hpp>
 #include <Behaviours\PlayerInput.hpp>
+
 void Application::InitializeScene()
 {
 	InitSceneLighting();
