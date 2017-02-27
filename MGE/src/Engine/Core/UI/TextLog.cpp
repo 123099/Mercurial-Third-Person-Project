@@ -1,27 +1,50 @@
 #include <UI\TextLog.hpp>
 #include <Core\config.hpp>
 
-void TextLog::createLog()
+TextLog::TextLog(const std::string& fontFileName)
 {
-	gameFont.loadFromFile(config::MGE_FONTS_PATH + "arial.ttf");
+	m_gameFont.loadFromFile(config::MGE_FONTS_PATH + fontFileName);
+	m_logText.setFont(m_gameFont);
 
-	logText.setString("");
-	logText.setFont(gameFont);
-	logText.setCharacterSize(18);
-	logText.setFillColor(sf::Color::White);
+	SetText("");
+	SetFontSize(14);
+	SetFontColor(sf::Color::White);
 }
 
-
-void TextLog::setLogInfo(std::string logInfo)
+void TextLog::SetFontColor(sf::Color color)
 {
-	logText.setString(logInfo);
-	logText.setPosition(10, 10);
+	m_fontColor = color;
+	m_logText.setFillColor(color);
 }
 
-
-void TextLog::Draw()
+void TextLog::SetFontSize(unsigned size)
 {
-	window->draw(logText);
+	m_logText.setCharacterSize(size);
+}
+
+void TextLog::AddText(const std::string & text)
+{
+	SetText(GetText() + text);
+}
+
+void TextLog::SetText(const std::string & text)
+{
+	m_logText.setString(text);
+}
+
+std::string TextLog::GetText()
+{
+	return m_logText.getString();
+}
+
+void TextLog::SetPositionOnScreen(float x, float y)
+{
+	m_logText.setPosition(x, y);
+}
+
+void TextLog::Draw(sf::RenderWindow& window)
+{
+	window.draw(m_logText);
 }
 
 

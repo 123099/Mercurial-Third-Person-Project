@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <Utils\glm.hpp>
 #include <Core\Shader.hpp>
-#include <Managers\Renderer.hpp>
+#include <Renderers\Renderer.hpp>
 #include <Utils\InstanceCache.hpp>
 #include <memory>
 

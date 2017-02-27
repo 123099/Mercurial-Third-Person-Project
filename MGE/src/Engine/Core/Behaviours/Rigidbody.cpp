@@ -95,7 +95,14 @@ void Rigidbody::SetKinematic(bool kinematic)
 
 	if (m_rigidbody != nullptr)
 	{
-		m_rigidbody->setCollisionFlags(kinematic ? btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT : btRigidBody::CollisionFlags::CF_STATIC_OBJECT);
+		if (kinematic == true)
+		{
+			m_rigidbody->setCollisionFlags(btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT | m_rigidbody->getCollisionFlags()); //Add kinematic flag
+		}
+		else
+		{
+			m_rigidbody->setCollisionFlags(btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT ^ m_rigidbody->getCollisionFlags()); //Remove kinematic flag
+		}
 	}
 }
 

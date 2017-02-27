@@ -12,6 +12,8 @@ class MeshRenderer : public AbstractBehaviour, public DisallowMultiple
 friend Renderer;
 
 public:
+	static void GetTotalVertexTriangleCountInScene(int* vertexCount, int* triangleCount);
+
 	MeshRenderer();
 	~MeshRenderer() override;
 

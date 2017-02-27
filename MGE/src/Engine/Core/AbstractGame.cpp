@@ -1,5 +1,6 @@
 #include "AbstractGame.hpp"
 #include <Behaviours\Camera.hpp>
+#include <Behaviours\MeshRenderer.hpp>
 
 #include <Core\GameObject.hpp>
 #include <Core\Time.hpp>
@@ -7,7 +8,9 @@
 
 #include <Input\Input.hpp>
 
-#include <Managers\Renderer.hpp>
+#include <Renderers\Renderer.hpp>
+#include <Renderers\UIRenderer.hpp>
+
 #include <Managers\ShaderManager.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Managers\LightManager.hpp>
@@ -18,24 +21,27 @@
 #include <Utils\Cursor.hpp>
 #include <Utils\Profiler.hpp>
 
+#include <sstream>
 #include <iostream>
 
-void AbstractGame::Initialize() 
+AbstractGame::AbstractGame() : m_debugHud("arial.ttf") { m_debugHud.SetPositionOnScreen(10, 10); }
+
+void AbstractGame::Initialize()
 {
-    std::cout << "Initializing engine..." << '\n' << '\n';
+	std::cout << "Initializing engine..." << '\n' << '\n';
 	//TODO: InitializeConfig();
 	//TODO: InitializeSkybox(); (Add RenderSettings)
-    InitializeWindow();
+	InitializeWindow();
 	InitializeHelperSingletons();
-    PrintVersionInfo();
-    InitializeGlew();
+	PrintVersionInfo();
+	InitializeGlew();
 	InitializeShaders();
 	InitializePhysics();
 	InitializeLight();
-    InitializeRenderer();
-	InitializeInputManager();
-    InitializeScene();
+	InitializeRenderer();
+	InitializeScene();
 	PostInitializeScene();
+	OnInitialized();
 	std::cout << '\n' << "Engine initialized." << '\n' << '\n';
 }
 
@@ -48,7 +54,14 @@ void AbstractGame::SetFPSLimit(float limit)
 	}
 }
 
-void AbstractGame::InitializeWindow() 
+void AbstractGame::SetDebugHudEnabled(bool enabled)
+{
+	m_debugHudEnabled = enabled;
+}
+
+void AbstractGame::OnInitialized() {}
+
+void AbstractGame::InitializeWindow()
 {
 	std::cout << "Initializing window..." << '\n';
 	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800,600), "Mercurial", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
@@ -106,7 +119,7 @@ void AbstractGame::InitializePhysics()
 void AbstractGame::InitializeRenderer() 
 {
 	std::cout << "Initializing renderer..." << '\n';
-	Renderer::Instance();
+	Renderer::Instance().Initialize();
     std::cout << "Renderer done." << '\n' << '\n';
 }
 
@@ -124,15 +137,11 @@ void AbstractGame::InitializeLight()
 	std::cout << "Light manager initialized." << '\n' << '\n';
 }
 
-void AbstractGame::InitializeInputManager()
-{
-	std::cout << "Initializing Input manager..." << '\n';
-	m_inputManager = std::make_unique<InputManager>();
-	std::cout << "Input manager initialized." << '\n' << '\n';
-}
-
 void AbstractGame::Run()
 {
+	//Initialize the engine
+	Initialize();
+
 	//Create a game clock
 	sf::Clock clock;
 
@@ -253,7 +262,7 @@ void AbstractGame::ProcessEvents()
 
 		Profiler::Instance().BeginSample("Input Manager Update");
 		//Handle Input events by the Input Manager
-		m_inputManager->Update(*m_window, event);
+		m_inputManager.Update(*m_window, event);
 		Profiler::Instance().EndSample();
 		Profiler::Instance().BeginSample("Misc Events");
 		//Handle other types of misc. events
@@ -321,6 +330,24 @@ void AbstractGame::Update()
 	}
 }
 
+void AbstractGame::UpdateDebugHud()
+{
+	if (m_debugHudEnabled == true)
+	{
+		int totalVertexCount = 0;
+		int totalTriangleCount = 0;
+		MeshRenderer::GetTotalVertexTriangleCountInScene(&totalVertexCount, &totalTriangleCount);
+
+		std::stringstream debugInfo;
+		debugInfo << "FPS: " << (int)Time::s_frameRate << '\n';
+		debugInfo << "Vertices: " << totalVertexCount << '\n';
+		debugInfo << "Triangles: " << totalTriangleCount << '\n';
+		debugInfo << Profiler::Instance().GetAllSampleDataAsString();
+
+		m_debugHud.SetText(debugInfo.str());
+	}
+}
+
 void AbstractGame::PreRender()
 {
 	//Clear Screen
@@ -334,12 +361,17 @@ void AbstractGame::PreRender()
 
 void AbstractGame::Render() 
 {
+	//Render 3D OpenGL
 	Renderer::Instance().Render();
+
+	//Render UI
+	m_window->pushGLStates();
+	UIRenderer::Instance().Render(*m_window);
+	m_window->popGLStates();
 }
 
 void AbstractGame::PostRender() 
 {
-
 	//Swap the buffers
 	m_window->display();
 }
@@ -348,7 +380,7 @@ void AbstractGame::PostFrame()
 {
 	Profiler::Instance().BeginSample("Input Manager Reset");
 	//Reset the input manager
-	m_inputManager->Reset();
+	m_inputManager.Reset();
 	Profiler::Instance().EndSample();
 
 	//Update the cursor
@@ -359,6 +391,9 @@ void AbstractGame::PostFrame()
 
 	//Process objects marked for destruction
 	SceneManager::Instance().GetActiveScene()->ProcessObjectsToBeDestroyed();
+
+	//Update the debug hud
+	UpdateDebugHud();
 
 	//Check whether the game should quit
 	if (m_shouldQuit == true)

@@ -48,8 +48,8 @@ private:
 	GLuint m_programID;
 
 	GLuint m_lightDataBufferBlockIndex;
-	std::unordered_map<std::string, GLuint> m_uniforms;
-	std::unordered_map<std::string, GLuint> m_attributes;
+	std::unordered_map<std::string, GLint> m_uniforms;
+	std::unordered_map<std::string, GLint> m_attributes;
 };
 
 #endif // !MGE_SHADER_H

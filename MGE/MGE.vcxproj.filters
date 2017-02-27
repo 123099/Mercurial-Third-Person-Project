@@ -109,6 +109,12 @@
     <Filter Include="Header Files\Engine\Core\UI">
       <UniqueIdentifier>{ee6606fe-81dd-4804-a1e6-f0b47d34c35f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Engine\Core\Renderers">
+      <UniqueIdentifier>{5d971939-b97f-4e3d-9875-5d5935b16ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Renderers">
+      <UniqueIdentifier>{39a9bfed-9066-4627-a179-cb6367e53ef3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -237,9 +243,6 @@
     <ClInclude Include="src\Engine\Core\Behaviours\Camera.hpp">
       <Filter>Header Files\Engine\Core\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Core\Managers\Renderer.hpp">
-      <Filter>Header Files\Engine\Core\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine\Core\Textures\Texture.hpp">
       <Filter>Header Files\Engine\Core\Textures</Filter>
     </ClInclude>
@@ -353,6 +356,12 @@
     </ClInclude>
     <ClInclude Include="src\Engine\Core\Utils\BulletDebugRenderer.hpp">
       <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Renderers\Renderer.hpp">
+      <Filter>Header Files\Engine\Core\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Renderers\UIRenderer.hpp">
+      <Filter>Header Files\Engine\Core\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -473,9 +482,6 @@
     <ClCompile Include="src\Engine\Core\Behaviours\Camera.cpp">
       <Filter>Source Files\Engine\Core\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Core\Managers\Renderer.cpp">
-      <Filter>Source Files\Engine\Core\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="src\Engine\Core\Textures\Texture.cpp">
       <Filter>Source Files\Engine\Core\Textures</Filter>
     </ClCompile>
@@ -589,6 +595,12 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Utils\BulletDebugRenderer.cpp">
       <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Renderers\Renderer.cpp">
+      <Filter>Source Files\Engine\Core\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Renderers\UIRenderer.cpp">
+      <Filter>Source Files\Engine\Core\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
