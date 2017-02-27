@@ -7,10 +7,10 @@ addbehaviour(objects[0], "rigidbody", 0, true, true, true, true, true, true, tru
 objects[1] = creategameobject("Directional Light (1)", false, 0, 3, 0, 0.3542133, -0.04831366, -0.2305194, 0.9050191, 1, 1, 1, "", "")
 addbehaviour(objects[1], "light", "directional", 1, 0.9568627, 0.8392157, 1, 0.3, 30)
 
-objects[2] = creategameobject("Tablet", false, -11.674, 1.602, 9.401, 0, 0, 0, 1, 0.7, 0.3, 1, "plane.obj", "lit")
+objects[2] = creategameobject("Tablet", false, -1.674, 1.602, 9.401, 0, 0, 0, 1, 0.7, 0.3, 1, "plane.obj", "lit")
 addbehaviour(objects[2], "npc", 3, false, false)
 addbehaviour(objects[2], "boxcollider", 0.5, 0.15, 0.3500004)
-addbehaviour(objects[2], "rigidbody", 1, true, false, false, false, false, false, false)
+addbehaviour(objects[2], "rigidbody", 1, false, false, false, false, false, false, false)
 
 objects[3] = creategameobject("Broken cable", false, -7.176, 1.139, 8.041, 0.2705981, -0.6532815, 0.6532815, 0.2705981, 0.1000001, 0.573524, 0.1000002, "shape.obj", "lit")
 addbehaviour(objects[3], "npc", 0, true, false)

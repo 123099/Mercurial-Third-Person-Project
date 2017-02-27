@@ -3,7 +3,7 @@
 
 void Profiler::BeginSample(const std::string & sampleName)
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 	if (sampleName != "")
 	{
 		Sample sample(sampleName);
@@ -18,7 +18,7 @@ void Profiler::BeginSample(const std::string & sampleName)
 
 void Profiler::EndSample()
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 	if (m_sampleStack.size() != 0)
 	{
 		//Get the sample at the top of the stack
@@ -51,7 +51,7 @@ void Profiler::EndSample()
 
 void Profiler::Clear()
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 	//Clear the stack
 	m_sampleStack.clear();
 
@@ -65,7 +65,7 @@ void Profiler::Clear()
 
 float Profiler::GetSampleData(const std::string & sampleName)
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 	auto sampleDataItr = m_sampleData.find(sampleName);
 
 	if (sampleDataItr != m_sampleData.end())
@@ -83,7 +83,7 @@ float Profiler::GetSampleData(const std::string & sampleName)
 
 std::string Profiler::GetAllSampleDataAsString()
 {
-#ifdef DEBUG
+#ifdef _DEBUG
 	return m_sampleDataStringStream.str();
 #else
 	return "";

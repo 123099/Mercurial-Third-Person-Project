@@ -17,7 +17,7 @@ static bool CheckShaderFilesExist(const std::string& shaderName);
 static void CheckProgramError(GLuint program, GLuint testParameter, const std::string& errorMessage);
 static void CheckShaderError(GLuint shader, GLuint testParameter, const std::string& errorMessage);
 static GLuint CreateShader(const std::string& shaderName, const std::string& shaderCode, GLenum shaderType);
-static std::unordered_map<std::string, GLuint> LoadUniforms(GLuint program);
+static std::unordered_map<std::string, GLint> LoadUniforms(GLuint program);
 
 #pragma endregion
 
@@ -126,7 +126,7 @@ GLuint Shader::GetAttribute(const std::string& attributeName)
 	else
 	{
 		//Locate the attribute and cache it for future use
-		GLuint attribID = glGetAttribLocation(m_programID, attributeName.c_str());
+		GLint attribID = glGetAttribLocation(m_programID, attributeName.c_str());
 		m_attributes[attributeName] = attribID;
 		return attribID;
 	}
@@ -292,10 +292,10 @@ static void CheckShaderError(GLuint shader, GLuint testParameter, const std::str
 	}
 }
 
-std::unordered_map<std::string, GLuint> LoadUniforms(GLuint program)
+std::unordered_map<std::string, GLint> LoadUniforms(GLuint program)
 {
 	//Create a map to contain all the uniforms
-	std::unordered_map<std::string, GLuint> uniforms;
+	std::unordered_map<std::string, GLint> uniforms;
 
 	//Retrieve the number of active uniforms in the shader
 	GLint uniformCount = 0;

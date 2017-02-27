@@ -133,6 +133,9 @@ void AbstractGame::InitializeInputManager()
 
 void AbstractGame::Run()
 {
+	GLint d;
+	glGetIntegerv(GL_TEXTURE_STACK_DEPTH, &d);
+	std::cout << d << '\n';
 	//Create a game clock
 	sf::Clock clock;
 

@@ -158,24 +158,25 @@ void Mesh::Buffer()
 	if (m_tangentBufferID == -1) glGenBuffers(1, &m_tangentBufferID);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBufferID);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_triangles.size()*sizeof(GLuint), &m_triangles[0], GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_triangles.size()*sizeof(GLuint), m_triangles.size() > 0 ? &m_triangles[0] : nullptr, GL_STATIC_DRAW);
 
     glBindBuffer( GL_ARRAY_BUFFER, m_vertexBufferID);
-    glBufferData( GL_ARRAY_BUFFER, m_vertices.size()*sizeof(glm::vec3), &m_vertices[0], GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, m_vertices.size()*sizeof(glm::vec3), m_vertices.size() > 0 ? &m_vertices[0] : nullptr, GL_STATIC_DRAW );
 
     glBindBuffer( GL_ARRAY_BUFFER, m_normalBufferID );
-    glBufferData( GL_ARRAY_BUFFER, m_normals.size()*sizeof(glm::vec3), &m_normals[0], GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, m_normals.size()*sizeof(glm::vec3), m_normals.size() > 0 ? &m_normals[0] : nullptr, GL_STATIC_DRAW );
 
     glBindBuffer( GL_ARRAY_BUFFER, m_uvBufferID );
-    glBufferData( GL_ARRAY_BUFFER, m_uvs.size()*sizeof(glm::vec2), &m_uvs[0], GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER, m_uvs.size()*sizeof(glm::vec2), m_uvs.size() > 0 ? &m_uvs[0] : nullptr, GL_STATIC_DRAW );
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_tangentBufferID);
-	glBufferData(GL_ARRAY_BUFFER, m_tangents.size() * sizeof(glm::vec4), &m_tangents[0], GL_STATIC_DRAW);
+	glBufferData(GL_ARRAY_BUFFER, m_tangents.size() * sizeof(glm::vec4), m_tangents.size() > 0 ? &m_tangents[0] : nullptr, GL_STATIC_DRAW);
 
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
 }
 
-void Mesh::StreamToOpenGL(GLint verticesAttrib, GLint normalsAttrib, GLint UVsAttrib, GLint tangentsAttrib) {
+void Mesh::StreamToOpenGL(GLint verticesAttrib, GLint normalsAttrib, GLint UVsAttrib, GLint tangentsAttrib) 
+{
     if (verticesAttrib != -1) 
 	{
         glBindBuffer(GL_ARRAY_BUFFER, m_vertexBufferID);
