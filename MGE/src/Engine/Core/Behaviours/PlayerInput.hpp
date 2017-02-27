@@ -5,9 +5,10 @@
 class PlayerInput final : public AbstractBehaviour
 {
 public:
-	void Awake() override final;
+	PlayerInput();
+
 	void Update() override final;
 	
 private:
-	TextLog* m_textLog;
+	TextLog m_textLog;
 };

@@ -5,6 +5,14 @@
       <Configuration>Debug</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="DefaultConfig|Win32">
+      <Configuration>DefaultConfig</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="DefaultConfig|x64">
+      <Configuration>DefaultConfig</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
       <Platform>Win32</Platform>
@@ -37,6 +45,13 @@
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -44,6 +59,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
@@ -61,10 +83,16 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|x64'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
@@ -74,6 +102,12 @@
     <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>$(IncludePath)</IncludePath>
+    <LibraryPath>$(LibraryPath)</LibraryPath>
+    <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|Win32'">
     <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>$(LibraryPath)</LibraryPath>
     <SourcePath>$(ProjectDir)src;$(SourcePath)</SourcePath>
@@ -110,6 +144,12 @@
       <AdditionalDependencies>glew32s.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)externals\bin\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy all dlls from bin directory to output directory</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -152,11 +192,77 @@
       <AdditionalDependencies>glew32s.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Rpcrt4.lib;GoogleTest.lib;BulletDynamics_vs2010.lib;BulletCollision_vs2010.lib;LinearMath_vs2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
       <AdditionalLibraryDirectories>$(SolutionDir)externals\lib</AdditionalLibraryDirectories>
+      <SubSystem>Windows</SubSystem>
+      <Profile>true</Profile>
+      <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
+    </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)externals\bin\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy all dlls from bin directory to output directory</Message>
+    </PostBuildEvent>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;%(AdditionalIncludeDirectories);$(SolutionDir)externals\include;$(ProjectDir)src\Engine;$(ProjectDir)src\Engine\Core;$(SolutionDir)externals\include\bullet</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_CRT_SECURE_NO_DEPRECATE;_SCL_SECURE_NO_WARNINGS;_DEBUG;SFML_STATIC;GLEW_STATIC;WIN32;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <CompileAsManaged>false</CompileAsManaged>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <LanguageStandard>stdcpplatest</LanguageStandard>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
+      <FloatingPointExceptions>true</FloatingPointExceptions>
+      <EnforceTypeConversionRules>true</EnforceTypeConversionRules>
+      <TreatWarningAsError>true</TreatWarningAsError>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <GenerateXMLDocumentationFiles>false</GenerateXMLDocumentationFiles>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <BrowseInformation>true</BrowseInformation>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>glew32sd.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Rpcrt4.lib;GoogleTest-d.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
+      <AdditionalLibraryDirectories>$(SolutionDir)externals\lib</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
       <Profile>true</Profile>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /y /d "$(SolutionDir)externals\bin\*.dll" "$(OutDir)"</Command>
+    </PostBuildEvent>
+    <PostBuildEvent>
+      <Message>Copy all dlls from bin directory to output directory</Message>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+    </ClCompile>
+    <Link>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <Profile>true</Profile>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>MaxSpeed</Optimization>
@@ -189,18 +295,20 @@
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp" />
+    <ClInclude Include="src\Engine\Core\Renderers\UIRenderer.hpp" />
     <ClInclude Include="src\Engine\Core\Textures\RenderTexture.hpp" />
-    <ClInclude Include="src\Engine\Core\UI\TextInput.h" />
     <ClInclude Include="src\Engine\Core\UI\TextLog.hpp" />
     <ClInclude Include="src\Engine\Core\UI\UI.h" />
+    <ClInclude Include="src\Engine\Core\Utils\BulletDebugRenderer.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\glm.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Screen.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\Timer.hpp" />
     <ClInclude Include="src\Game\Behaviours\NPC.hpp" />
     <ClInclude Include="src\Game\Behaviours\Player.hpp" />
-    <ClInclude Include="src\Game\LuaGame.hpp" />
+    <ClInclude Include="src\Game\Behaviours\TranslationAnimation.hpp" />
     <ClInclude Include="src\Lua\Closure.hpp" />
     <ClInclude Include="src\Lua\Environment.hpp" />
     <ClInclude Include="src\Lua\LuaUtils.hpp" />
@@ -244,15 +352,13 @@
     <ClInclude Include="src\Engine\Core\Behaviours\Camera.hpp" />
     <ClInclude Include="src\Engine\Core\GameObject.hpp" />
     <ClInclude Include="src\Engine\Core\Mesh.hpp" />
-    <ClInclude Include="src\Engine\Core\Managers\Renderer.hpp" />
+    <ClInclude Include="src\Engine\Core\Renderers\Renderer.hpp" />
     <ClInclude Include="src\Engine\Core\Shader.hpp" />
     <ClInclude Include="src\Engine\Core\ShaderProperty.hpp" />
     <ClInclude Include="src\Engine\Core\Textures\Texture.hpp" />
     <ClInclude Include="src\Engine\Core\Material.hpp" />
     <ClInclude Include="src\Game\Application.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\DebugHud.hpp" />
-    <ClInclude Include="src\Engine\Core\TextInput.h" />
-    <ClInclude Include="src\Engine\Core\UI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Engine\Core\Audio\AudioClip.cpp" />
@@ -272,16 +378,18 @@
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp" />
+    <ClCompile Include="src\Engine\Core\Renderers\UIRenderer.cpp" />
     <ClCompile Include="src\Engine\Core\Textures\RenderTexture.cpp" />
-    <ClCompile Include="src\Engine\Core\UI\TextInput.cpp" />
     <ClCompile Include="src\Engine\Core\UI\TextLog.cpp" />
     <ClCompile Include="src\Engine\Core\UI\UI.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\BulletDebugRenderer.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\Timer.cpp" />
     <ClCompile Include="src\Game\Behaviours\NPC.cpp" />
     <ClCompile Include="src\Game\Behaviours\Player.cpp" />
-    <ClCompile Include="src\Game\LuaGame.cpp" />
+    <ClCompile Include="src\Game\Behaviours\TranslationAnimation.cpp" />
     <ClCompile Include="src\Lua\Closure.cpp" />
     <ClCompile Include="src\Lua\Environment.cpp" />
     <ClCompile Include="src\Lua\LuaUtils.cpp" />
@@ -324,7 +432,7 @@
     <ClCompile Include="src\Engine\Core\Behaviours\Camera.cpp" />
     <ClCompile Include="src\Engine\Core\GameObject.cpp" />
     <ClCompile Include="src\Engine\Core\Mesh.cpp" />
-    <ClCompile Include="src\Engine\Core\Managers\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Core\Renderers\Renderer.cpp" />
     <ClCompile Include="src\Engine\Core\Shader.cpp" />
     <ClCompile Include="src\Engine\Core\Textures\Texture.cpp" />
     <ClCompile Include="src\Engine\Core\Material.cpp" />
@@ -332,9 +440,6 @@
     <ClCompile Include="src\Engine\Core\Utils\DebugHud.cpp" />
     <ClCompile Include="tests\Engine\Behaviours\TransformTest.cpp" />
     <ClCompile Include="tests\Engine\Utils\QuaternionTest.cpp" />
-    <ClCompile Include="src\Engine\Core\TextInput.cpp" />
-    <ClCompile Include="src\Engine\Core\textLog.cpp" />
-    <ClCompile Include="src\Engine\Core\UI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MGE.rc" />

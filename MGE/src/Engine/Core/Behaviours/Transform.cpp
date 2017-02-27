@@ -1,7 +1,9 @@
 #include <Behaviours\Transform.hpp>
 #include <Core\GameObject.hpp>
-#include <algorithm>
+#include <Managers\SceneManager.hpp>
+#include <Core\Scene.hpp>
 #include <glm\gtx\matrix_decompose.hpp>
+#include <algorithm>
 
 Transform::Transform() :
 	m_localPosition(glm::vec3(0.0f)),
@@ -13,11 +15,19 @@ Transform::Transform() :
 
 Transform::~Transform()
 {
+	m_parent = nullptr;
+
+	std::cout << "\tScene: " << SceneManager::Instance().GetActiveScene() << '\n';
 	//Destroy all the children
-	for (Transform* child : m_children)
+	for (const Transform* child : m_children)
 	{
-		delete child->GetGameObject();
+		if (child->GetGameObject() != nullptr)
+		{
+			SceneManager::Instance().GetActiveScene()->DestroyGameObject(child->GetGameObject());
+		}
 	}
+
+	m_children.clear();
 }
 
 void Transform::SetLocalPosition(const glm::vec3 & position)
@@ -193,6 +203,9 @@ void Transform::SetModelMatrix(const glm::mat4 & matrix, bool worldMatrix)
 	glm::vec4 perspective;
 	glm::decompose(matrix, scale, orientation, translation, skew, perspective);
 
+	Quaternion rotation(glm::conjugate(orientation));
+	//std::cout << "--------------" << rotation.GetEulerAngles() << '\n';
+
 	if (worldMatrix == true)
 	{
 		SetWorldPosition(translation);
@@ -285,7 +298,7 @@ void Transform::SetStatic(bool isStatic, bool changeChildren)
 	if (changeChildren == true)
 	{
 		const auto children = GetAllChildrenRecursively();
-		for (auto child : children)
+		for (auto& child : children)
 		{
 			child->SetStatic(isStatic);
 		}
@@ -333,18 +346,21 @@ void Transform::SetParent(Transform * parent, bool worldPositionStays)
 		m_parent = parent;
 	}
 
-	if (m_parent == nullptr)
+	if (m_gameObject != nullptr)
 	{
-		//Add the game object to the scene root list
-		m_gameObject->AddToSceneRootList();
-	}
-	else
-	{
-		//Remove the game object from the scene root list
-		m_gameObject->RemoveFromSceneRootList();
+		if (m_parent == nullptr)
+		{
+			//Add the game object to the scene root list
+			SceneManager::Instance().GetActiveScene()->AddToRoot(m_gameObject);
+		}
+		else
+		{
+			//Remove the game object from the scene root list
+			SceneManager::Instance().GetActiveScene()->RemoveFromRoot(m_gameObject);
 
-		//Add ourselves as child of the parent
-		m_parent->m_children.push_back(this);
+			//Add ourselves as child of the parent
+			m_parent->m_children.push_back(this);
+		}
 	}
 }
 
@@ -379,7 +395,7 @@ std::vector<Transform*> Transform::GetAllChildrenRecursively() const
 {
 	std::vector<Transform*> totalChildren;
 
-	for (auto child : m_children)
+	for (auto& child : m_children)
 	{
 		totalChildren.push_back(child);
 

@@ -16,18 +16,18 @@ Quaternion Quaternion::EulerAngles(float x, float y, float z)
 	return glm::quat(glm::vec3(glm::radians(x), glm::radians(y), glm::radians(z)));
 }
 
-Quaternion::Quaternion(const btQuaternion & quat) 
-{
+Quaternion::Quaternion(const btQuaternion & quat) : Quaternion(quat.getX(), quat.getY(), quat.getZ(), quat.getW())
+{/*
 	btMatrix3x3 matrix;
 	matrix.setRotation(quat);
 	float yaw, pitch, roll;
-	matrix.getEulerYPR(yaw, pitch, roll);
-	m_quaternion = EulerAngles(glm::vec3(pitch, yaw, roll));
+	matrix.getEulerZYX(yaw, pitch, roll);
+	m_quaternion = EulerAngles(glm::vec3(glm::degrees(yaw), glm::degrees(pitch), glm::degrees(roll)));*/
 }
 
 Quaternion::Quaternion(const glm::quat & quat) : m_quaternion(quat), euler(GetEulerAngles()) {}
 
-Quaternion::Quaternion(float x, float y, float z, float w) : m_quaternion(w, x, y, z), euler(GetEulerAngles()) {}
+Quaternion::Quaternion(float x, float y, float z, float w) : m_quaternion(w, x, y, z), euler(GetEulerAngles()) { }
 
 void Quaternion::Set(float x, float y, float z, float w)
 {
@@ -85,7 +85,6 @@ Quaternion::operator glm::quat()
 
 Quaternion::operator btQuaternion()
 {
-//	return btQuaternion(GetX(), GetY(), GetZ(), GetW());
 	const glm::vec3 euler = GetEulerAngles();
-	return btQuaternion(euler.y, euler.x, euler.z);
+	return btQuaternion(glm::radians(euler.y), glm::radians(euler.x), glm::radians(euler.z));
 }

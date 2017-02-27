@@ -1,0 +1,11 @@
+shader lit/lit
+
+materialAmbient color 1 1 1 0.2
+materialDiffuse color 1 1 1 0.2
+materialSpecular color 1 1 1 0.2
+materialEmission color 1 1 1 0.2
+materialShininess float 10
+
+#diffuseTexture texture mge/textures/tex.jpg
+#normalMap texture mge/textures/normal.jpg
+specularMap texture mge/textures/specular.jpg

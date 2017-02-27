@@ -1,43 +1,43 @@
 #ifndef ABSTRACTGAME_H
 #define ABSTRACTGAME_H
 
-#include <GL/glew.h>
-#include <string>
-#include <memory>
 #include <Managers\InputManager.hpp>
 #include <SFML\Graphics\RenderWindow.hpp>
+#include <SFML\Graphics\RenderTexture.hpp>
+#include <UI\TextLog.hpp>
+#include <GL\glew.h>
+#include <memory>
+#include <string>
 
 class AbstractGame
 {
 public:
-    //Creates a window, initializes glew,a world instance, a renderer and the input and shader managers
-    virtual void Initialize();
+	void SetFPSLimit(float limit);
+	void SetDebugHudEnabled(bool enabled);
 
-	//Enabled or disables VSync, including the update loop
-	void SetVsync(bool enabled);
-
-	//Returns whether the game window has vertical sync enabled or not
-	bool IsVsyncEnabled();
-
-    //Starts the game loop - process events, update the behaviours and render
     void Run();
 	void Quit();
 protected:
-    AbstractGame() = default;
+	AbstractGame();
     virtual ~AbstractGame() = default;
 
-    //Initialize the actual scene
+	float m_fpsLimitTime;
+	bool m_shouldQuit;
+
+	bool m_debugHudEnabled;
+
+	sf::RenderTexture renderT;
+	std::unique_ptr<sf::RenderWindow> m_window;
+	InputManager m_inputManager;
+
+	TextLog m_debugHud;
+
+	virtual void OnInitialized();
     virtual void InitializeScene() = 0;
-
-	//Render all game objects in the display root
-	virtual void Render();
-
-	std::unique_ptr<sf::RenderWindow> m_window;		//SFML window to render into
-	std::unique_ptr<InputManager> m_inputManager;	//Manages Input events and provides the data to all classes in the project
-
-	bool m_vsyncEnabled;			//Keeps track of whether vsync was enabled or disabled
-
 private:
+	//Begins initializing the engine
+	void Initialize();
+
 	//Initialize SFML rendering context
 	void InitializeWindow();
 
@@ -62,11 +62,11 @@ private:
 	//Load the light buffer
 	void InitializeLight();
 
-	//Initialize the input manager instance
-	void InitializeInputManager();
-
 	//Initialize all the components, etc.
 	void PostInitializeScene();
+
+	//Check whether enough time has passed to coincide with the fps limit set
+	bool CheckFPSLimit(const sf::Clock& gameClock);
 
 	//Process any sfml window events (see SystemEventDispatcher/Listener)
 	void ProcessEvents();
@@ -77,11 +77,20 @@ private:
 	//Call update on all game objects in the display root
 	void Update();
 
+	//Updated the information on the debug hud
+	void UpdateDebugHud();
+
 	//Sets everything up for rendering, e.g. binding light buffers
 	void PreRender();
 
+	//Renders the Scene and the UI
+	void Render();
+
 	//Cleans after itself after rendering, e.g. unbind light buffers
 	void PostRender();
+
+	//Processing needed to be done after the frame ends, such as destroying objects marked as destroyed during the frame
+	void PostFrame();
 
     AbstractGame(const AbstractGame&) = delete;
     AbstractGame& operator=(const AbstractGame&) = delete;

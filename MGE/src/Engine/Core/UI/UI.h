@@ -1,12 +1,12 @@
 #pragma once
-#include<string>
-#include <SFML/Graphics.hpp>
+#include <SFML\Graphics\RenderWindow.hpp>
+
 class UI
 {
 public:
-	virtual void Draw() = 0;
+	UI();
+	virtual ~UI();
 
-private:
-	sf::RenderWindow * _window;
+	virtual void Draw(sf::RenderWindow& window) = 0;
 };
 

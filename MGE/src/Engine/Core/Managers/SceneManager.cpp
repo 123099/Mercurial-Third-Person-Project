@@ -1,10 +1,15 @@
 #include "SceneManager.hpp"
 #include <Core\Scene.hpp>
+#include <iostream>
 #include <algorithm>
+
+SceneManager::SceneManager() : m_activeScene(nullptr) {}
 
 SceneManager::~SceneManager()
 {
+	std::cout << "Scene manager destructor" << '\n';
 	m_activeScene = nullptr;
+	std::cout << "Scene manager destructor end" << '\n';
 }
 
 Scene * SceneManager::CreateScene(const std::string & name)
@@ -27,12 +32,12 @@ Scene * SceneManager::CreateScene(const std::string & name)
 	//Return the new scene
 	return sceneRaw;
 }
-#include <iostream>
+
 void SceneManager::DestroyScene(Scene * scene)
 {
 	//Find the unique ptr to the scene
-	const auto itr = std::find_if(m_scenes.begin(), m_scenes.end(), [&](const auto& s) {return s.get() == scene; });
-	std::cout << "Scene count start: " << m_scenes.size() << '\n';
+	const auto& itr = std::find_if(m_scenes.begin(), m_scenes.end(), [&](const auto& s) {return s.get() == scene; });
+
 	if (itr != m_scenes.end())
 	{
 		//Remove the scene from the scenes list, thus destroying it
@@ -40,10 +45,10 @@ void SceneManager::DestroyScene(Scene * scene)
 
 		if (m_activeScene == scene)
 		{
+			std::cout << "Active scene is now null" << '\n';
 			SetActiveScene(nullptr);
 		}
 	}
-	std::cout << "Scene count end: " << m_scenes.size() << '\n';
 }
 
 void SceneManager::DestroyActiveScene()
@@ -64,7 +69,7 @@ Scene * SceneManager::GetActiveScene()
 Scene * SceneManager::GetSceneByName(const std::string & name)
 {
 	//Try to find the scene that matches the name
-	const auto foundSceneItr = std::find_if(m_scenes.begin(), m_scenes.end(), [&](const auto& scene) { return scene->GetName() == name; });
+	const auto& foundSceneItr = std::find_if(m_scenes.begin(), m_scenes.end(), [&](const auto& scene) { return scene->GetName() == name; });
 
 	//If the scene was found, return it
 	if (foundSceneItr != m_scenes.end())

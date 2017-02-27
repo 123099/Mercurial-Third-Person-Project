@@ -1,7 +1,8 @@
 #include "AudioSource.hpp"
-#include <Audio\AudioClip.hpp>
+#include <Core\Scene.hpp>
 #include <Core\GameObject.hpp>
 #include <Behaviours\Transform.hpp>
+#include <Managers\SceneManager.hpp>
 
 AudioSource::AudioSource() :
 	m_loop(false),
@@ -9,6 +10,11 @@ AudioSource::AudioSource() :
 	m_volume(1.0f),
 	m_pitch(1.0f),
 	m_spatialType(Type::ThreeD) {}
+
+AudioSource::~AudioSource()
+{
+	delete m_clip;
+}
 
 void AudioSource::SetAudioClip(AudioClip * audioClip)
 {
@@ -160,7 +166,7 @@ void AudioSource::Update()
 
 		if (m_destroyOnEnd == true && m_hasPlayedOnce == true && m_clip->IsPlaying() == false)
 		{
-			delete m_gameObject;
+			SceneManager::Instance().GetActiveScene()->DestroyGameObject(m_gameObject);
 		}
 	}
 }

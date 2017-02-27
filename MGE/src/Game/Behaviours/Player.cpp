@@ -2,7 +2,7 @@
 #include <Game\Behaviours\NPC.hpp>
 
 #include <Behaviours\Lua\LuaEnvironment.hpp>
-#include <Behaviours\SphereCollider.hpp>
+#include <Behaviours\CharacterController.hpp>
 #include <Behaviours\Transform.hpp>
 #include <Behaviours\Camera.hpp>
 
@@ -14,7 +14,6 @@
 #include <Physics\Physics.hpp>
 
 #include <Utils\Screen.hpp>
-#include <Utils\glm.hpp>
 
 void Player::Awake()
 {
@@ -22,6 +21,9 @@ void Player::Awake()
 	LuaEnvironment::GetLua()->BindObject<Player>(this, "Player", "player");
 
 	m_camera = m_gameObject->GetBehavioursInChildren<Camera>()[0];
+	glm::vec3 cameraEulers = m_camera->GetGameObject()->GetTransform()->GetLocalRotation().GetEulerAngles();
+	m_accumulatedCameraRotation = glm::vec2(cameraEulers.y, cameraEulers.x);
+
 	m_characterController = m_gameObject->GetBehaviour<CharacterController>();
 	m_characterController->SetWalkVelocity(5);
 	m_characterController->SetStepHeight(0.35f);
@@ -30,46 +32,42 @@ void Player::Awake()
 
 void Player::FixedUpdate()
 {
-	const glm::vec2 mouseMovement = Input::GetMouseMovement();
-
-	if (mouseMovement.x != 0)
-	{
-		m_characterController->SetAngularVelocity(glm::vec3(0, 0, Time::s_gameTime * 10));
-	}
 	Move();
 }
 
 void Player::Update()
 {
-	if (Input::GetAxis(InputAxes::s_jump))
-	{
-		m_characterController->Jump();
-	}
 	Look();
 	Interact();
+
+	if (Input::GetMouseButtonDown(sf::Mouse::Button::Right))
+	{
+		DropCarriedObject();
+	}
 }
 
 void Player::Move()
 {
 	const glm::vec3 movement(Input::GetAxis(InputAxes::s_horizontal), 0, -Input::GetAxis(InputAxes::s_vertical));
-	const Quaternion cameraRotationExcludingX = Quaternion::EulerAngles(0.0f, m_camera->GetGameObject()->GetTransform()->GetEulerAngles().y, 0.0f);
-	m_characterController->SetWalkDirection(cameraRotationExcludingX * movement);
+	const Quaternion forwardRotation = Quaternion::EulerAngles(0.0f, m_accumulatedCameraRotation.y, 0.0f);
+	m_characterController->SetWalkDirection(forwardRotation * movement);
+
+	if (Input::GetAxis(InputAxes::s_jump))
+	{
+		m_characterController->Jump(8);
+	}
 }
 
 void Player::Look()
 {
 	const glm::vec2 mouseMovement = Input::GetMouseMovement();
 
-	if (mouseMovement.y != 0)
+	if (mouseMovement != glm::vec2(0.0f))
 	{
-		//Retrieve the camera's euler angles
-		glm::vec3 cameraEuler = m_camera->GetGameObject()->GetTransform()->GetEulerAngles();
-
-		//Rotate the camera around the x axis based on the vertical movement
-		cameraEuler.x = glm::clamp(cameraEuler.x + mouseMovement.y * Time::s_deltaTime * 2, -90.0f, 90.0f);
-		m_camera->GetGameObject()->GetTransform()->SetLocalRotation(Quaternion::EulerAngles(cameraEuler));
+		m_accumulatedCameraRotation.x = glm::clamp(m_accumulatedCameraRotation.x + mouseMovement.y * Time::s_deltaTime * 2, -90.0f, 90.0f);
+		m_accumulatedCameraRotation.y -= mouseMovement.x * Time::s_deltaTime * 2;
+		m_camera->GetGameObject()->GetTransform()->SetLocalRotation(Quaternion::EulerAngles(m_accumulatedCameraRotation.x, m_accumulatedCameraRotation.y, 0.0f));
 	}
-
 }
 
 void Player::Interact()
@@ -85,7 +83,7 @@ void Player::Interact()
 
 		//Cast the ray and see if we hit an interactble
 		RaycastHit hitInfo;
-		if (Physics::Instance().Raycast(ray, hitInfo, 4.0f) == true)
+		if (Physics::Instance().Raycast(ray, hitInfo, 15.0f) == true)
 		{
 			std::cout << "HIT " << hitInfo.GetCollider()->GetGameObject()->GetName() << " at " << hitInfo.GetPoint() << '\n';
 			const Collider* collider = hitInfo.GetCollider();
@@ -101,8 +99,25 @@ void Player::Interact()
 	}
 }
 
+void Player::DropCarriedObject()
+{
+	if (m_carriedObject != nullptr)
+	{
+		m_carriedObject->SetParent(nullptr);
+
+		Rigidbody* carriedObjectRigidbody = m_carriedObject->GetGameObject()->GetBehaviour<Rigidbody>();
+		if (carriedObjectRigidbody != nullptr)
+		{
+			carriedObjectRigidbody->SetKinematic(false);
+		}
+
+		m_carriedObject = nullptr;
+	}
+}
+
 static const luaL_Reg functions[] = {
-	{ "carry", lua_asmethod<Player, &Player::Carry> },
+	{"carry", lua_asmethod<Player, &Player::Carry>},
+	{"iscarrying", lua_asmethod<Player, &Player::IsCarrying>},
 	{ NULL, NULL }
 };
 
@@ -114,28 +129,34 @@ const luaL_Reg* Player::GetFunctionList()
 int Player::Carry(lua_State * luaState)
 {
 	//Retrieve object to carry
-	Transform* carriedObject = (Transform*)lua_touserdata(luaState, 1);
+	NPC* objectToCarry = lua_checkType<NPC>(luaState, 1);
 
 	//If the carried object is null, it means stop carrying what we are carrying
-	if (carriedObject == nullptr)
+	if (objectToCarry == nullptr)
 	{
-		if (m_carriedObject != nullptr)
-		{
-			m_carriedObject->SetParent(nullptr);
-		}
+		DropCarriedObject();
 	}
-	else
+	else if(objectToCarry->GetGameObject()->GetTransform() != m_carriedObject)
 	{
-		//If we are currently carrying something, drop it
-		if (m_carriedObject != nullptr)
-		{
-			m_carriedObject->SetParent(nullptr);
-		}
+		DropCarriedObject();
 
 		//Start carrying the new item
-		carriedObject->SetParent(m_gameObject->GetTransform());
-		m_carriedObject = carriedObject;
+		m_carriedObject = objectToCarry->GetGameObject()->GetTransform();
+		m_carriedObject->SetParent(m_gameObject->GetTransform());
+
+		Rigidbody* carriedObjectRigidbody = m_carriedObject->GetGameObject()->GetBehaviour<Rigidbody>();
+		if (carriedObjectRigidbody != nullptr)
+		{
+			carriedObjectRigidbody->SetKinematic(true);
+		}
 	}
 
 	return 0;
+}
+
+int Player::IsCarrying(lua_State * luaState)
+{
+	lua_pushboolean(luaState, m_carriedObject != nullptr);
+
+	return 1;
 }

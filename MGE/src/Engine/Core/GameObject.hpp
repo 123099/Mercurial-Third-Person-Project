@@ -1,30 +1,21 @@
-#ifndef GAMEOBJECT_H
-#define GAMEOBJECT_H
-
-#include <cassert>
-#include <vector>
-#include <string>
-#include <Utils\glm.hpp>
-#include <memory>
+#pragma once
 #include <Behaviours\BehaviourAttributesBases.hpp>
 #include <Behaviours\Transform.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Core\Scene.hpp>
+#include <vector>
+#include <string>
+#include <memory>
 
+class Scene;
 class AbstractBehaviour;
 
-/**
- * A GameObject is a container of everything that can be in the scene.
- * Every GameObject by default comes with a transform component.
- * The GameObject class cannot be extended, and all additional functionality should be defined as Behaviours.
- */
 class GameObject final
 {
 friend Transform;
+friend Scene;
 
 public:
-	static void Destroy(GameObject* gameObject);
-
 #pragma region Behaviour Templates
 
 	template <typename T>
@@ -92,7 +83,7 @@ public:
 		static_assert(std::is_base_of<AbstractBehaviour, T>(), "Type must be a behaviour!");
 
 		//Loop through the list of behaviours
-		for (const auto& behaviour : m_behaviours)
+		for ( const auto& behaviour : m_behaviours)
 		{
 			//Check if the behaviour is of the given type
 			if (T* cast_behaviour = dynamic_cast<T*>(behaviour.get()))
@@ -116,7 +107,7 @@ public:
 		std::vector<T*> behaviours;
 
 		//Loop through the list of behaviours
-		for (const auto& behaviour : m_behaviours)
+		for ( const auto& behaviour : m_behaviours)
 		{
 			//Check if the behaviour is of the given type
 			if (T* cast_behaviour = dynamic_cast<T*>(behaviour.get()))
@@ -145,19 +136,15 @@ public:
 	template <typename T>
 	static T* FindObjectOfType()
 	{
-		const Scene* activeScene = SceneManager::Instance().GetActiveScene();
-		if (activeScene != nullptr)
+		//Do a sweep search through only the root game objects in the scene
+		const auto& rootGameObjects = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
+		for ( const auto& rootObject : rootGameObjects)
 		{
-			//Do a sweep search through only the root game objects in the scene
-			const auto rootGameObjects = activeScene->GetRootGameObjects();
-			for (auto rootObject : rootGameObjects)
+			//Retrieve the behaviour
+			T* behaviour = rootObject->GetBehaviour<T>();
+			if (behaviour != nullptr)
 			{
-				//Retrieve the behaviour
-				T* behaviour = rootObject->GetBehaviour<T>();
-				if (behaviour != nullptr)
-				{
-					return behaviour;
-				}
+				return behaviour;
 			}
 		}
 
@@ -181,30 +168,26 @@ public:
 
 		std::vector<T*> objects;
 
-		const Scene* activeScene = SceneManager::Instance().GetActiveScene();
-		if (activeScene != nullptr)
+		const auto& rootGameObjects = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
+		for (const auto& rootObject : rootGameObjects)
 		{
-			const auto rootGameObjects = activeScene->GetRootGameObjects();
-			for (auto rootObject : rootGameObjects)
+			//Retrieve all the children of the game object
+			auto children = rootObject->GetTransform()->GetAllChildrenRecursively();
+
+			//Add the game object to the list to be included in the search
+			children.push_back(rootObject->GetTransform());
+
+			//Go through all the objects and find the behaviour
+			for (const auto& child : children)
 			{
-				//Retrieve all the children of the game object
-				auto children = rootObject->GetTransform()->GetAllChildrenRecursively();
-
-				//Add the game object to the list to be included in the search
-				children.push_back(rootObject->GetTransform());
-
-				//Go through all the objects and find the behaviour
-				for (const auto child : children)
+				T* behaviour = child->GetGameObject()->GetBehaviour<T>();
+				if (behaviour != nullptr)
 				{
-					T* behaviour = child->GetGameObject()->GetBehaviour<T>();
-					if (behaviour != nullptr)
-					{
-						objects.push_back(behaviour);
+					objects.push_back(behaviour);
 
-						if (returnFirst == true)
-						{
-							return objects;
-						}
+					if (returnFirst == true)
+					{
+						return objects;
 					}
 				}
 			}
@@ -215,14 +198,12 @@ public:
 
 #pragma endregion
 
-	GameObject(const std::string& name = "New GameObject");
 	~GameObject();
 
     void SetName (const std::string& name);
     std::string GetName() const;
 
 	Transform* GetTransform() const;
-	Scene* GetScene() const;
 
 	void Initialize();
 	void FixedUpdate();
@@ -230,19 +211,14 @@ public:
 
 	bool IsInitialized();
 private:
+	GameObject(const std::string& name = "New GameObject");
+
 	std::string m_name;
 	bool m_initialized;
 
 	std::vector<std::unique_ptr<AbstractBehaviour>> m_behaviours;
 	Transform* m_transform;
-	
-	Scene* m_scene;
-
-	void AddToSceneRootList();
-	void RemoveFromSceneRootList();
 
     GameObject(const GameObject&) = delete;
 	GameObject& operator=(const GameObject&) = delete;
 };
-
-#endif // GAMEOBJECT_H

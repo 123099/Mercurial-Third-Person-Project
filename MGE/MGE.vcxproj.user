@@ -4,6 +4,10 @@
     <LocalDebuggerWorkingDirectory>$(ProjectDir)assets</LocalDebuggerWorkingDirectory>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|Win32'">
+    <LocalDebuggerWorkingDirectory>$(ProjectDir)assets</LocalDebuggerWorkingDirectory>
+    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
+  </PropertyGroup>
   <PropertyGroup>
     <ShowAllFiles>false</ShowAllFiles>
   </PropertyGroup>

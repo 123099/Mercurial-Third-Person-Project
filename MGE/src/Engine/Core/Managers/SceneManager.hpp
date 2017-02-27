@@ -30,6 +30,6 @@ private:
 	std::vector<std::unique_ptr<Scene>> m_scenes;
 	Scene* m_activeScene;
 
-	SceneManager() = default;
+	SceneManager();
 };
 

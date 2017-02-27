@@ -8,6 +8,8 @@ public:
 	static glm::vec2 GetMousePosition();
 	static glm::vec2 GetMouseMovement();
 
+	static char GetCharacterTyped();
+
     static bool IsAnyKeyHeld();
     static bool IsAnyKeyUp();
 

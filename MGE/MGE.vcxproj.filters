@@ -103,6 +103,18 @@
     <Filter Include="Header Files\Engine\Core\Physics">
       <UniqueIdentifier>{2477021d-6cff-461d-9b22-c711de97d6f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Engine\Core\UI">
+      <UniqueIdentifier>{4cc88a2d-02b3-4e99-ac36-40ac0bf45033}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\UI">
+      <UniqueIdentifier>{ee6606fe-81dd-4804-a1e6-f0b47d34c35f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Engine\Core\Renderers">
+      <UniqueIdentifier>{5d971939-b97f-4e3d-9875-5d5935b16ba7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Engine\Core\Renderers">
+      <UniqueIdentifier>{39a9bfed-9066-4627-a179-cb6367e53ef3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h">
@@ -231,9 +243,6 @@
     <ClInclude Include="src\Engine\Core\Behaviours\Camera.hpp">
       <Filter>Header Files\Engine\Core\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Core\Managers\Renderer.hpp">
-      <Filter>Header Files\Engine\Core\Managers</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine\Core\Textures\Texture.hpp">
       <Filter>Header Files\Engine\Core\Textures</Filter>
     </ClInclude>
@@ -248,9 +257,6 @@
     </ClInclude>
     <ClInclude Include="src\Engine\Core\config.hpp">
       <Filter>Header Files\Engine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\LuaGame.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp">
       <Filter>Header Files\Engine\Core\Utils</Filter>
@@ -333,23 +339,29 @@
     <ClInclude Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.hpp">
       <Filter>Header Files\Engine\Core\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Core\UI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Engine\Core\TextInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine\Core\Behaviours\PlayerInput.hpp">
       <Filter>Header Files\Engine\Core\Behaviours</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Core\UI\UI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Engine\Core\UI\TextInput.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine\Core\UI\TextLog.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Engine\Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\UI\UI.h">
+      <Filter>Header Files\Engine\Core\UI</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\Timer.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\TranslationAnimation.hpp">
+      <Filter>Header Files\Behaviours</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\BulletDebugRenderer.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Renderers\Renderer.hpp">
+      <Filter>Header Files\Engine\Core\Renderers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Renderers\UIRenderer.hpp">
+      <Filter>Header Files\Engine\Core\Renderers</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -470,9 +482,6 @@
     <ClCompile Include="src\Engine\Core\Behaviours\Camera.cpp">
       <Filter>Source Files\Engine\Core\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Core\Managers\Renderer.cpp">
-      <Filter>Source Files\Engine\Core\Managers</Filter>
-    </ClCompile>
     <ClCompile Include="src\Engine\Core\Textures\Texture.cpp">
       <Filter>Source Files\Engine\Core\Textures</Filter>
     </ClCompile>
@@ -483,9 +492,6 @@
       <Filter>Source Files\Engine\Core\Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Application.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\LuaGame.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\Game\Behaviours\NPC.cpp">
@@ -572,26 +578,29 @@
     <ClCompile Include="src\Engine\Core\Behaviours\ConcaveMeshCollider.cpp">
       <Filter>Source Files\Engine\Core\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Core\UI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine\Core\textLog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine\Core\TextInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Engine\Core\Behaviours\PlayerInput.cpp">
       <Filter>Source Files\Engine\Core\Behaviours</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Core\UI\TextInput.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\Engine\Core\UI\TextLog.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine\Core\UI</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Core\UI\UI.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Engine\Core\UI</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\Timer.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\TranslationAnimation.cpp">
+      <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\BulletDebugRenderer.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Renderers\Renderer.cpp">
+      <Filter>Source Files\Engine\Core\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Renderers\UIRenderer.cpp">
+      <Filter>Source Files\Engine\Core\Renderers</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
