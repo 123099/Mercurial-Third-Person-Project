@@ -177,12 +177,12 @@ int NPC::Translate(lua_State * luaState)
 static const luaL_Reg functions[]
 {
 	{"gettransform", lua_asmethod<NPC, &NPC::GetTransform>},
-	{"destroy", lua_asmethod<NPC, &NPC::DestroySelf> },
+	{"open", lua_asmethod<NPC, &NPC::DestroySelf> },
 	{"getposition", lua_asmethod<NPC, &NPC::GetPosition>},
 	{"setenabled", lua_asmethod<NPC, &NPC::SetEnabled>},
 	{"isenabled", lua_asmethod<NPC, &NPC::IsEnabled>},
-	{"swaptexture", lua_asmethod<NPC, &NPC::SwapTexture>},
-	{"distanceto", lua_asmethod<NPC, &NPC::DistanceTo>},
+	{"settexture", lua_asmethod<NPC, &NPC::SwapTexture>},
+	{"distanceTo", lua_asmethod<NPC, &NPC::DistanceTo>},
 	{"translate", lua_asmethod<NPC, &NPC::Translate>},
 	{NULL, NULL}
 };

@@ -1,14 +1,13 @@
 #pragma once
 #include <Behaviours\AbstractBehaviour.hpp>
-#include <Behaviours\BehaviourAttributes.hpp>
+#include <Utils\glm.hpp>
 #include <LuaAPI\lua.hpp>
 
-#include <Behaviours\CharacterController.hpp>
-
+class CharacterController;
 class Transform;
 class Camera;
 
-class Player final : public AbstractBehaviour, public RequireBehaviours<CharacterController>
+class Player final : public AbstractBehaviour
 {
 public:
 	void Awake() override final;
@@ -16,6 +15,7 @@ public:
 	void Update() override final;
 
 	int Carry(lua_State* luaState);
+	int IsCarrying(lua_State* luaState);
 
 	static const luaL_Reg* GetFunctionList();
 private:

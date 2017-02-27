@@ -5,6 +5,7 @@
 #include <Behaviours\Transform.hpp>
 #include <Behaviours\Collider.hpp>
 #include <Behaviours\Rigidbody.hpp>
+#include <Behaviours\Camera.hpp>
 
 #include <bullet\BulletCollision\CollisionDispatch\btGhostObject.h>
 
@@ -27,6 +28,15 @@ void Physics::Initialize()
 
 	//Dynamics World
 	m_physicsWorld = std::make_unique<btDiscreteDynamicsWorld>(m_collisionDispatcher.get(), m_broadphaseInterface.get(), m_constraintSolver.get(), m_collisionConfig.get());
+
+	//Debug renderer
+	m_physicsWorldDebugRenderer = std::make_unique<BulletDebugRenderer>();
+	m_physicsWorld->setDebugDrawer(m_physicsWorldDebugRenderer.get());
+}
+
+void Physics::SetDebugMode(bool debugMode)
+{
+	m_debugMode = debugMode;
 }
 
 void Physics::SetGravity(glm::vec3 gravity)
@@ -144,6 +154,13 @@ void Physics::RemoveAction(btActionInterface * bulletAction)
 void Physics::StepSimulation()
 {
 	m_physicsWorld->stepSimulation(Time::s_fixedDeltaTime, 10, Time::s_fixedDeltaTime);
+
+	if (m_debugMode == true)
+	{
+		m_physicsWorldDebugRenderer->StartRender();
+		m_physicsWorld->debugDrawWorld();
+		m_physicsWorldDebugRenderer->EndRender();
+	}
 }
 
 void Physics::AddRigidbody(btRigidBody & rigidbody)

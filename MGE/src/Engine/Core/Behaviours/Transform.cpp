@@ -15,7 +15,6 @@ Transform::Transform() :
 
 Transform::~Transform()
 {
-	std::cout << "Transform desctructor" << '\n';
 	m_parent = nullptr;
 
 	std::cout << "\tScene: " << SceneManager::Instance().GetActiveScene() << '\n';
@@ -29,7 +28,6 @@ Transform::~Transform()
 	}
 
 	m_children.clear();
-	std::cout << "Transform desctructor end" << '\n';
 }
 
 void Transform::SetLocalPosition(const glm::vec3 & position)
@@ -205,6 +203,9 @@ void Transform::SetModelMatrix(const glm::mat4 & matrix, bool worldMatrix)
 	glm::vec4 perspective;
 	glm::decompose(matrix, scale, orientation, translation, skew, perspective);
 
+	Quaternion rotation(glm::conjugate(orientation));
+	//std::cout << "--------------" << rotation.GetEulerAngles() << '\n';
+
 	if (worldMatrix == true)
 	{
 		SetWorldPosition(translation);
@@ -321,7 +322,6 @@ void Transform::SetParent(Transform * parent, bool worldPositionStays)
 	//Remove from previous parent
 	if (m_parent != nullptr)
 	{
-		std::cout << "Removing self from parent" << '\n';
 		//Scan the children to find ourselves, and remove it from the vector
 		m_parent->m_children.erase(std::remove(m_parent->m_children.begin(), m_parent->m_children.end(), this));
 	}
@@ -350,13 +350,11 @@ void Transform::SetParent(Transform * parent, bool worldPositionStays)
 	{
 		if (m_parent == nullptr)
 		{
-			std::cout << "0000000000000000000000Transform add to root" << '\n';
 			//Add the game object to the scene root list
 			SceneManager::Instance().GetActiveScene()->AddToRoot(m_gameObject);
 		}
 		else
 		{
-			std::cout << "0000000000000000000000Transform remove from root" << '\n';
 			//Remove the game object from the scene root list
 			SceneManager::Instance().GetActiveScene()->RemoveFromRoot(m_gameObject);
 

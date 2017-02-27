@@ -2,7 +2,7 @@
 #include <Game\Behaviours\NPC.hpp>
 
 #include <Behaviours\Lua\LuaEnvironment.hpp>
-#include <Behaviours\SphereCollider.hpp>
+#include <Behaviours\CharacterController.hpp>
 #include <Behaviours\Transform.hpp>
 #include <Behaviours\Camera.hpp>
 
@@ -14,7 +14,6 @@
 #include <Physics\Physics.hpp>
 
 #include <Utils\Screen.hpp>
-#include <Utils\glm.hpp>
 
 void Player::Awake()
 {
@@ -22,6 +21,9 @@ void Player::Awake()
 	LuaEnvironment::GetLua()->BindObject<Player>(this, "Player", "player");
 
 	m_camera = m_gameObject->GetBehavioursInChildren<Camera>()[0];
+	glm::vec3 cameraEulers = m_camera->GetGameObject()->GetTransform()->GetLocalRotation().GetEulerAngles();
+	m_accumulatedCameraRotation = glm::vec2(cameraEulers.y, cameraEulers.x);
+
 	m_characterController = m_gameObject->GetBehaviour<CharacterController>();
 	m_characterController->SetWalkVelocity(5);
 	m_characterController->SetStepHeight(0.35f);
@@ -30,13 +32,6 @@ void Player::Awake()
 
 void Player::FixedUpdate()
 {
-	const glm::vec2 mouseMovement = Input::GetMouseMovement();
-
-	if (mouseMovement.x != 0)
-	{
-		//m_characterController->SetAngularVelocity(glm::vec3(0, 0, Time::s_gameTime * 10));
-	}
-	
 	Move();
 }
 
@@ -88,7 +83,7 @@ void Player::Interact()
 
 		//Cast the ray and see if we hit an interactble
 		RaycastHit hitInfo;
-		if (Physics::Instance().Raycast(ray, hitInfo, 4.0f) == true)
+		if (Physics::Instance().Raycast(ray, hitInfo, 15.0f) == true)
 		{
 			std::cout << "HIT " << hitInfo.GetCollider()->GetGameObject()->GetName() << " at " << hitInfo.GetPoint() << '\n';
 			const Collider* collider = hitInfo.GetCollider();
@@ -115,11 +110,14 @@ void Player::DropCarriedObject()
 		{
 			carriedObjectRigidbody->SetKinematic(false);
 		}
+
+		m_carriedObject = nullptr;
 	}
 }
 
 static const luaL_Reg functions[] = {
-	{ "carry", lua_asmethod<Player, &Player::Carry> },
+	{"carry", lua_asmethod<Player, &Player::Carry>},
+	{"iscarrying", lua_asmethod<Player, &Player::IsCarrying>},
 	{ NULL, NULL }
 };
 
@@ -138,7 +136,7 @@ int Player::Carry(lua_State * luaState)
 	{
 		DropCarriedObject();
 	}
-	else
+	else if(objectToCarry->GetGameObject()->GetTransform() != m_carriedObject)
 	{
 		DropCarriedObject();
 
@@ -154,4 +152,11 @@ int Player::Carry(lua_State * luaState)
 	}
 
 	return 0;
+}
+
+int Player::IsCarrying(lua_State * luaState)
+{
+	lua_pushboolean(luaState, m_carriedObject != nullptr);
+
+	return 1;
 }

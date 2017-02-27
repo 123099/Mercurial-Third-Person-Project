@@ -47,7 +47,7 @@ void Application::Initialize()
 {
     AbstractGame::Initialize();
 
-	SetVsync(true);
+	SetFPSLimit(60);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
 	Renderer::Instance().SetClearColor(0.5, 0, 0);
@@ -76,15 +76,6 @@ void Application::InitializeScene()
 	quitter->AddBehaviour<QuitBehaviour>();
 
 	Physics::Instance().SetGravity(glm::vec3(0, -10, 0));
-
-	GameObject* ground = SceneManager::Instance().GetActiveScene()->CreateGameObject("Ground");
-	ground->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(50, 0.5, 50));
-	ground->GetTransform()->Translate(glm::vec3(30, -2, -20));
-	ground->GetTransform()->SetLocalScale(glm::vec3(50, 0.5, 50));
-	ground->AddBehaviour<Rigidbody>()->SetMass(0);
-	MeshRenderer* ms = ground->AddBehaviour<MeshRenderer>();
-	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
-	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
 }
 
 void Application::Render() 
@@ -108,7 +99,7 @@ void Application::InitSceneLighting()
 	Material* litMaterial = MaterialImporter::LoadMaterial("lit");
 	litMaterial->SetTexture("environmentMap", cubeMap);
 
-	LevelImporter::LoadLevel("Greybox Level");
+	LevelImporter::LoadLevel("Level2");
 
 	for (const auto& rootGameObject : SceneManager::Instance().GetActiveScene()->GetRootGameObjects())
 	{
@@ -133,15 +124,9 @@ void Application::UpdateHud() {
 	{
 		std::string debugInfo = "";
 		debugInfo += "FPS: " + std::to_string((int)Time::s_frameRate) + "\n";
-		debugInfo += "FixedUpdate: " + std::to_string(Profiler::GetSampleData("FixedUpdate")) + "s\n";
-		debugInfo += "Update: " + std::to_string(Profiler::GetSampleData("Update")) + "s\n";
-		debugInfo += "Pre-Render: \n";
-		debugInfo += "\tLight: " + std::to_string(Profiler::GetSampleData("UpdateLight")) + "s\n";
-		debugInfo += "Render: " + std::to_string(Profiler::GetSampleData("Render")) + "s\n";
-		debugInfo += "Post-Render: " + std::to_string(Profiler::GetSampleData("PostRender")) + "s\n";
-		debugInfo += "Events: " + std::to_string(Profiler::GetSampleData("Events")) + "s\n";
 		debugInfo += "Vertices: " + std::to_string(hudVerts) + "\n";
 		debugInfo += "Triangles: " + std::to_string(hudTris) + "\n";
+		debugInfo += Profiler::Instance().GetAllSampleDataAsString();
 
 		m_hud->setDebugInfo(debugInfo);
 

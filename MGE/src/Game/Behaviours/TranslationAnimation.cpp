@@ -6,7 +6,7 @@
 void TranslationAnimation::Start()
 {
 	m_target = nullptr;
-	m_targetRigidbody = nullptr;
+	m_rigidbody = m_gameObject->GetBehaviour<Rigidbody>();
 }
 
 void TranslationAnimation::Update()
@@ -15,15 +15,12 @@ void TranslationAnimation::Update()
 	{
 		if (m_timer.IsReady())
 		{
-			std::cout << "MOVE";
-			if (m_targetRigidbody != nullptr)
+			if (m_rigidbody != nullptr)
 			{
-				std::cout << "RB" << '\n';
-				m_targetRigidbody->Translate(m_stepMovement);
+				m_rigidbody->Translate(m_stepMovement);
 			}
 			else
 			{
-				std::cout << "TRans" << '\n';
 				m_gameObject->GetTransform()->Translate(m_stepMovement, Space::World);
 			}
 
@@ -33,7 +30,6 @@ void TranslationAnimation::Update()
 			{
 				//We are done, target is no longer necessary
 				m_target = nullptr;
-				m_targetRigidbody = nullptr;
 			}
 		}
 	}
@@ -47,6 +43,4 @@ void TranslationAnimation::MoveTowards(float distance, Transform * target, float
 
 	const float stepDistance = distance / m_movementSteps;
 	m_stepMovement = stepDistance * glm::normalize(m_targetLocation - m_gameObject->GetTransform()->GetWorldPosition());
-
-	m_targetRigidbody = m_target->GetGameObject()->GetBehaviour<Rigidbody>();
 }

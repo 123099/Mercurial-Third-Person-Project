@@ -29,8 +29,8 @@ void AbstractGame::Initialize()
 	InitializeHelperSingletons();
     PrintVersionInfo();
     InitializeGlew();
-	InitializePhysics();
 	InitializeShaders();
+	InitializePhysics();
 	InitializeLight();
     InitializeRenderer();
 	InitializeInputManager();
@@ -39,15 +39,13 @@ void AbstractGame::Initialize()
 	std::cout << '\n' << "Engine initialized." << '\n' << '\n';
 }
 
-void AbstractGame::SetVsync(bool enabled)
+void AbstractGame::SetFPSLimit(float limit)
 {
-	m_vsyncEnabled = enabled;
-	m_window->setVerticalSyncEnabled(enabled);
-}
-
-bool AbstractGame::IsVsyncEnabled()
-{
-	return m_vsyncEnabled;
+	m_fpsLimitTime = glm::clamp(limit, 0.0f, limit);
+	if (m_fpsLimitTime != 0.0f)
+	{
+		m_fpsLimitTime = 1.0f / m_fpsLimitTime;
+	}
 }
 
 void AbstractGame::InitializeWindow() 
@@ -94,8 +92,7 @@ void AbstractGame::PrintVersionInfo()
 void AbstractGame::InitializeGlew() 
 {
 	std::cout << "Initializing GLEW..." << '\n';
-    //initialize the opengl extension wrangler
-    GLint glewStatus = glewInit();
+    const GLint glewStatus = glewInit();
 	std::cout << "GLEW Status: " << (glewStatus == GLEW_OK ? "Initialized" : "Failed to Initialize") << '\n' << '\n';
 }
 
@@ -142,74 +139,82 @@ void AbstractGame::Run()
 	//Create an accumulator to determine how many times the fixed update should run to catch up with the FPS
 	float accumulator = 0;
 
+	//Update the cursor once before running to grab it, if necessary
+	Cursor::Instance().Update();
+
 	while (m_window->isOpen())
 	{
-		//Update the game time
-		Time::s_gameTime = clock.getElapsedTime().asSeconds();
-
-		Profiler::BeginSample("Events");
+		Profiler::Instance().BeginSample("Events");
 		//Process Events
 		ProcessEvents();
-		Profiler::EndSample();
+		Profiler::Instance().EndSample();
 
-		//Fixed Update
-		Profiler::BeginSample("FixedUpdate");
-		accumulator = FixedUpdate(accumulator);
-		Profiler::EndSample();
-
-		//Bullet Physics Simulation
-		Physics::Instance().StepSimulation();
-
-		Profiler::BeginSample("Update");
-		//Update 
-		Update();		
-		Profiler::EndSample();
-
-		//Render
-		PreRender();
-
-		Profiler::BeginSample("Render");
-		Render();
-		Profiler::EndSample();
-
-		Profiler::BeginSample("PostRender");
-		PostRender();
-		Profiler::EndSample();
-
-		//Calculate time per frame
-		Time::s_deltaTime = clock.getElapsedTime().asSeconds() - Time::s_gameTime;
-
-		//Update the frame rate
-		Time::s_frameRate = 1.0f / Time::s_deltaTime;
-
-		//Update frame count
-		++Time::s_frameCount;
-
-		PostFrame();
-
-		//Display Hierarchy
-		if (Input::IsKeyPressed(sf::Keyboard::H))
+		//Make sure the Fps is locked to the limit set
+		if (CheckFPSLimit(clock) == true)
 		{
-			Scene* activeScene = SceneManager::Instance().GetActiveScene();
-			std::cout << "Scene: " << activeScene->GetName() << ", Root objects: " << activeScene->GetRootCount() << '\n';
-			
-			const auto& hierarchy = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
-			for (const auto& o : hierarchy)
+			//Calculate time per frame
+			Time::s_deltaTime = clock.getElapsedTime().asSeconds() - Time::s_gameTime;
+
+			//Update the frame rate
+			Time::s_frameRate = 1.0f / Time::s_deltaTime;
+
+			Profiler::Instance().BeginSample("FixedUpdate");
+			accumulator = FixedUpdate(accumulator);
+			Profiler::Instance().EndSample();
+
+			//Bullet Physics Simulation
+			Physics::Instance().StepSimulation();
+
+			Profiler::Instance().BeginSample("Update");
+			Update();
+			Profiler::Instance().EndSample();
+
+			//Render
+			PreRender();
+
+			Profiler::Instance().BeginSample("Render");
+			Render();
+			Profiler::Instance().EndSample();
+
+			Profiler::Instance().BeginSample("PostRender");
+			PostRender();
+			Profiler::Instance().EndSample();
+
+			//Update the game time
+			Time::s_gameTime = clock.getElapsedTime().asSeconds();
+
+			//Update frame count
+			++Time::s_frameCount;
+
+			PostFrame();
+
+			//Display Hierarchy
+			if (Input::IsKeyPressed(sf::Keyboard::H))
 			{
-				std::cout << o->GetName() << '\n';
-				std::cout << o->GetTransform()->GetLocalPosition() << '\n';
-				std::cout << o->GetTransform()->GetLocalRotation().GetEulerAngles() << '\n';
-				std::cout << o->GetTransform()->GetLocalScale() << '\n';
-				const auto& children = o->GetTransform()->GetAllChildrenRecursively();
-				for (const auto& c : children)
+				Scene* activeScene = SceneManager::Instance().GetActiveScene();
+				std::cout << "Scene: " << activeScene->GetName() << ", Root objects: " << activeScene->GetRootCount() << '\n';
+
+				const auto& hierarchy = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
+				for (const auto& o : hierarchy)
 				{
-					std::cout << '\t' << c->GetGameObject()->GetName() << '\n';
-					std::cout << '\t' << c->GetLocalPosition() << '\n';
-					std::cout << '\t' << c->GetLocalRotation().GetEulerAngles() << '\n';
-					std::cout << '\t' << c->GetLocalScale() << '\n';
+					std::cout << o->GetName() << '\n';
+					std::cout << o->GetTransform()->GetLocalPosition() << '\n';
+					std::cout << o->GetTransform()->GetLocalRotation().GetEulerAngles() << '\n';
+					std::cout << o->GetTransform()->GetLocalScale() << '\n';
+					const auto& children = o->GetTransform()->GetAllChildrenRecursively();
+					for (const auto& c : children)
+					{
+						std::cout << '\t' << c->GetGameObject()->GetName() << '\n';
+						std::cout << '\t' << c->GetLocalPosition() << '\n';
+						std::cout << '\t' << c->GetLocalRotation().GetEulerAngles() << '\n';
+						std::cout << '\t' << c->GetLocalScale() << '\n';
+					}
 				}
 			}
 		}
+		
+		//Clear the profiler data
+		Profiler::Instance().Clear();
 	}
 }
 
@@ -224,19 +229,33 @@ void AbstractGame::PostInitializeScene()
 	SceneManager::Instance().GetActiveScene()->ProcessUninitializedObjects();
 }
 
+bool AbstractGame::CheckFPSLimit(const sf::Clock& gameClock)
+{
+	if (m_fpsLimitTime == 0.0f || Time::s_gameTime == 0)
+	{
+		return true;
+	}
+	
+	return (gameClock.getElapsedTime().asSeconds() - Time::s_gameTime) >= m_fpsLimitTime;
+}
+
 void AbstractGame::ProcessEvents()
 {
 	sf::Event event;
-
-	//Reset the input manager
-	m_inputManager->Reset();
-
+	
 	//Process all the accumulated events in the event queue
-	while( m_window->pollEvent( event ) ) 
+	Profiler::Instance().BeginSample("Poll Event");
+	bool a = m_window->pollEvent(event);
+	Profiler::Instance().EndSample();
+
+	while( a ) 
 	{
+
+		Profiler::Instance().BeginSample("Input Manager Update");
 		//Handle Input events by the Input Manager
 		m_inputManager->Update(*m_window, event);
-
+		Profiler::Instance().EndSample();
+		Profiler::Instance().BeginSample("Misc Events");
 		//Handle other types of misc. events
         switch (event.type) 
 		{
@@ -249,9 +268,9 @@ void AbstractGame::ProcessEvents()
             glViewport(0, 0, event.size.width, event.size.height);
 			Camera::GetMainCamera()->SetAspect((float) event.size.width, (float) event.size.height);
             break;
-		default:
-			break;
         }
+		Profiler::Instance().EndSample();
+		a = m_window->pollEvent(event);
 	}
 }
 
@@ -277,8 +296,7 @@ float AbstractGame::FixedUpdate(float accumulator)
 		//Retrieve the root game objects in the scene
 		//This is done every call to FixedUpdate in case the scene graph has changed
 		const auto& rootGameObjects = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
-
-		for (const auto& gameObject : rootGameObjects)
+		for (GameObject* gameObject : rootGameObjects)
 		{
 			gameObject->FixedUpdate();
 		}
@@ -297,9 +315,9 @@ void AbstractGame::Update()
 	activeScene->ProcessUninitializedObjects();
 
 	const auto& rootGameObjects = activeScene->GetRootGameObjects();
-	for (const auto& gameObject : rootGameObjects)
+	for (size_t i = 0; i < rootGameObjects.size(); ++i)
 	{
-		gameObject->Update();
+		rootGameObjects[i]->Update();
 	}
 }
 
@@ -308,10 +326,10 @@ void AbstractGame::PreRender()
 	//Clear Screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	Profiler::BeginSample("UpdateLight");
+	Profiler::Instance().BeginSample("UpdateLight");
 	//Update light UBO
 	LightManager::Instance().UpdateLightData(Renderer::Instance().GetViewMatrix());
-	Profiler::EndSample();
+	Profiler::Instance().EndSample();
 }
 
 void AbstractGame::Render() 
@@ -321,12 +339,17 @@ void AbstractGame::Render()
 
 void AbstractGame::PostRender() 
 {
+
 	//Swap the buffers
 	m_window->display();
 }
 
 void AbstractGame::PostFrame()
 {
+	Profiler::Instance().BeginSample("Input Manager Reset");
+	//Reset the input manager
+	m_inputManager->Reset();
+	Profiler::Instance().EndSample();
 
 	//Update the cursor
 	if (m_window->hasFocus() == true)
