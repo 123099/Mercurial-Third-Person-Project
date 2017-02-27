@@ -41,6 +41,11 @@ void Rigidbody::Awake()
 
 void Rigidbody::Update()
 {
+	if (m_gameObject->GetTransform()->IsStatic() == true)
+	{
+		return;
+	}
+
 	//Based on whether the rigidbody is kinematic or not, either update the engine's transform or the rigidbody's transform
 	if (m_isKinematic == false)
 	{
@@ -49,7 +54,8 @@ void Rigidbody::Update()
 		m_rigidbodyMotion->getWorldTransform(rbTransform);
 
 		//Update the game object's transform based on the transform of the rigid body
-		m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(rbTransform.getOrigin().getX(), rbTransform.getOrigin().getY(), rbTransform.getOrigin().getZ()));
+		const btVector3 origin = rbTransform.getOrigin();
+		m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(origin.getX(), origin.getY(), origin.getZ()));
 		m_gameObject->GetTransform()->SetWorldRotation(rbTransform.getRotation());
 	}
 	else
@@ -136,7 +142,14 @@ void Rigidbody::FreezeRotation(bool xAxis, bool yAxis, bool zAxis)
 
 void Rigidbody::Translate(const glm::vec3 & translation)
 {
-	m_rigidbody->translate(btVector3(translation.x, translation.y, translation.z));
+	btTransform transform;
+	m_rigidbodyMotion->getWorldTransform(transform);
+	const btVector3 worldPosition(translation.x + transform.getOrigin().getX(),
+								  translation.y + transform.getOrigin().getY(),
+								  translation.z + transform.getOrigin().getY());
+	transform.setOrigin(worldPosition);
+	m_rigidbody->proceedToTransform(transform);
+	m_rigidbodyMotion->setWorldTransform(transform);
 }
 
 void Rigidbody::SetRotation(Quaternion & rotation)

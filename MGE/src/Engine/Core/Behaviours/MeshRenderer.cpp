@@ -53,7 +53,6 @@ void MeshRenderer::SetSharedMesh(Mesh* sharedMesh)
 
 void MeshRenderer::SetSharedMaterial(Material* sharedMaterial)
 {
-	std::cout << "Set Shared Material" << '\n';
 	if (m_materialLinkedToShared == true)
 	{
 		m_sharedMaterial = sharedMaterial;

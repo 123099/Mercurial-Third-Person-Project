@@ -211,7 +211,7 @@ void main ( void )
 	fragColor += vec4(globalAmbient.xyz + materialEmission.xyz, (globalAmbient.a + materialEmission.a + fragColor.a) * 0.34);
 	
 	//Apply reflection
-	fragColor = calculateReflection(fragColor);
+	//fragColor = calculateReflection(fragColor);
 	
 	//Apply fog
 	fragColor = calculateFog(fragColor);

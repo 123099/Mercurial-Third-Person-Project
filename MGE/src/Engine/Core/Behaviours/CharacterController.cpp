@@ -26,9 +26,6 @@ void CharacterController::Awake()
 	m_characterController = std::make_unique<btKinematicCharacterController>(m_ghostObject.get(), m_capsuleCollider.get(), m_stepHeight, btVector3(0, 1, 0));
 	m_characterController->setMaxSlope(btRadians(m_slopeLimit));
 
-	const glm::vec3 gravity = Physics::Instance().GetGravity();
-	m_characterController->setGravity(btVector3(gravity.x, gravity.y, gravity.z));
-
 	m_characterController->setMaxJumpHeight(5);
 
 	Physics::Instance().AddCollisionObject(m_ghostObject.get());
@@ -51,12 +48,10 @@ void CharacterController::Update()
 
 	//Apply transform to engine transform
 	const btVector3 origin = transform.getOrigin();
-	const Quaternion rotation = transform.getRotation();
-
 	m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(origin.getX(), origin.getY(), origin.getZ()));
-	m_gameObject->GetTransform()->SetWorldRotation(rotation);
 
-	//std::cout << m_characterController->getAngularVelocity().getY() << ',' << rotation.GetEulerAngles() << '\n';
+	//Rotate the character controller 90 degrees around the x-axis to match the bullet character controller capsule axis with glm
+	m_gameObject->GetTransform()->SetWorldRotation(Quaternion::EulerAngles(90, 0, 0) * Quaternion(transform.getRotation()));
 }
 
 void CharacterController::SetHeight(float height)

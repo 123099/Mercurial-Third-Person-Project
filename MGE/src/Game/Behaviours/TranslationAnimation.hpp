@@ -19,7 +19,7 @@ private:
 	const int m_movementSteps = 20;
 
 	Transform* m_target;
-	Rigidbody* m_targetRigidbody;
+	Rigidbody* m_rigidbody;
 
 	glm::vec3 m_targetLocation;
 	glm::vec3 m_stepMovement;

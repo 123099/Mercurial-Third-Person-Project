@@ -18,7 +18,6 @@ GameObject::GameObject(const std::string& name) : m_name(name), m_transform(null
 
 GameObject::~GameObject()
 {
-	std::cout << "GameObject destructor" << GetName() << '\n';
 	m_transform = nullptr;
 
 	//Set the game object reference in all the behaviours to null
@@ -26,7 +25,6 @@ GameObject::~GameObject()
 	{
 		behaviour->SetGameObject(nullptr);
 	}
-	std::cout << "GameObject destructor end" << '\n';
 }
 
 void GameObject::SetName (const std::string& name)
@@ -68,7 +66,7 @@ void GameObject::Initialize()
 
 		//Mark all children as initialized
 		const std::vector<Transform*> children = GetTransform()->GetAllChildrenRecursively();
-		for (const auto& child : children)
+		for (Transform* child : children)
 		{
 			child->GetGameObject()->m_initialized = true;
 		}

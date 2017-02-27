@@ -5,6 +5,7 @@
 #include <Behaviours\Rigidbody.hpp>
 #include <bullet\btBulletDynamicsCommon.h>
 
+#include <Utils\BulletDebugRenderer.hpp>
 #include <Utils\Singleton.hpp>
 #include <Utils\glm.hpp>
 
@@ -17,6 +18,7 @@ friend Rigidbody;
 
 public:
 	void Initialize();
+	void SetDebugMode(bool debugMode);
 
 	void SetGravity(glm::vec3 gravity);
 	glm::vec3 GetGravity();
@@ -34,6 +36,9 @@ public:
 
 	void StepSimulation();
 private:
+	bool m_debugMode;
+	std::unique_ptr<BulletDebugRenderer> m_physicsWorldDebugRenderer;
+
 	std::unique_ptr<btDiscreteDynamicsWorld> m_physicsWorld;
 	std::unique_ptr<btCollisionDispatcher> m_collisionDispatcher;
 	std::unique_ptr<btDefaultCollisionConfiguration> m_collisionConfig;

@@ -6,18 +6,14 @@
 #include <memory>
 #include <Managers\InputManager.hpp>
 #include <SFML\Graphics\RenderWindow.hpp>
+#include <SFML\Graphics\RenderTexture.hpp>
 
 class AbstractGame
 {
 public:
-    //Creates a window, initializes glew,a world instance, a renderer and the input and shader managers
     virtual void Initialize();
 
-	//Enabled or disables VSync, including the update loop
-	void SetVsync(bool enabled);
-
-	//Returns whether the game window has vertical sync enabled or not
-	bool IsVsyncEnabled();
+	void SetFPSLimit(float limit);
 
     void Run();
 	void Quit();
@@ -30,11 +26,11 @@ protected:
 
 	//Render all game objects in the display root
 	virtual void Render();
-
+	sf::RenderTexture renderT;
 	std::unique_ptr<sf::RenderWindow> m_window;		//SFML window to render into
 	std::unique_ptr<InputManager> m_inputManager;	//Manages Input events and provides the data to all classes in the project
 
-	bool m_vsyncEnabled;							//Keeps track of whether vsync was enabled or disabled
+	float m_fpsLimitTime;
 	bool m_shouldQuit;
 private:
 	//Initialize SFML rendering context
@@ -66,6 +62,9 @@ private:
 
 	//Initialize all the components, etc.
 	void PostInitializeScene();
+
+	//Check whether enough time has passed to coincide with the fps limit set
+	bool CheckFPSLimit(const sf::Clock& gameClock);
 
 	//Process any sfml window events (see SystemEventDispatcher/Listener)
 	void ProcessEvents();

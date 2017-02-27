@@ -351,6 +351,9 @@
     <ClInclude Include="src\Game\Behaviours\TranslationAnimation.hpp">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\BulletDebugRenderer.hpp">
+      <Filter>Header Files\Engine\Core\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -583,6 +586,9 @@
     </ClCompile>
     <ClCompile Include="src\Game\Behaviours\TranslationAnimation.cpp">
       <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\BulletDebugRenderer.cpp">
+      <Filter>Source Files\Engine\Core\Utils</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -17,6 +17,7 @@
 #include <Behaviours\CapsuleCollider.hpp>
 #include <Behaviours\ConvexMeshCollider.hpp>
 #include <Behaviours\ConcaveMeshCollider.hpp>
+#include <Behaviours\CharacterController.hpp>
 #include <Behaviours\Rigidbody.hpp>
 
 #include <Game\Behaviours\NPC.hpp>
@@ -58,7 +59,7 @@ static GameObject* CreateGameObjectFromBaseData(lua_State* luaState)
 	//Get the local rotation
 	float rotationValues[4];
 	const int rotationStartIndex = 6;
-	for (int i = rotationStartIndex; i < rotationStartIndex + 3; ++i) rotationValues[i - rotationStartIndex] = (float)luaL_checknumber(luaState, i);
+	for (int i = rotationStartIndex; i < rotationStartIndex + 4; ++i) rotationValues[i - rotationStartIndex] = (float)luaL_checknumber(luaState, i);
 
 	//Get the local scale
 	float scaleValues[3];
@@ -67,7 +68,7 @@ static GameObject* CreateGameObjectFromBaseData(lua_State* luaState)
 
 	//Convert the float arrays to a glm structs
 	const glm::vec3 position = glm::make_vec3(positionValues);
-	const Quaternion rotation = glm::make_quat(rotationValues);
+	const Quaternion rotation(rotationValues[0], rotationValues[1], rotationValues[2], rotationValues[3]);
 	const glm::vec3 scale = glm::make_vec3(scaleValues);
 
 	//Pop the used values from the stack
@@ -155,9 +156,6 @@ static int AddChild(lua_State* luaState)
 
 	//Retrieve whether to keep world position
 	bool worldPositionStays = (bool)lua_toboolean(luaState, 3);
-
-	std::cout << "Parent" << parent << "," << parent->GetTransform() << '\n';
-	std::cout << "Child" << child << "," << child->GetTransform() << '\n';
 
 	//Add child to parent
 	child->GetTransform()->SetParent(parent->GetTransform(), worldPositionStays);
@@ -489,6 +487,28 @@ static int AddRigidbody(GameObject* gameObject, lua_State* luaState)
 	return 0;
 }
 
+int AddCharacterController(GameObject* gameObject, lua_State* luaState)
+{
+	//Command Structure:
+	//1 - Slope limit
+	//2 - Step height
+	//3 - radius
+	//4 - height
+
+	const float slopeLimit = (float)luaL_checknumber(luaState, 1);
+	const float stepHeight = (float)luaL_checknumber(luaState, 2);
+	const float radius = (float)luaL_checknumber(luaState, 3);
+	const float height = (float)luaL_checknumber(luaState, 4);
+
+	CharacterController* controller = gameObject->AddBehaviour<CharacterController>();
+	controller->SetSlopeLimit(slopeLimit);
+	controller->SetStepHeight(stepHeight);
+	controller->SetRadius(radius);
+	controller->SetHeight(height);
+
+	return 0;
+}
+
 int AddTranslationAnimation(GameObject* gameObject, lua_State* luaState)
 {
 	gameObject->AddBehaviour<TranslationAnimation>();
@@ -513,6 +533,7 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("capsulecollider", AddCapsuleCollider),
 	std::make_pair("meshcollider", AddMeshCollider),
 	std::make_pair("rigidbody", AddRigidbody),
+	std::make_pair("charactercontroller", AddCharacterController),
 	std::make_pair("translationanimation", AddTranslationAnimation)
 };
 
