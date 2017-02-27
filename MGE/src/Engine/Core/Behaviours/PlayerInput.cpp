@@ -6,5 +6,8 @@ PlayerInput::PlayerInput() : m_textLog("arial.ttf") {}
 void PlayerInput::Update()
 {
 	char lastCharInput = Input::GetCharacterTyped();
-	m_textLog.AddText(std::string(&lastCharInput));
+	if (lastCharInput != '\0')
+	{
+		m_textLog.AddText(std::string(&lastCharInput, 1));
+	}
 }

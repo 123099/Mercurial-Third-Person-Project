@@ -73,6 +73,9 @@ void Application::InitializeScene()
 	litMaterial->SetTexture("environmentMap", cubeMap);
 
 	LevelImporter::LoadLevel("Level2");
+	
+	//GameObject* input = SceneManager::Instance().GetActiveScene()->CreateGameObject("Input");
+	//input->AddBehaviour<PlayerInput>();
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
