@@ -1,38 +1,43 @@
 #ifndef ABSTRACTGAME_H
 #define ABSTRACTGAME_H
 
-#include <GL/glew.h>
-#include <string>
-#include <memory>
 #include <Managers\InputManager.hpp>
 #include <SFML\Graphics\RenderWindow.hpp>
 #include <SFML\Graphics\RenderTexture.hpp>
+#include <UI\TextLog.hpp>
+#include <GL\glew.h>
+#include <memory>
+#include <string>
 
 class AbstractGame
 {
 public:
-    virtual void Initialize();
-
 	void SetFPSLimit(float limit);
+	void SetDebugHudEnabled(bool enabled);
 
     void Run();
 	void Quit();
 protected:
-    AbstractGame() = default;
+	AbstractGame();
     virtual ~AbstractGame() = default;
-
-    //Initialize the actual scene
-    virtual void InitializeScene() = 0;
-
-	//Render all game objects in the display root
-	virtual void Render();
-	sf::RenderTexture renderT;
-	std::unique_ptr<sf::RenderWindow> m_window;		//SFML window to render into
-	std::unique_ptr<InputManager> m_inputManager;	//Manages Input events and provides the data to all classes in the project
 
 	float m_fpsLimitTime;
 	bool m_shouldQuit;
+
+	bool m_debugHudEnabled;
+
+	sf::RenderTexture renderT;
+	std::unique_ptr<sf::RenderWindow> m_window;
+	InputManager m_inputManager;
+
+	TextLog m_debugHud;
+
+	virtual void OnInitialized();
+    virtual void InitializeScene() = 0;
 private:
+	//Begins initializing the engine
+	void Initialize();
+
 	//Initialize SFML rendering context
 	void InitializeWindow();
 
@@ -57,9 +62,6 @@ private:
 	//Load the light buffer
 	void InitializeLight();
 
-	//Initialize the input manager instance
-	void InitializeInputManager();
-
 	//Initialize all the components, etc.
 	void PostInitializeScene();
 
@@ -75,8 +77,14 @@ private:
 	//Call update on all game objects in the display root
 	void Update();
 
+	//Updated the information on the debug hud
+	void UpdateDebugHud();
+
 	//Sets everything up for rendering, e.g. binding light buffers
 	void PreRender();
+
+	//Renders the Scene and the UI
+	void Render();
 
 	//Cleans after itself after rendering, e.g. unbind light buffers
 	void PostRender();

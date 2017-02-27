@@ -17,6 +17,8 @@ friend Singleton<Renderer>;
 friend MeshRenderer;
 
 public:
+	void Initialize();
+
     void SetClearColor (float r, float g, float b);
 
 	glm::mat4 GetViewMatrix() const;
@@ -24,7 +26,7 @@ public:
 
     void Render ();
 private:
-	Renderer();
+	Renderer() = default;
 	std::vector<MeshRenderer*> m_renderables;
 
 	void AddRenderable(MeshRenderer* meshRenderer);

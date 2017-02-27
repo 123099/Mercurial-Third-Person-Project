@@ -1,9 +1,28 @@
 #include "MeshRenderer.hpp"
-#include <Managers\Renderer.hpp>
+#include <Renderers\Renderer.hpp>
 #include <Core\GameObject.hpp>
 #include <Behaviours\Transform.hpp>
 
-MeshRenderer::MeshRenderer() : 
+void MeshRenderer::GetTotalVertexTriangleCountInScene(int * vertexCount, int * triangleCount)
+{
+	const auto& rootGameObjects = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
+	for (const auto& rootGameObject : rootGameObjects)
+	{
+		auto sceneGraph = rootGameObject->GetTransform()->GetAllChildrenRecursively();
+		sceneGraph.push_back(rootGameObject->GetTransform());
+
+		for (Transform* child : sceneGraph)
+		{
+			if (child->GetGameObject()->GetBehaviour<MeshRenderer>() != nullptr && child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh() != nullptr)
+			{
+				*vertexCount += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetVertexCount();
+				*triangleCount += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetTriangleCount();
+			}
+		}
+	}
+}
+
+MeshRenderer::MeshRenderer() :
 	m_sharedMesh(nullptr),
 	m_sharedMaterial(nullptr),
 	m_meshLinkedToShared(true),

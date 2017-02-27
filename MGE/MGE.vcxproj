@@ -295,6 +295,7 @@
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp" />
+    <ClInclude Include="src\Engine\Core\Renderers\UIRenderer.hpp" />
     <ClInclude Include="src\Engine\Core\Textures\RenderTexture.hpp" />
     <ClInclude Include="src\Engine\Core\UI\TextLog.hpp" />
     <ClInclude Include="src\Engine\Core\UI\UI.h" />
@@ -351,7 +352,7 @@
     <ClInclude Include="src\Engine\Core\Behaviours\Camera.hpp" />
     <ClInclude Include="src\Engine\Core\GameObject.hpp" />
     <ClInclude Include="src\Engine\Core\Mesh.hpp" />
-    <ClInclude Include="src\Engine\Core\Managers\Renderer.hpp" />
+    <ClInclude Include="src\Engine\Core\Renderers\Renderer.hpp" />
     <ClInclude Include="src\Engine\Core\Shader.hpp" />
     <ClInclude Include="src\Engine\Core\ShaderProperty.hpp" />
     <ClInclude Include="src\Engine\Core\Textures\Texture.hpp" />
@@ -377,6 +378,7 @@
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp" />
+    <ClCompile Include="src\Engine\Core\Renderers\UIRenderer.cpp" />
     <ClCompile Include="src\Engine\Core\Textures\RenderTexture.cpp" />
     <ClCompile Include="src\Engine\Core\UI\TextLog.cpp" />
     <ClCompile Include="src\Engine\Core\UI\UI.cpp" />
@@ -430,7 +432,7 @@
     <ClCompile Include="src\Engine\Core\Behaviours\Camera.cpp" />
     <ClCompile Include="src\Engine\Core\GameObject.cpp" />
     <ClCompile Include="src\Engine\Core\Mesh.cpp" />
-    <ClCompile Include="src\Engine\Core\Managers\Renderer.cpp" />
+    <ClCompile Include="src\Engine\Core\Renderers\Renderer.cpp" />
     <ClCompile Include="src\Engine\Core\Shader.cpp" />
     <ClCompile Include="src\Engine\Core\Textures\Texture.cpp" />
     <ClCompile Include="src\Engine\Core\Material.cpp" />

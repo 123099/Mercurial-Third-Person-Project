@@ -10,7 +10,6 @@
 #include <Core\Material.hpp>
 #include <Core\GameObject.hpp>
 
-#include <Managers\Renderer.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Managers\LightManager.hpp>
 
@@ -35,30 +34,12 @@
 
 #include <Input\Input.hpp>
 
-#include <Utils\DebugHud.hpp>
 #include <Utils\Cursor.hpp>
 #include <Utils\Profiler.hpp>
 
 #include <Textures\CubeMap.hpp>
 
 #include <Lua\LevelImporter.hpp>
-
-void Application::Initialize() 
-{
-    AbstractGame::Initialize();
-
-	SetFPSLimit(60);
-	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
-	Cursor::Instance().SetCursorVisible(false);
-	Renderer::Instance().SetClearColor(0.5, 0, 0);
-
-	std::cout << "Initializing HUD" << '\n';
-	m_hud = new DebugHud(m_window.get());
-	std::cout << "HUD initialized." << '\n' << '\n';
-}
-
-int hudVerts;
-int hudTris;
 
 #include <bullet\btBulletDynamicsCommon.h>
 #include <Physics\Physics.hpp>
@@ -68,23 +49,15 @@ int hudTris;
 #include <Behaviours\Rigidbody.hpp>
 #include <Behaviours\PlayerInput.hpp>
 
+void Application::OnInitialized()
+{
+	SetFPSLimit(60);
+	SetDebugHudEnabled(true);
+	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
+	Cursor::Instance().SetCursorVisible(false);
+}
+
 void Application::InitializeScene()
-{
-	InitSceneLighting();
-
-	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
-	quitter->AddBehaviour<QuitBehaviour>();
-
-	Physics::Instance().SetGravity(glm::vec3(0, -10, 0));
-}
-
-void Application::Render() 
-{
-    AbstractGame::Render();
-    UpdateHud();
-}
-
-void Application::InitSceneLighting()
 {
 	Scene* scene = SceneManager::Instance().CreateScene("Main Scene");
 
@@ -101,36 +74,6 @@ void Application::InitSceneLighting()
 
 	LevelImporter::LoadLevel("Level2");
 
-	for (const auto& rootGameObject : SceneManager::Instance().GetActiveScene()->GetRootGameObjects())
-	{
-		auto sceneGraph = rootGameObject->GetTransform()->GetAllChildrenRecursively();
-		sceneGraph.push_back(rootGameObject->GetTransform());
-		for (auto child : sceneGraph)
-		{
-			if (child->GetGameObject()->GetBehaviour<MeshRenderer>() != nullptr && child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh() != nullptr)
-			{
-				hudVerts += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetVertexCount();
-				hudTris += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetTriangleCount();
-			}
-		}
-	}
-}
-
-sf::Clock c;
-
-//This reduces FPS by around 1-2
-void Application::UpdateHud() {
-	if (c.getElapsedTime().asSeconds() > 0.12f)
-	{
-		std::string debugInfo = "";
-		debugInfo += "FPS: " + std::to_string((int)Time::s_frameRate) + "\n";
-		debugInfo += "Vertices: " + std::to_string(hudVerts) + "\n";
-		debugInfo += "Triangles: " + std::to_string(hudTris) + "\n";
-		debugInfo += Profiler::Instance().GetAllSampleDataAsString();
-
-		m_hud->setDebugInfo(debugInfo);
-
-		c.restart();
-	}
-    m_hud->draw();
+	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
+	quitter->AddBehaviour<QuitBehaviour>();
 }

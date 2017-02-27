@@ -29,6 +29,9 @@ void Physics::Initialize()
 	//Dynamics World
 	m_physicsWorld = std::make_unique<btDiscreteDynamicsWorld>(m_collisionDispatcher.get(), m_broadphaseInterface.get(), m_constraintSolver.get(), m_collisionConfig.get());
 
+	//Gravity
+	SetGravity(glm::vec3(0, -10, 0));
+
 	//Debug renderer
 	m_physicsWorldDebugRenderer = std::make_unique<BulletDebugRenderer>();
 	m_physicsWorld->setDebugDrawer(m_physicsWorldDebugRenderer.get());

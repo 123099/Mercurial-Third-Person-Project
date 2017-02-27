@@ -1,18 +1,28 @@
 #pragma once
-#include "UI.h"
-#include <SFML/Graphics.hpp>
-class TextLog :
-	public UI
+#include <UI\UI.h>
+#include <SFML\Graphics\Font.hpp>
+#include <SFML\Graphics\Text.hpp>
+#include <Utils\glm.hpp>
+#include <string>
+
+class TextLog :	public UI
 {
 public:
-	void createLog();
-	void setLogInfo(std::string logInfo);
-	void Draw() override;
-	
+	TextLog(const std::string& fontFileName);
 
+	void SetFontColor(sf::Color color);
+	void SetFontSize(unsigned size);
+
+	void AddText(const std::string& text);
+	void SetText(const std::string& text);
+	std::string GetText();
+
+	void SetPositionOnScreen(float x, float y);
+
+	void Draw(sf::RenderWindow& window) override;
 private:
-	sf::Font gameFont;
-	sf::Text logText;
-	sf::RenderWindow * window;
+	sf::Font m_gameFont;
+	sf::Text m_logText;
+	sf::Color m_fontColor;
 };
 

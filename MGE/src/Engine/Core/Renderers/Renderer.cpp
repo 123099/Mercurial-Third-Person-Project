@@ -1,4 +1,4 @@
-#include <Managers\Renderer.hpp>
+#include <Renderers\Renderer.hpp>
 #include <Core\GameObject.hpp>
 #include <Behaviours\Camera.hpp>
 #include <Core\Mesh.hpp>
@@ -11,13 +11,13 @@
 #include <iostream>
 #include <algorithm>
 
-Renderer::Renderer()
+void Renderer::Initialize()
 {
 	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
-	glEnable( GL_DEPTH_TEST );
-	glEnable( GL_CULL_FACE ); // default GL_BACK
-    glEnable (GL_BLEND);
-    glBlendFunc (GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_CULL_FACE); // default GL_BACK
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	SetClearColor(0.0f, 0.0f, 0.0f);
 }
 
