@@ -6,6 +6,6 @@ materialSpecular color 1 1 1 1
 materialEmission color 0.1 0 0 1
 materialShininess float 1
 
-diffuseTexture texture mge/textures/tex.jpg
-normalMap texture mge/textures/New_Graph_normal.png
-specularMap texture mge/textures/New_Graph_roughness.png
+diffuseTexture texture mge/textures/Pillar/albedo.png
+normalMap texture mge/textures/Pillar/normal.png
+specularMap texture mge/textures/Pillar/metallic.png
