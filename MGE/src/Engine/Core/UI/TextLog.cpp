@@ -11,6 +11,12 @@ TextLog::TextLog(const std::string& fontFileName)
 	SetFontColor(sf::Color::White);
 }
 
+void TextLog::SetBackground(const std::string& boxFileName)
+{
+	m_boxTexture.loadFromFile(config::MGE_SPRITES_PATH + boxFileName);
+	m_boxSprite.setTexture(m_boxTexture);
+}
+
 void TextLog::SetFontColor(sf::Color color)
 {
 	m_fontColor = color;
@@ -40,10 +46,12 @@ std::string TextLog::GetText()
 void TextLog::SetPositionOnScreen(float x, float y)
 {
 	m_logText.setPosition(x, y);
+	m_boxSprite.setPosition(x, y);
 }
 
 void TextLog::OnDraw(sf::RenderWindow& window)
 {
+	window.draw(m_boxSprite);
 	window.draw(m_logText);
 }
 
