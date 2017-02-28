@@ -156,7 +156,7 @@ void Physics::RemoveAction(btActionInterface * bulletAction)
 
 void Physics::StepSimulation()
 {
-	m_physicsWorld->stepSimulation(Time::s_fixedDeltaTime, 10, Time::s_fixedDeltaTime);
+	m_physicsWorld->stepSimulation(Time::s_deltaTime, 10, Time::s_fixedDeltaTime);
 
 	if (m_debugMode == true)
 	{
