@@ -79,4 +79,12 @@ void Application::InitializeScene()
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
+
+	GameObject* test = SceneManager::Instance().GetActiveScene()->CreateGameObject("Test");
+	test->GetTransform()->SetWorldPosition(glm::vec3(5, 10, 0));
+	test->AddBehaviour<SphereCollider>()->SetRadius(5);
+	test->AddBehaviour<Rigidbody>()->SetMass(100);
+	MeshRenderer* ms = test->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	ms->SetSharedMesh(ObjImporter::LoadObj("Shape"));
 }
