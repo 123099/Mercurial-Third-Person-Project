@@ -31,6 +31,12 @@ void Rigidbody::Awake()
 	const btRigidBody::btRigidBodyConstructionInfo rigidbodyInfo(m_mass, m_rigidbodyMotion.get(), collisionShape, inertia);
 	m_rigidbody = std::make_unique<btRigidBody>(rigidbodyInfo);
 
+	//Set static
+	if (m_gameObject->GetTransform()->IsStatic() == true)
+	{
+		m_rigidbody->setCollisionFlags(m_rigidbody->getCollisionFlags() | btRigidBody::CollisionFlags::CF_STATIC_OBJECT);
+	}
+
 	SetKinematic(m_isKinematic);
 
 	FreezePosition(m_freezePositionX, m_freezePositionY, m_freezePositionZ);
@@ -45,23 +51,18 @@ void Rigidbody::Update()
 	{
 		return;
 	}
-
+	
 	//Based on whether the rigidbody is kinematic or not, either update the engine's transform or the rigidbody's transform
 	if (m_isKinematic == false)
 	{
 		//Get the transform of the rigidbody simulation
 		btTransform rbTransform;
 		m_rigidbodyMotion->getWorldTransform(rbTransform);
-
+		
 		//Update the game object's transform based on the transform of the rigid body
 		const btVector3 origin = rbTransform.getOrigin();
 		m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(origin.getX(), origin.getY(), origin.getZ()));
 		m_gameObject->GetTransform()->SetWorldRotation(rbTransform.getRotation());
-
-		if (m_gameObject->GetName() == "Tablet")
-		{
-			std::cout << m_gameObject->GetTransform()->GetWorldRotation() << ',' << m_gameObject->GetTransform()->GetWorldPosition() << '\n';
-		}
 	}
 	else
 	{
@@ -71,7 +72,7 @@ void Rigidbody::Update()
 		rbTransform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
 		rbTransform.setRotation(m_gameObject->GetTransform()->GetWorldRotation());
 		m_rigidbodyMotion->setWorldTransform(rbTransform);
-		//m_rigidbody->proceedToTransform(rbTransform);
+		m_rigidbody->proceedToTransform(rbTransform);
 	}
 }
 
@@ -106,7 +107,11 @@ void Rigidbody::SetKinematic(bool kinematic)
 		}
 		else
 		{
-			m_rigidbody->setCollisionFlags(btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT ^ m_rigidbody->getCollisionFlags()); //Remove kinematic flag
+			//If the rigid body has the kinematic flag, then remove it
+			if ((m_rigidbody->getCollisionFlags() & btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT) == btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT)
+			{
+				m_rigidbody->setCollisionFlags(btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT ^ m_rigidbody->getCollisionFlags()); //Remove kinematic flag
+			}
 		}
 	}
 }

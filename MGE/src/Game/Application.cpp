@@ -10,7 +10,6 @@
 #include <Core\Material.hpp>
 #include <Core\GameObject.hpp>
 
-#include <Managers\Renderer.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Managers\LightManager.hpp>
 
@@ -35,30 +34,12 @@
 
 #include <Input\Input.hpp>
 
-#include <Utils\DebugHud.hpp>
 #include <Utils\Cursor.hpp>
 #include <Utils\Profiler.hpp>
 
 #include <Textures\CubeMap.hpp>
 
 #include <Lua\LevelImporter.hpp>
-
-void Application::Initialize() 
-{
-    AbstractGame::Initialize();
-
-	SetVsync(true);
-	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
-	Cursor::Instance().SetCursorVisible(false);
-	Renderer::Instance().SetClearColor(0.5, 0, 0);
-
-	std::cout << "Initializing HUD" << '\n';
-	m_hud = new DebugHud(m_window.get());
-	std::cout << "HUD initialized." << '\n' << '\n';
-}
-
-int hudVerts;
-int hudTris;
 
 #include <bullet\btBulletDynamicsCommon.h>
 #include <Physics\Physics.hpp>
@@ -68,32 +49,15 @@ int hudTris;
 #include <Behaviours\Rigidbody.hpp>
 #include <Behaviours\PlayerInput.hpp>
 
+void Application::OnInitialized()
+{
+	SetFPSLimit(60);
+	SetDebugHudEnabled(true);
+	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
+	Cursor::Instance().SetCursorVisible(false);
+}
+
 void Application::InitializeScene()
-{
-	InitSceneLighting();
-
-	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
-	quitter->AddBehaviour<QuitBehaviour>();
-
-	Physics::Instance().SetGravity(glm::vec3(0, -10, 0));
-
-	GameObject* ground = SceneManager::Instance().GetActiveScene()->CreateGameObject("Ground");
-	ground->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(50, 0.5, 50));
-	ground->GetTransform()->Translate(glm::vec3(30, -2, -20));
-	ground->GetTransform()->SetLocalScale(glm::vec3(50, 0.5, 50));
-	ground->AddBehaviour<Rigidbody>()->SetMass(0);
-	MeshRenderer* ms = ground->AddBehaviour<MeshRenderer>();
-	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
-	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
-}
-
-void Application::Render() 
-{
-    AbstractGame::Render();
-    UpdateHud();
-}
-
-void Application::InitSceneLighting()
 {
 	Scene* scene = SceneManager::Instance().CreateScene("Main Scene");
 
@@ -108,44 +72,19 @@ void Application::InitSceneLighting()
 	Material* litMaterial = MaterialImporter::LoadMaterial("lit");
 	litMaterial->SetTexture("environmentMap", cubeMap);
 
-	LevelImporter::LoadLevel("Greybox Level");
+	LevelImporter::LoadLevel("Level2");
+	
+	GameObject* input = SceneManager::Instance().GetActiveScene()->CreateGameObject("Input");
+	input->AddBehaviour<PlayerInput>();
 
-	for (const auto& rootGameObject : SceneManager::Instance().GetActiveScene()->GetRootGameObjects())
-	{
-		auto sceneGraph = rootGameObject->GetTransform()->GetAllChildrenRecursively();
-		sceneGraph.push_back(rootGameObject->GetTransform());
-		for (auto child : sceneGraph)
-		{
-			if (child->GetGameObject()->GetBehaviour<MeshRenderer>() != nullptr && child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh() != nullptr)
-			{
-				hudVerts += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetVertexCount();
-				hudTris += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetTriangleCount();
-			}
-		}
-	}
-}
+	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
+	quitter->AddBehaviour<QuitBehaviour>();
 
-sf::Clock c;
-
-//This reduces FPS by around 1-2
-void Application::UpdateHud() {
-	if (c.getElapsedTime().asSeconds() > 0.12f)
-	{
-		std::string debugInfo = "";
-		debugInfo += "FPS: " + std::to_string((int)Time::s_frameRate) + "\n";
-		debugInfo += "FixedUpdate: " + std::to_string(Profiler::GetSampleData("FixedUpdate")) + "s\n";
-		debugInfo += "Update: " + std::to_string(Profiler::GetSampleData("Update")) + "s\n";
-		debugInfo += "Pre-Render: \n";
-		debugInfo += "\tLight: " + std::to_string(Profiler::GetSampleData("UpdateLight")) + "s\n";
-		debugInfo += "Render: " + std::to_string(Profiler::GetSampleData("Render")) + "s\n";
-		debugInfo += "Post-Render: " + std::to_string(Profiler::GetSampleData("PostRender")) + "s\n";
-		debugInfo += "Events: " + std::to_string(Profiler::GetSampleData("Events")) + "s\n";
-		debugInfo += "Vertices: " + std::to_string(hudVerts) + "\n";
-		debugInfo += "Triangles: " + std::to_string(hudTris) + "\n";
-
-		m_hud->setDebugInfo(debugInfo);
-
-		c.restart();
-	}
-    m_hud->draw();
+	GameObject* test = SceneManager::Instance().GetActiveScene()->CreateGameObject("Test");
+	test->GetTransform()->SetWorldPosition(glm::vec3(5, 10, 0));
+	test->AddBehaviour<SphereCollider>()->SetRadius(5);
+	test->AddBehaviour<Rigidbody>()->SetMass(100);
+	MeshRenderer* ms = test->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	ms->SetSharedMesh(ObjImporter::LoadObj("Shape"));
 }

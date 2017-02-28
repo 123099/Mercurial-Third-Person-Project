@@ -29,12 +29,17 @@ AbstractGame::AbstractGame() : m_debugHud("arial.ttf"), m_hierarchyDebugHud("ari
 {
 	m_debugHud.SetPositionOnScreen(10, 10); 
 	m_hierarchyDebugHud.SetPositionOnScreen(300, 10);
+
+#ifdef _DEBUG
+	SetDebugHudEnabled(true);
+#else
+	SetDebugHudEnabled(false);
+#endif
 }
 
 void AbstractGame::Initialize()
 {
 	std::cout << "Initializing engine..." << '\n' << '\n';
-	//TODO: InitializeConfig();
 	//TODO: InitializeSkybox(); (Add RenderSettings)
 	InitializeWindow();
 	InitializeHelperSingletons();
