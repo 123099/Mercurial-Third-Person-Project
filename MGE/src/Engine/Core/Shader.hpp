@@ -29,8 +29,10 @@ public:
 	void Validate();
 	void Unbind();
 
-	GLuint GetAttribute(const std::string& attributeName);
-	GLuint GetUniform(const std::string& uniformName);
+	GLint GetAttribute(const std::string& attributeName);
+	GLint GetUniform(const std::string& uniformName);
+
+	bool HasLightBuffer();
 	GLuint GetLightBufferBlockIndex();
 
 	void SetProperty(const ShaderProperty& property);

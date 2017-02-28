@@ -47,98 +47,101 @@ void InputManager::Reset(bool l_fullReset)
 
 void InputManager::Update(const sf::RenderWindow& window, const sf::Event & event)
 {
-//Update the static arrays based on the event data//
-	//**Keyboard**//
-	if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
+	if (window.hasFocus())
 	{
-		//Check that the key code is known
-		if (event.key.code != sf::Keyboard::Unknown)
+		//Update the static arrays based on the event data//
+			//**Keyboard**//
+		if (event.type == sf::Event::KeyPressed || event.type == sf::Event::KeyReleased)
 		{
-			if (event.type == sf::Event::KeyPressed)
+			//Check that the key code is known
+			if (event.key.code != sf::Keyboard::Unknown)
 			{
-				//Mark key as pressed (this is only valid for this frame, since it will be reset in the next call to update)//
-				this->s_keysPressed[event.key.code] = true;
-				//Mark key as held. This is valid until the key is released//
-				this->s_keysHeld[event.key.code] = true;
+				if (event.type == sf::Event::KeyPressed)
+				{
+					//Mark key as pressed (this is only valid for this frame, since it will be reset in the next call to update)//
+					this->s_keysPressed[event.key.code] = true;
+					//Mark key as held. This is valid until the key is released//
+					this->s_keysHeld[event.key.code] = true;
+					//Mark any key held as true
+					this->s_anyKey = true;
+				}
+				else if (event.type == sf::Event::KeyReleased)
+				{
+					//Mark key as released. This is valid until next frame//
+					this->s_keysReleased[event.key.code] = true;
+					//Mark held key as no longer held//
+					this->s_keysHeld[event.key.code] = false;
+					//Mark any key released as true
+					this->s_anyKeyUp = true;
+					//Mark any key held as false
+					this->s_anyKey = false;
+				}
+			}
+		}
+		else if (event.type == sf::Event::TextEntered)
+		{
+			//Make sure input is within the ASCII range and is not backspace
+			if (event.text.unicode < 128 && event.text.unicode != 8)
+			{
+				//Convert carriage return (\r) into a new line (\n)
+				if (event.text.unicode == 13)
+				{
+					s_textInputCharacter = '\n';
+				}
+				else
+				{
+					s_textInputCharacter = static_cast<char>(event.text.unicode);
+				}
+			}
+		}
+		//**Mouse**//
+		else if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased)
+		{
+			if (event.type == sf::Event::MouseButtonPressed)
+			{
+				//Mark mouse button as pressed (this is only valid for this frame, since it will be reset in the next call to update)//
+				this->s_mouseButtonsPressed[event.mouseButton.button] = true;
+				//Mark mouse button as held. This is valid until the mouse button is released//
+				this->s_mouseButtonsHeld[event.mouseButton.button] = true;
 				//Mark any key held as true
 				this->s_anyKey = true;
 			}
-			else if (event.type == sf::Event::KeyReleased)
+			else if (event.type == sf::Event::MouseButtonReleased)
 			{
-				//Mark key as released. This is valid until next frame//
-				this->s_keysReleased[event.key.code] = true;
-				//Mark held key as no longer held//
-				this->s_keysHeld[event.key.code] = false;
+				//Mark mouse button as released. This is valid until next frame//
+				this->s_mouseButtonsReleased[event.mouseButton.button] = true;
+				//Mark held mouse button as no longer held//
+				this->s_mouseButtonsHeld[event.mouseButton.button] = false;
 				//Mark any key released as true
 				this->s_anyKeyUp = true;
 				//Mark any key held as false
 				this->s_anyKey = false;
 			}
 		}
-	}
-	else if (event.type == sf::Event::TextEntered)
-	{
-		//Make sure input is within the ASCII range and is not backspace
-		if (event.text.unicode < 128 && event.text.unicode != 8)
+		else if (event.type == sf::Event::MouseMoved)
 		{
-			//Convert carriage return (\r) into a new line (\n)
-			if (event.text.unicode == 13)
+			//On mouse move, calculate the delta of the mouse
+			//If the cursor is centered, calculate relative to center,
+			//else, calculate relative to previous pos
+			const glm::vec2 anchorPoint = [&]()
 			{
-				s_textInputCharacter = '\n';
-			}
-			else
-			{
-				s_textInputCharacter = static_cast<char>(event.text.unicode);
-			}
-		}
-	}
-	//**Mouse**//
-	else if (event.type == sf::Event::MouseButtonPressed || event.type == sf::Event::MouseButtonReleased)
-	{
-		if (event.type == sf::Event::MouseButtonPressed)
-		{
-			//Mark mouse button as pressed (this is only valid for this frame, since it will be reset in the next call to update)//
-			this->s_mouseButtonsPressed[event.mouseButton.button] = true;
-			//Mark mouse button as held. This is valid until the mouse button is released//
-			this->s_mouseButtonsHeld[event.mouseButton.button] = true;
-			//Mark any key held as true
-			this->s_anyKey = true;
-		}
-		else if (event.type == sf::Event::MouseButtonReleased)
-		{
-			//Mark mouse button as released. This is valid until next frame//
-			this->s_mouseButtonsReleased[event.mouseButton.button] = true;
-			//Mark held mouse button as no longer held//
-			this->s_mouseButtonsHeld[event.mouseButton.button] = false;
-			//Mark any key released as true
-			this->s_anyKeyUp = true;
-			//Mark any key held as false
-			this->s_anyKey = false;
-		}
-	}
-	else if (event.type == sf::Event::MouseMoved)
-	{
-		//On mouse move, calculate the delta of the mouse
-		//If the cursor is centered, calculate relative to center,
-		//else, calculate relative to previous pos
-		const glm::vec2 anchorPoint = [&]() 
-		{
-			if (Cursor::Instance().GetCursorMode() == Cursor::Mode::LockedAndCentered)
-			{
-				return glm::vec2(window.getSize().x * 0.5f, window.getSize().y * 0.5f);
-			}
-			else
-			{
-				return this->s_mousePosition;
-			}
-		}();
+				if (Cursor::Instance().GetCursorMode() == Cursor::Mode::LockedAndCentered)
+				{
+					return glm::vec2(window.getSize().x * 0.5f, window.getSize().y * 0.5f);
+				}
+				else
+				{
+					return this->s_mousePosition;
+				}
+			}();
 
-		this->s_mousePosition = glm::vec2(event.mouseMove.x, window.getSize().y - event.mouseMove.y);
-		this->s_mouseDelta = this->s_mousePosition - anchorPoint;
-	}
-	else if (event.type == sf::Event::MouseWheelMoved)
-	{
-		this->s_mouseWheelDelta += event.mouseWheel.delta;
+			this->s_mousePosition = glm::vec2(event.mouseMove.x, window.getSize().y - event.mouseMove.y);
+			this->s_mouseDelta = this->s_mousePosition - anchorPoint;
+		}
+		else if (event.type == sf::Event::MouseWheelMoved)
+		{
+			this->s_mouseWheelDelta += event.mouseWheel.delta;
+		}
 	}
 }
 

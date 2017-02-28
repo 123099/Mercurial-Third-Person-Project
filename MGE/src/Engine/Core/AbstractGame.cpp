@@ -1,6 +1,7 @@
 #include "AbstractGame.hpp"
 #include <Behaviours\Camera.hpp>
 #include <Behaviours\MeshRenderer.hpp>
+#include <Game\Behaviours\Player.hpp>
 
 #include <Core\GameObject.hpp>
 #include <Core\Time.hpp>
@@ -24,7 +25,11 @@
 #include <sstream>
 #include <iostream>
 
-AbstractGame::AbstractGame() : m_debugHud("arial.ttf") { m_debugHud.SetPositionOnScreen(10, 10); }
+AbstractGame::AbstractGame() : m_debugHud("arial.ttf"), m_hierarchyDebugHud("arial.ttf") 
+{
+	m_debugHud.SetPositionOnScreen(10, 10); 
+	m_hierarchyDebugHud.SetPositionOnScreen(300, 10);
+}
 
 void AbstractGame::Initialize()
 {
@@ -57,6 +62,8 @@ void AbstractGame::SetFPSLimit(float limit)
 void AbstractGame::SetDebugHudEnabled(bool enabled)
 {
 	m_debugHudEnabled = enabled;
+	m_debugHud.SetVisible(enabled);
+	m_hierarchyDebugHud.SetVisible(enabled);
 }
 
 void AbstractGame::OnInitialized() {}
@@ -195,31 +202,12 @@ void AbstractGame::Run()
 			//Update frame count
 			++Time::s_frameCount;
 
-			PostFrame();
-
-			//Display Hierarchy
-			if (Input::IsKeyPressed(sf::Keyboard::H))
+			if (Input::IsKeyPressed(sf::Keyboard::F3))
 			{
-				Scene* activeScene = SceneManager::Instance().GetActiveScene();
-				std::cout << "Scene: " << activeScene->GetName() << ", Root objects: " << activeScene->GetRootCount() << '\n';
-
-				const auto& hierarchy = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
-				for (const auto& o : hierarchy)
-				{
-					std::cout << o->GetName() << '\n';
-					std::cout << o->GetTransform()->GetLocalPosition() << '\n';
-					std::cout << o->GetTransform()->GetLocalRotation().GetEulerAngles() << '\n';
-					std::cout << o->GetTransform()->GetLocalScale() << '\n';
-					const auto& children = o->GetTransform()->GetAllChildrenRecursively();
-					for (const auto& c : children)
-					{
-						std::cout << '\t' << c->GetGameObject()->GetName() << '\n';
-						std::cout << '\t' << c->GetLocalPosition() << '\n';
-						std::cout << '\t' << c->GetLocalRotation().GetEulerAngles() << '\n';
-						std::cout << '\t' << c->GetLocalScale() << '\n';
-					}
-				}
+				SetDebugHudEnabled(!m_debugHudEnabled);
 			}
+
+			PostFrame();
 		}
 		
 		//Clear the profiler data
@@ -334,6 +322,7 @@ void AbstractGame::UpdateDebugHud()
 {
 	if (m_debugHudEnabled == true)
 	{
+		//Debug Hud
 		int totalVertexCount = 0;
 		int totalTriangleCount = 0;
 		MeshRenderer::GetTotalVertexTriangleCountInScene(&totalVertexCount, &totalTriangleCount);
@@ -345,6 +334,30 @@ void AbstractGame::UpdateDebugHud()
 		debugInfo << Profiler::Instance().GetAllSampleDataAsString();
 
 		m_debugHud.SetText(debugInfo.str());
+
+		//Hierarchy
+		debugInfo.str("");
+		Scene* activeScene = SceneManager::Instance().GetActiveScene();
+		debugInfo << "Scene: " << activeScene->GetName() << ", Root objects: " << activeScene->GetRootCount() << '\n';
+
+		const auto& hierarchy = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
+		for (const GameObject* object : hierarchy)
+		{
+			debugInfo << object->GetName() << ": ";
+			debugInfo << object->GetTransform()->GetLocalPosition() << ", ";
+			debugInfo << object->GetTransform()->GetLocalRotation().GetEulerAngles() << ", ";
+			debugInfo << object->GetTransform()->GetLocalScale() << '\n';
+
+			const auto& children = object->GetTransform()->GetAllChildrenRecursively();
+			for (const Transform* child : children)
+			{
+				debugInfo << '\t' << child->GetGameObject()->GetName() << ": ";
+				debugInfo << '\t' << child->GetLocalPosition() << ", ";
+				debugInfo << '\t' << child->GetLocalRotation().GetEulerAngles() << ", ";
+				debugInfo << '\t' << child->GetLocalScale() << '\n';
+			}
+		}
+		m_hierarchyDebugHud.SetText(debugInfo.str());
 	}
 }
 
@@ -361,13 +374,8 @@ void AbstractGame::PreRender()
 
 void AbstractGame::Render() 
 {
-	//Render 3D OpenGL
 	Renderer::Instance().Render();
-
-	//Render UI
-	m_window->pushGLStates();
 	UIRenderer::Instance().Render(*m_window);
-	m_window->popGLStates();
 }
 
 void AbstractGame::PostRender() 

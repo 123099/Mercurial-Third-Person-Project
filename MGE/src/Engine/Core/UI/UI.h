@@ -7,6 +7,11 @@ public:
 	UI();
 	virtual ~UI();
 
-	virtual void Draw(sf::RenderWindow& window) = 0;
+	void SetVisible(bool visible);
+	
+	void Draw(sf::RenderWindow& window);
+	virtual void OnDraw(sf::RenderWindow& window) = 0;
+protected:
+	bool m_isVisible;
 };
 

@@ -1,5 +1,4 @@
-#ifndef ABSTRACTGAME_H
-#define ABSTRACTGAME_H
+#pragma once
 
 #include <Managers\InputManager.hpp>
 #include <SFML\Graphics\RenderWindow.hpp>
@@ -31,6 +30,7 @@ protected:
 	InputManager m_inputManager;
 
 	TextLog m_debugHud;
+	TextLog m_hierarchyDebugHud;
 
 	virtual void OnInitialized();
     virtual void InitializeScene() = 0;
@@ -95,5 +95,3 @@ private:
     AbstractGame(const AbstractGame&) = delete;
     AbstractGame& operator=(const AbstractGame&) = delete;
 };
-
-#endif // ABSTRACTGAME_H

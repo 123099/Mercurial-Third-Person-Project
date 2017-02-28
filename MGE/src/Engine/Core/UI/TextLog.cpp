@@ -42,7 +42,7 @@ void TextLog::SetPositionOnScreen(float x, float y)
 	m_logText.setPosition(x, y);
 }
 
-void TextLog::Draw(sf::RenderWindow& window)
+void TextLog::OnDraw(sf::RenderWindow& window)
 {
 	window.draw(m_logText);
 }

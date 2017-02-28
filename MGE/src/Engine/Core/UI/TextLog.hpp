@@ -19,7 +19,7 @@ public:
 
 	void SetPositionOnScreen(float x, float y);
 
-	void Draw(sf::RenderWindow& window) override;
+	void OnDraw(sf::RenderWindow& window) override;
 private:
 	sf::Font m_gameFont;
 	sf::Text m_logText;

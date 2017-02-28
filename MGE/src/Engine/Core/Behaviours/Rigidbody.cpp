@@ -57,6 +57,11 @@ void Rigidbody::Update()
 		const btVector3 origin = rbTransform.getOrigin();
 		m_gameObject->GetTransform()->SetWorldPosition(glm::vec3(origin.getX(), origin.getY(), origin.getZ()));
 		m_gameObject->GetTransform()->SetWorldRotation(rbTransform.getRotation());
+
+		if (m_gameObject->GetName() == "Tablet")
+		{
+			std::cout << m_gameObject->GetTransform()->GetWorldRotation() << ',' << m_gameObject->GetTransform()->GetWorldPosition() << '\n';
+		}
 	}
 	else
 	{
@@ -65,8 +70,8 @@ void Rigidbody::Update()
 		btTransform rbTransform;
 		rbTransform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
 		rbTransform.setRotation(m_gameObject->GetTransform()->GetWorldRotation());
-		m_rigidbody->proceedToTransform(rbTransform);
 		m_rigidbodyMotion->setWorldTransform(rbTransform);
+		//m_rigidbody->proceedToTransform(rbTransform);
 	}
 }
 
