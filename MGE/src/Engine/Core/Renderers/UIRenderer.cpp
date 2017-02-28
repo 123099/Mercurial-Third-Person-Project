@@ -4,6 +4,7 @@
 
 void UIRenderer::Render(sf::RenderWindow & window)
 {
+	glActiveTexture(GL_TEXTURE0);
 	window.pushGLStates();
 	for (size_t i = 0; i < m_UIElements.size(); ++i)
 	{
