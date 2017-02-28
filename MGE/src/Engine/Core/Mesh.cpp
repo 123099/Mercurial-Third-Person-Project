@@ -8,14 +8,15 @@ InstanceCache<Mesh>& Mesh::GetCache()
 	return s_meshCache;
 }
 
-Mesh::Mesh(std::string name) :
-	m_indexBufferID(-1),
-	m_vertexBufferID(-1),
-	m_normalBufferID(-1),
-	m_uvBufferID(-1),
-	m_tangentBufferID(-1) 
+Mesh::Mesh(std::string name)
 {
 	m_name = name;
+
+	glGenBuffers(1, &m_indexBufferID);
+	glGenBuffers(1, &m_vertexBufferID);
+	glGenBuffers(1, &m_normalBufferID);
+	glGenBuffers(1, &m_uvBufferID);
+	glGenBuffers(1, &m_tangentBufferID);
 }
 
 Mesh::~Mesh() 
@@ -149,14 +150,6 @@ void Mesh::UploadMeshData()
 
 void Mesh::Buffer()
 {
-	//Only generate a new buffer if the buffer doesn't exist yet
-	//Otherwise, simply bind the buffer index and upload the latest data
-	if (m_indexBufferID == -1) glGenBuffers(1, &m_indexBufferID);
-	if (m_vertexBufferID == -1) glGenBuffers(1, &m_vertexBufferID);
-	if (m_normalBufferID == -1) glGenBuffers(1, &m_normalBufferID);
-	if (m_uvBufferID == -1) glGenBuffers(1, &m_uvBufferID);
-	if (m_tangentBufferID == -1) glGenBuffers(1, &m_tangentBufferID);
-
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_indexBufferID);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_triangles.size()*sizeof(GLuint), m_triangles.size() > 0 ? &m_triangles[0] : nullptr, GL_STATIC_DRAW);
 

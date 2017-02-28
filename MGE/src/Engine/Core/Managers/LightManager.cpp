@@ -80,7 +80,7 @@ float LightManager::GetFogStartDistance() const
 
 GLuint LightManager::InitializeLightBuffer()
 {
-	GLuint bufferID = -1;
+	GLuint bufferID = 0;
 
 	//Generate a buffer for the light uniform
 	glGenBuffers(1, &bufferID);
@@ -103,7 +103,10 @@ GLuint LightManager::InitializeLightBuffer()
 
 	for (const auto& shaderPair : shaders)
 	{
-		glShaderStorageBlockBinding(shaderPair.second->GetProgramID(), shaderPair.second->GetLightBufferBlockIndex(), bindingPoint);
+		if (shaderPair.second->HasLightBuffer() == true)
+		{
+			glShaderStorageBlockBinding(shaderPair.second->GetProgramID(), shaderPair.second->GetLightBufferBlockIndex(), bindingPoint);
+		}
 	}
 
 	UnbindLightBuffer();

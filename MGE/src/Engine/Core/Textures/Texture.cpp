@@ -14,9 +14,7 @@ Texture::Texture(const std::string& name)
 
 Texture::~Texture()
 {
-	if(m_ID != -1)
-		glDeleteTextures(1, &m_ID);
-
+	glDeleteTextures(1, &m_ID);
 	s_textureCache.RemoveValue(m_name);
 }
 

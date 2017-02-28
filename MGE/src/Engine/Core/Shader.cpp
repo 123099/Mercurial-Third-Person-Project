@@ -37,6 +37,12 @@ Shader::Shader(const std::string& shaderName)
 			return;
 		}
 
+		//Initialize the shaders array
+		for (unsigned i = 0; i < ShaderType::NUM_SHADERS; ++i)
+		{
+			m_shaders[i] = GL_INVALID_VALUE;
+		}
+
 		//Create a new shader program
 		m_programID = glCreateProgram();
 
@@ -53,7 +59,10 @@ Shader::Shader(const std::string& shaderName)
 		//Attach shaders to program
 		for (unsigned int i = 0; i < ShaderType::NUM_SHADERS; ++i)
 		{
-			glAttachShader(m_programID, m_shaders[i]);
+			if (m_shaders[i] != GL_INVALID_VALUE)
+			{
+				glAttachShader(m_programID, m_shaders[i]);
+			}
 		}
 
 		//Link the shader program
@@ -113,7 +122,7 @@ void Shader::Unbind()
 	glUseProgram(0);
 }
 
-GLuint Shader::GetAttribute(const std::string& attributeName)
+GLint Shader::GetAttribute(const std::string& attributeName)
 {
 	//Try to locate the attribute in the cache
 	auto itr = m_attributes.find(attributeName);
@@ -132,7 +141,7 @@ GLuint Shader::GetAttribute(const std::string& attributeName)
 	}
 }
 
-GLuint Shader::GetUniform(const std::string& uniformName)
+GLint Shader::GetUniform(const std::string& uniformName)
 {
 	if (m_uniforms.find(uniformName) != m_uniforms.end())
 	{
@@ -142,6 +151,11 @@ GLuint Shader::GetUniform(const std::string& uniformName)
 	{
 		return -1;
 	}
+}
+
+bool Shader::HasLightBuffer()
+{
+	return m_lightDataBufferBlockIndex != GL_INVALID_INDEX;
 }
 
 GLuint Shader::GetLightBufferBlockIndex()
