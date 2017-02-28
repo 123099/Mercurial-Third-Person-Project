@@ -74,8 +74,8 @@ void Application::InitializeScene()
 
 	LevelImporter::LoadLevel("Level2");
 	
-	//GameObject* input = SceneManager::Instance().GetActiveScene()->CreateGameObject("Input");
-	//input->AddBehaviour<PlayerInput>();
+	GameObject* input = SceneManager::Instance().GetActiveScene()->CreateGameObject("Input");
+	input->AddBehaviour<PlayerInput>();
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
