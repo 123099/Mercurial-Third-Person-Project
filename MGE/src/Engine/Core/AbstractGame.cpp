@@ -28,6 +28,7 @@
 AbstractGame::AbstractGame() : m_debugHud("arial.ttf"), m_hierarchyDebugHud("arial.ttf") 
 {
 	m_debugHud.SetPositionOnScreen(10, 10); 
+	m_debugHud.SetBackground("poison.png");
 	m_hierarchyDebugHud.SetPositionOnScreen(300, 10);
 
 #ifdef _DEBUG

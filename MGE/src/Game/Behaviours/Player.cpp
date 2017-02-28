@@ -142,7 +142,7 @@ int Player::Carry(lua_State * luaState)
 
 		//Start carrying the new item
 		m_carriedObject = objectToCarry->GetGameObject()->GetTransform();
-		m_carriedObject->SetParent(m_gameObject->GetTransform());
+		m_carriedObject->SetParent(m_camera->GetGameObject()->GetTransform());
 
 		Rigidbody* carriedObjectRigidbody = m_carriedObject->GetGameObject()->GetBehaviour<Rigidbody>();
 		if (carriedObjectRigidbody != nullptr)
