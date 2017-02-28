@@ -19,6 +19,7 @@
 #include <Behaviours\ConcaveMeshCollider.hpp>
 #include <Behaviours\CharacterController.hpp>
 #include <Behaviours\Rigidbody.hpp>
+#include <Behaviours\AudioListener.hpp>
 
 #include <Game\Behaviours\NPC.hpp>
 #include <Game\Behaviours\RotatingBehaviour.hpp>
@@ -516,6 +517,13 @@ int AddTranslationAnimation(GameObject* gameObject, lua_State* luaState)
 	return 0;
 }
 
+int AddAudioListener(GameObject* gameObject, lua_State* luaState)
+{
+	gameObject->AddBehaviour<AudioListener>();
+
+	return 0;
+}
+
 using func = std::add_pointer_t<int(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
@@ -534,7 +542,8 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("meshcollider", AddMeshCollider),
 	std::make_pair("rigidbody", AddRigidbody),
 	std::make_pair("charactercontroller", AddCharacterController),
-	std::make_pair("translationanimation", AddTranslationAnimation)
+	std::make_pair("translationanimation", AddTranslationAnimation),
+	std::make_pair("audiolistener", AddAudioListener),
 };
 
 static int AddBehaviour(lua_State* luaState)

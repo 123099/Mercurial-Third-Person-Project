@@ -363,6 +363,9 @@
     <ClInclude Include="src\Engine\Core\Renderers\UIRenderer.hpp">
       <Filter>Header Files\Engine\Core\Renderers</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\UI\Crosshair.hpp">
+      <Filter>Header Files\Engine\Core\UI</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -601,6 +604,9 @@
     </ClCompile>
     <ClCompile Include="src\Engine\Core\Renderers\UIRenderer.cpp">
       <Filter>Source Files\Engine\Core\Renderers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\UI\Crosshair.cpp">
+      <Filter>Source Files\Engine\Core\UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

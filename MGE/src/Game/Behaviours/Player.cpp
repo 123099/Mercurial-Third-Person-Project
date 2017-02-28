@@ -15,6 +15,12 @@
 
 #include <Utils\Screen.hpp>
 
+Player::Player() : m_textLog("arial.ttf") 
+{
+	m_textLog.SetPositionOnScreen(10, 400);
+	m_textLog.SetFontColor(sf::Color::Red);
+}
+
 void Player::Awake()
 {
 	LuaEnvironment::GetLua()->RegisterType<Player>("Player");
@@ -78,8 +84,8 @@ void Player::Interact()
 		//Create a ray from the center of the screen forward
 		Ray ray = m_camera->ScreenPointToRay(Screen::Instance().GetWindowCenter());
 
-		//Move the origin of the ray 2 units forward on the ray line to prevent intersection with the player
-		ray.ChangeOrigin(2);
+		//Move the origin of the ray 1 unit forward on the ray line to prevent intersection with the player
+		ray.ChangeOrigin(1);
 
 		//Cast the ray and see if we hit an interactble
 		RaycastHit hitInfo;
@@ -118,6 +124,7 @@ void Player::DropCarriedObject()
 static const luaL_Reg functions[] = {
 	{"carry", lua_asmethod<Player, &Player::Carry>},
 	{"iscarrying", lua_asmethod<Player, &Player::IsCarrying>},
+	{"log", lua_asmethod<Player, &Player::Log>},
 	{ NULL, NULL }
 };
 
@@ -159,4 +166,12 @@ int Player::IsCarrying(lua_State * luaState)
 	lua_pushboolean(luaState, m_carriedObject != nullptr);
 
 	return 1;
+}
+
+int Player::Log(lua_State* luaState)
+{
+	const std::string textToLog(luaL_checkstring(luaState, 1));
+	m_textLog.AddText(textToLog + "\n");
+
+	return 0;
 }

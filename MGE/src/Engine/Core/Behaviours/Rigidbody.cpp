@@ -72,7 +72,6 @@ void Rigidbody::Update()
 		rbTransform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
 		rbTransform.setRotation(m_gameObject->GetTransform()->GetWorldRotation());
 		m_rigidbodyMotion->setWorldTransform(rbTransform);
-		m_rigidbody->proceedToTransform(rbTransform);
 	}
 }
 

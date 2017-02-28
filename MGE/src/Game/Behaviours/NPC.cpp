@@ -181,6 +181,7 @@ static const luaL_Reg functions[]
 {
 	{"gettransform", lua_asmethod<NPC, &NPC::GetTransform>},
 	{"open", lua_asmethod<NPC, &NPC::DestroySelf> },
+	{"destroyself", lua_asmethod<NPC, &NPC::DestroySelf> },
 	{"getposition", lua_asmethod<NPC, &NPC::GetPosition>},
 	{"setenabled", lua_asmethod<NPC, &NPC::SetEnabled>},
 	{"isenabled", lua_asmethod<NPC, &NPC::IsEnabled>},
