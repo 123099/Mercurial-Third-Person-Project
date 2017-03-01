@@ -2,6 +2,7 @@
 #include <Behaviours\AbstractBehaviour.hpp>
 #include <Utils\glm.hpp>
 #include <LuaAPI\lua.hpp>
+#include <UI\TextLog.hpp>
 
 class CharacterController;
 class Transform;
@@ -10,12 +11,16 @@ class Camera;
 class Player final : public AbstractBehaviour
 {
 public:
+	Player();
+
 	void Awake() override final;
 	void FixedUpdate() override final;
 	void Update() override final;
 
 	int Carry(lua_State* luaState);
 	int IsCarrying(lua_State* luaState);
+
+	int Log(lua_State * luaState);
 
 	static const luaL_Reg* GetFunctionList();
 private:
@@ -24,6 +29,8 @@ private:
 	CharacterController* m_characterController;
 
 	glm::vec2 m_accumulatedCameraRotation;
+
+	TextLog m_textLog;
 
 	void Move();
 	void Look();

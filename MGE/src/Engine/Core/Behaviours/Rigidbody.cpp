@@ -24,8 +24,11 @@ void Rigidbody::Awake()
 	btCollisionShape* collisionShape = m_collider->GetBulletCollisionShape();
 
 	//Calculate inertia for the provided mass
-	btVector3 inertia;
-	collisionShape->calculateLocalInertia(m_mass, inertia);
+	btVector3 inertia(0.0f, 0.0f, 0.0f);
+	if (m_mass != 0.0f)
+	{
+		collisionShape->calculateLocalInertia(m_mass, inertia);
+	}
 
 	//Create the Rigidbody
 	const btRigidBody::btRigidBodyConstructionInfo rigidbodyInfo(m_mass, m_rigidbodyMotion.get(), collisionShape, inertia);
@@ -72,7 +75,6 @@ void Rigidbody::Update()
 		rbTransform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
 		rbTransform.setRotation(m_gameObject->GetTransform()->GetWorldRotation());
 		m_rigidbodyMotion->setWorldTransform(rbTransform);
-		m_rigidbody->proceedToTransform(rbTransform);
 	}
 }
 
@@ -86,8 +88,11 @@ void Rigidbody::SetMass(float mass)
 		Physics::Instance().RemoveRigidbody(*m_rigidbody);
 
 		//Change the mass
-		btVector3 inertia;
-		m_collider->GetBulletCollisionShape()->calculateLocalInertia(mass, inertia);
+		btVector3 inertia(0.0f, 0.0f, 0.0f);
+		if (m_mass != 0.0f)
+		{
+			m_collider->GetBulletCollisionShape()->calculateLocalInertia(mass, inertia);
+		}
 		m_rigidbody->setMassProps(mass, inertia);
 
 		//Add the rigidbody back to the world

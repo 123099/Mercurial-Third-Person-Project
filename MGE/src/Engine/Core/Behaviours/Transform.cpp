@@ -17,7 +17,6 @@ Transform::~Transform()
 {
 	m_parent = nullptr;
 
-	std::cout << "\tScene: " << SceneManager::Instance().GetActiveScene() << '\n';
 	//Destroy all the children
 	for (const Transform* child : m_children)
 	{

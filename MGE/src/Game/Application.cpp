@@ -36,6 +36,7 @@
 
 #include <Utils\Cursor.hpp>
 #include <Utils\Profiler.hpp>
+#include <Utils\Screen.hpp>
 
 #include <Textures\CubeMap.hpp>
 
@@ -49,12 +50,18 @@
 #include <Behaviours\Rigidbody.hpp>
 #include <Behaviours\PlayerInput.hpp>
 
+#include <UI\Crosshair.hpp>
+
+Crosshair c("crosshair.png");
+
 void Application::OnInitialized()
 {
 	SetFPSLimit(60);
 	SetDebugHudEnabled(true);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
+
+	c.SetPositionOnScreen(Screen::Instance().GetWidth() * 0.5f - 16, Screen::Instance().GetHeight() * 0.5f - 16);
 }
 
 void Application::InitializeScene()
@@ -62,7 +69,7 @@ void Application::InitializeScene()
 	Scene* scene = SceneManager::Instance().CreateScene("Main Scene");
 
 	CubeMap* cubeMap = new CubeMap();
-	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/SunSet/", ".png");
+	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/FullMoon/", ".png");
 
 	GameObject* skyboxObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("SkyBox");
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();

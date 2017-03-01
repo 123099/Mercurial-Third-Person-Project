@@ -1,5 +1,4 @@
-#ifndef CAMERA_H
-#define CAMERA_H
+#pragma once
 
 #include <Behaviours\AbstractBehaviour.hpp>
 #include <Physics\Ray.hpp>
@@ -42,5 +41,3 @@ private:
 
 	bool m_hasChanged; //Tracks when a change has occured to require a recalculation of the projection matrix
 };
-
-#endif // CAMERA_H
