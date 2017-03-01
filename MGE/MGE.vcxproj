@@ -307,6 +307,7 @@
     <ClInclude Include="src\Engine\Core\Utils\Screen.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Timer.hpp" />
+    <ClInclude Include="src\Game\Behaviours\LightIdentifier.hpp" />
     <ClInclude Include="src\Game\Behaviours\NPC.hpp" />
     <ClInclude Include="src\Game\Behaviours\Player.hpp" />
     <ClInclude Include="src\Game\Behaviours\TranslationAnimation.hpp" />
@@ -389,6 +390,7 @@
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Timer.cpp" />
+    <ClCompile Include="src\Game\Behaviours\LightIdentifier.cpp" />
     <ClCompile Include="src\Game\Behaviours\NPC.cpp" />
     <ClCompile Include="src\Game\Behaviours\Player.cpp" />
     <ClCompile Include="src\Game\Behaviours\TranslationAnimation.cpp" />

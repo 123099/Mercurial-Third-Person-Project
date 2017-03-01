@@ -26,6 +26,7 @@
 #include <Game\Behaviours\WobbleBehaviour.hpp>
 #include <Game\Behaviours\Player.hpp>
 #include <Game\Behaviours\TranslationAnimation.hpp>
+#include <Game\Behaviours\LightIdentifier.hpp>
 
 #include <Importers\ObjImporter.hpp>
 #include <Importers\MaterialImporter.hpp>
@@ -332,7 +333,12 @@ static int AddNPC(GameObject* gameObject, lua_State* luaState)
 
 static int AddPlayer(GameObject* gameObject, lua_State* luaState)
 {
-	gameObject->AddBehaviour<Player>();
+	//Command Structure:
+	//1 - Walk velocity
+
+	float walkVelocity = (float)luaL_checknumber(luaState, 1);
+
+	gameObject->AddBehaviour<Player>()->SetWalkVelocity(walkVelocity);
 
 	return 0;
 }
@@ -530,6 +536,17 @@ int AddAudioListener(GameObject* gameObject, lua_State* luaState)
 	return 0;
 }
 
+int AddLightIdentifier(GameObject* gameObject, lua_State* luaState)
+{
+	//Command structure:
+	//1 - Light ID
+	int ID = (int)luaL_checknumber(luaState, 1);
+
+	gameObject->AddBehaviour<LightIdentifier>()->SetID(ID);
+
+	return 0;
+}
+
 using func = std::add_pointer_t<int(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
@@ -550,6 +567,7 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("charactercontroller", AddCharacterController),
 	std::make_pair("translationanimation", AddTranslationAnimation),
 	std::make_pair("audiolistener", AddAudioListener),
+	std::make_pair("lightidentifier", AddLightIdentifier),
 };
 
 static int AddBehaviour(lua_State* luaState)

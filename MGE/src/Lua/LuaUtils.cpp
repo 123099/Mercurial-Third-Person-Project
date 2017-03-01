@@ -3,9 +3,14 @@
 #include <string>
 
 #include <Core\GameObject.hpp>
-#include <Managers\SceneManager.hpp>
 #include <Core\Scene.hpp>
+
+#include <Managers\SceneManager.hpp>
+
+#include <Behaviours\Light.hpp>
 #include <Behaviours\AudioSource.hpp>
+#include <Game\Behaviours\LightIdentifier.hpp>
+
 #include <Audio\AudioClip.hpp>
 
 #pragma region Public members
@@ -57,6 +62,7 @@ static const luaL_Reg functions[]
 	{"startcoroutine", lua_asmethod<LuaUtils, &LuaUtils::AddCoroutine>},
 	{"getgametime", lua_asmethod<LuaUtils, &LuaUtils::GetGameTime>},
 	{"playsound", lua_asmethod<LuaUtils, &LuaUtils::PlayAudioSource>},
+	{"togglelight", lua_asmethod<LuaUtils, &LuaUtils::ToggleLight>},
 	{nullptr, nullptr}
 };
 
@@ -134,6 +140,31 @@ int LuaUtils::PlayAudioSource(lua_State * l_luaState)
 	audioSource->SetDestroyOnEnd(true);
 
 	audioSource->Play();
+
+	return 0;
+}
+int LuaUtils::ToggleLight(lua_State * l_luaState)
+{
+	//Command structure:
+	//1 - light ID
+	//2 - on or off
+
+	int ID = (int)luaL_checknumber(l_luaState, 1);
+	bool enabled = (bool)lua_toboolean(l_luaState, 2);
+
+	const std::vector<LightIdentifier*> lightIdentifiers = GameObject::FindObjectsOfType<LightIdentifier>();
+	const size_t size = lightIdentifiers.size();
+	for (size_t i = 0; i < size; ++i)
+	{
+		if (lightIdentifiers[i]->GetID() == ID)
+		{
+			Light* light = lightIdentifiers[i]->GetGameObject()->GetBehaviour<Light>();
+			if (light != nullptr)
+			{
+				light->SetIntensity((float)enabled);
+			}
+		}
+	}
 
 	return 0;
 }
