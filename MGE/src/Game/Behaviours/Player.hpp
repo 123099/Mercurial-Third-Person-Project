@@ -3,6 +3,7 @@
 #include <Utils\glm.hpp>
 #include <LuaAPI\lua.hpp>
 #include <UI\TextLog.hpp>
+#include <UI\Crosshair.hpp>
 
 class CharacterController;
 class Transform;
@@ -12,6 +13,8 @@ class Player final : public AbstractBehaviour
 {
 public:
 	Player();
+
+	void SetWalkVelocity(float velocity);
 
 	void Awake() override final;
 	void FixedUpdate() override final;
@@ -30,7 +33,10 @@ private:
 
 	glm::vec2 m_accumulatedCameraRotation;
 
+	float m_walkVelocity;
+
 	TextLog m_textLog;
+	Crosshair m_crosshair;
 
 	void Move();
 	void Look();

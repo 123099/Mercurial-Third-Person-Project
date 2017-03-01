@@ -75,6 +75,7 @@ void Rigidbody::Update()
 		rbTransform.setOrigin(btVector3(worldPos.x, worldPos.y, worldPos.z));
 		rbTransform.setRotation(m_gameObject->GetTransform()->GetWorldRotation());
 		m_rigidbodyMotion->setWorldTransform(rbTransform);
+		m_rigidbody->proceedToTransform(rbTransform);
 	}
 }
 
@@ -116,6 +117,7 @@ void Rigidbody::SetKinematic(bool kinematic)
 			if ((m_rigidbody->getCollisionFlags() & btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT) == btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT)
 			{
 				m_rigidbody->setCollisionFlags(btRigidBody::CollisionFlags::CF_KINEMATIC_OBJECT ^ m_rigidbody->getCollisionFlags()); //Remove kinematic flag
+				SetMass(m_mass);
 			}
 		}
 	}
