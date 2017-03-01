@@ -6,4 +6,10 @@ if npc1:isenabled() == true then
 	npc2:setenabled(true)
 	npc1:setenabled(false) --npc1 = button
 	player:log("Huh, I heard something turning on..")
+else
+	if npc2:isenabled() == false then
+		player:log("This seems to be broken. Is there a way to fix it?")
+	else
+		player:log("My DNA is already all over this little piece of glass")
+	end
 end

@@ -69,10 +69,7 @@ void NPC::SetRunEveryFrame(bool runEveryFrame)
 
 void NPC::StartInteraction()
 {
-	if (m_isInteractble == true || m_runEveryFrame == true)
-	{
-		m_script->Execute();
-	}
+	m_script->Execute();
 }
 
 int NPC::GetTransform(lua_State * luaState)

@@ -158,8 +158,14 @@ static int AddChild(lua_State* luaState)
 	//Retrieve whether to keep world position
 	bool worldPositionStays = (bool)lua_toboolean(luaState, 3);
 
+	bool isChildStatic = child->GetTransform()->IsStatic();
+
+	child->GetTransform()->SetStatic(false);
+
 	//Add child to parent
 	child->GetTransform()->SetParent(parent->GetTransform(), worldPositionStays);
+
+	child->GetTransform()->SetStatic(isChildStatic);
 
 	return 0;
 }

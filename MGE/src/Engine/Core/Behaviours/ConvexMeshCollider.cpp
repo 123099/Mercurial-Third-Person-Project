@@ -1,33 +1,47 @@
 #include <Behaviours\ConvexMeshCollider.hpp>
 #include <Core\Mesh.hpp>
 #include <Core\GameObject.hpp>
+#include <bullet\BulletCollision\CollisionShapes\btShapeHull.h>
 
-void ConvexMeshCollider::Start()
+void ConvexMeshCollider::SetupCollisionShape()
 {
+	btConvexHullShape convexHullShape;						  //Complex shape
+	m_collisionShape = std::make_unique<btConvexHullShape>(); //Simplified shape
+
 	//Retrieve the mesh from the mesh renderer
 	Mesh* mesh = m_gameObject->GetBehaviour<MeshRenderer>()->GetSharedMesh();
 
 	if (mesh == nullptr)
 	{
 		std::cerr << "[Warning - GameObject: " << m_gameObject->GetName() << "] Cannot initialize mesh collider without a mesh set in a mesh renderer!" << '\n';
+		
 	}
 	else
 	{
 		//Go through all the points of the mesh, and add them to the collision shape
 		const std::vector<glm::vec3> vertices = mesh->GetVertices();
-		btConvexHullShape* convexMeshShape = dynamic_cast<btConvexHullShape*>(m_collisionShape.get());
 
 		for (const auto& vertex : vertices)
 		{
-			convexMeshShape->addPoint(btVector3(vertex.x, vertex.y, vertex.z), false);
+			convexHullShape.addPoint(btVector3(vertex.x, vertex.y, vertex.z), false);
 		}
 
 		//Recalculate shape AABB
-		convexMeshShape->recalcLocalAabb();
-	}
-}
+		convexHullShape.recalcLocalAabb();
 
-void ConvexMeshCollider::SetupCollisionShape()
-{
-	m_collisionShape = std::make_unique<btConvexHullShape>();
+		//Create a Hull approximation to reduce vertex count
+		btShapeHull shapeHull(&convexHullShape);
+		shapeHull.buildHull(convexHullShape.getMargin());
+
+		m_collisionShape = std::make_unique<btConvexHullShape>();
+		btConvexHullShape* simpleConvexShape = dynamic_cast<btConvexHullShape*>(m_collisionShape.get());
+
+		const int numVertices = shapeHull.numVertices();
+		for (int i = 0; i < numVertices; ++i)
+		{
+			simpleConvexShape->addPoint(shapeHull.getVertexPointer()[i], false);
+		}
+
+		simpleConvexShape->recalcLocalAabb();
+	}
 }
