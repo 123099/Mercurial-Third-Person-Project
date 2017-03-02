@@ -11,10 +11,12 @@ uniform vec4 materialDiffuse;
 uniform vec4 materialSpecular;
 uniform vec4 materialEmission;
 uniform float materialShininess;
+uniform float materialReflectivity;
 
 uniform sampler2D diffuseTexture;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
+uniform sampler2D shadowMap;
 
 uniform mat4 viewMatrix;
 uniform samplerCube environmentMap;
@@ -167,11 +169,16 @@ vec4 calculateLight(int index, vec4 normal)
 
 vec4 calculateReflection(vec4 currentColor)
 {
+	if(materialReflectivity == 0.0)
+	{
+		return currentColor;
+	}
+	
 	//Calculate vector to skybox in world space since the environment map pixels are in world space and camera translation should be ignored
 	const vec3 direction = vec3(transpose(viewMatrix) * vec4(reflect(vertex_cameraSpace, normal_cameraSpace).xyz, 0));
 	
 	//Calculate reflection of the environment map
-	return vec4(mix(currentColor, pow(texture(environmentMap, direction), gamma), 0.4).xyz, currentColor.a);
+	return vec4(mix(currentColor, pow(texture(environmentMap, direction), gamma), materialReflectivity).xyz, currentColor.a);
 }
 
 vec4 calculateFog(vec4 currentColor)
@@ -211,7 +218,7 @@ void main ( void )
 	fragColor += vec4(globalAmbient.xyz + materialEmission.xyz, (globalAmbient.a + materialEmission.a + fragColor.a) * 0.34);
 	
 	//Apply reflection
-	//fragColor = calculateReflection(fragColor);
+	fragColor = calculateReflection(fragColor);
 	
 	//Apply fog
 	fragColor = calculateFog(fragColor);

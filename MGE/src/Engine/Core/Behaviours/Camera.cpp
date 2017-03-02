@@ -11,7 +11,7 @@ Camera * Camera::GetMainCamera()
 
 Camera::Camera() :
 	m_fieldOfView(60.0f),
-	m_aspect(4.0f/3.0f),
+	m_aspect(16.0f/9.0f),
 	m_nearPlane(0.1f),
 	m_farPlane(1000.0)
 {

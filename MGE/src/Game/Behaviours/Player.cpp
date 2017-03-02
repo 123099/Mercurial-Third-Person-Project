@@ -59,7 +59,12 @@ void Player::Update()
 
 	if (m_carriedObject != nullptr)
 	{
-		m_carriedObject->SetWorldPosition(m_camera->GetGameObject()->GetTransform()->GetWorldPosition() + 1.0f * m_camera->GetGameObject()->GetTransform()->GetForwardVector());
+		m_carriedObject->SetWorldPosition(
+			m_camera->GetGameObject()->GetTransform()->GetWorldPosition() +
+			1.0f * m_camera->GetGameObject()->GetTransform()->GetForwardVector() +
+			0.6f * m_camera->GetGameObject()->GetTransform()->GetRightVector()
+		);
+		m_carriedObject->SetWorldRotation(m_camera->GetGameObject()->GetTransform()->GetWorldRotation());
 	}
 }
 

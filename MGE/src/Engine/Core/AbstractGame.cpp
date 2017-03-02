@@ -155,6 +155,13 @@ void AbstractGame::Run()
 	//Initialize the engine
 	Initialize();
 
+	if (Camera::GetMainCamera() != nullptr)
+	{
+		Camera::GetMainCamera()->SetAspect((float)m_window->getSize().x / m_window->getSize().y);
+	}
+
+	m_renderTexture = std::make_unique<RenderTexture>(m_window->getSize().x, m_window->getSize().y);
+
 	//Create a game clock
 	sf::Clock clock;
 
@@ -377,16 +384,23 @@ void AbstractGame::PreRender()
 	LightManager::Instance().UpdateLightData(Renderer::Instance().GetViewMatrix());
 	Profiler::Instance().EndSample();
 }
-
+#include <Importers\MaterialImporter.hpp>
 void AbstractGame::Render() 
 {
+	//Shadow Pass
+	LightManager::Instance().BindShadowMap();
 	Renderer::Instance().Render();
+	LightManager::Instance().UnbindShadowMap();
+
+	//Render pass
+	Renderer::Instance().Render();
+
+	//Render UI
 	UIRenderer::Instance().Render(*m_window);
 }
 
 void AbstractGame::PostRender() 
 {
-	//Swap the buffers
 	m_window->display();
 }
 

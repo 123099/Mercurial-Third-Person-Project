@@ -20,10 +20,11 @@ void ConvexMeshCollider::SetupCollisionShape()
 	{
 		//Go through all the points of the mesh, and add them to the collision shape
 		const std::vector<glm::vec3> vertices = mesh->GetVertices();
+		const glm::vec3 meshScale = m_gameObject->GetTransform()->GetLocalScale();
 
 		for (const auto& vertex : vertices)
 		{
-			convexHullShape.addPoint(btVector3(vertex.x, vertex.y, vertex.z), false);
+			convexHullShape.addPoint(btVector3(vertex.x * meshScale.x, vertex.y * meshScale.y, vertex.z * meshScale.z), false);
 		}
 
 		//Recalculate shape AABB

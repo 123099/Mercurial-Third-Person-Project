@@ -125,6 +125,11 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 		m_shader.SetProperty(property);
 	}
 
+	//Pass the shadow map texture to the shader at the latest texture unit
+	Texture& shadowMap = LightManager::Instance().GetShadowMap();
+	shadowMap.Bind(currentTextureUnit);
+	m_shader.SetProperty(ShaderProperty("shadowMap", &shadowMap));
+
 	//Draw the mesh
 	mesh->StreamToOpenGL
 	(
@@ -146,6 +151,10 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 			++currentTextureUnit;
 		}
 	}
+
+	//Unbind the shadow map texture
+	shadowMap.Unbind(currentTextureUnit);
+	++currentTextureUnit;
 
 	//Unbind the shader
 	m_shader.Unbind();

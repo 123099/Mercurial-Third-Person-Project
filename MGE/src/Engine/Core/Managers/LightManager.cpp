@@ -4,16 +4,21 @@
 #include <Behaviours\Light.hpp>
 #include <Managers\ShaderManager.hpp>
 #include <Utils\Profiler.hpp>
+#include <Utils\Screen.hpp>
 #include <Core\config.hpp>
 #include <fstream>
 #include <memory>
 
 LightManager::LightManager() : 
 	m_lightBufferID(InitializeLightBuffer()),
+	m_shadowMap(Screen::Instance().GetWidth(), Screen::Instance().GetHeight()),
 	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)),
 	m_fogColor(glm::vec4(1.0)),
 	m_fogDensity(0.03f),
-	m_fogStartDistance(10.0f) {}
+	m_fogStartDistance(10.0f) 
+{
+	m_shadowMap.SetBindDepthTexture(true);
+}
 
 void LightManager::AddLight(Light * light)
 {
@@ -144,6 +149,21 @@ void LightManager::UpdateLightData(glm::mat4 viewMatrix)
 	//Finalize
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	UnbindLightBuffer();
+}
+
+void LightManager::BindShadowMap()
+{
+	m_shadowMap.Activate();
+}
+
+void LightManager::UnbindShadowMap()
+{
+	m_shadowMap.Deactivate();
+}
+
+RenderTexture & LightManager::GetShadowMap()
+{
+	return m_shadowMap;
 }
 
 void LightManager::LoadFromConfig()
