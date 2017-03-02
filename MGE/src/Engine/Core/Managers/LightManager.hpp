@@ -3,6 +3,7 @@
 #include <Utils\Singleton.hpp>
 #include <Utils\glm.hpp>
 #include <Utils\Singleton.hpp>
+#include <Textures\RenderTexture.hpp>
 #include <vector>
 
 class Light;
@@ -26,10 +27,15 @@ public:
 	float GetFogStartDistance() const;
 
 	void UpdateLightData(glm::mat4 viewMatrix);
+
+	void BindShadowMap();
+	void UnbindShadowMap();
+	RenderTexture& GetShadowMap();
 	
 	void LoadFromConfig();
 private:
 	std::vector<Light*> m_lights;
+	RenderTexture m_shadowMap;
 
 	glm::vec4 m_globalAmbient;
 	glm::vec4 m_fogColor;

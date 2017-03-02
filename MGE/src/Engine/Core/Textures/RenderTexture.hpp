@@ -1,15 +1,21 @@
 #pragma once
 #include <Textures\Texture.hpp>
-#include <GL\glew.h>
-#include <Utils\Screen.hpp>
 
-class RenderTexture final : public Texture
+class RenderTexture : public Texture
 {
 public:
-	RenderTexture();
-	//void Bind(GLuint textureUnit) override;
-	//void Unbind(GLuint textureUnit) override;
-private:
-	GLuint m_frameBuffer;
-	GLuint m_depthRenderBuffer;
+  	RenderTexture(int width, int height);
+	virtual ~RenderTexture();
+
+    void Activate();
+    void Deactivate();
+
+	void SetBindDepthTexture(bool bindDepthTexture);
+
+	void Bind(GLuint textureUnit = 0) override final;
+protected:
+	GLuint m_fboHandle;
+	GLuint m_depthTextureID;
+
+	bool m_bindDepthTexture;
 };

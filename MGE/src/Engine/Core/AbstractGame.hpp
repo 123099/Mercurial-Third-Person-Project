@@ -1,8 +1,7 @@
 #pragma once
-
 #include <Managers\InputManager.hpp>
 #include <SFML\Graphics\RenderWindow.hpp>
-#include <SFML\Graphics\RenderTexture.hpp>
+#include <Textures\RenderTexture.hpp>
 #include <UI\TextLog.hpp>
 #include <GL\glew.h>
 #include <memory>
@@ -25,8 +24,8 @@ protected:
 
 	bool m_debugHudEnabled;
 
-	sf::RenderTexture renderT;
 	std::unique_ptr<sf::RenderWindow> m_window;
+	std::unique_ptr<RenderTexture> m_renderTexture;
 	InputManager m_inputManager;
 
 	TextLog m_debugHud;

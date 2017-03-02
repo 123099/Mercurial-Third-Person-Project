@@ -4,4 +4,5 @@ if npc2:isenabled() == true and npc2:distanceTo(player) < 3 and player:iscarryin
 	local x,y,z = npc4:getposition()
 	luautils:playsound("dooropen.wav", x, y, z, false, 1)
 	npc2:setenabled(false)
+	player:log("Keycard accepted!")
 end

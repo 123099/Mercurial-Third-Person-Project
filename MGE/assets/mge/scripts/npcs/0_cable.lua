@@ -6,5 +6,5 @@ if npc0:isenabled() == true then
 	npc0:setenabled(false)
 	npc1:setenabled(true)
 	luautils:togglelight(0, true)
-	player:log("Cable connected...")
+	player:log("Cable connected")
 end
