@@ -1,5 +1,6 @@
 #include <Core\Material.hpp>
 #include <Managers\LightManager.hpp>
+#include <Behaviours\Light.hpp>
 #include <Core\Mesh.hpp>
 #include <Core\config.hpp>
 #include <fstream>
@@ -125,10 +126,16 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 		m_shader.SetProperty(property);
 	}
 
-	//Pass the shadow map texture to the shader at the latest texture unit
-	Texture& shadowMap = LightManager::Instance().GetShadowMap();
-	shadowMap.Bind(currentTextureUnit);
-	m_shader.SetProperty(ShaderProperty("shadowMap", &shadowMap));
+	//Pass the shadow map textures to the shader at the latest texture unit
+	const std::vector<Light*> lights = LightManager::Instance().GetLights();
+	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
+	{
+		Texture& shadowMap = lights[i]->GetShadowMap();
+		shadowMap.Bind(currentTextureUnit);
+		glUniform1i(m_shader.GetUniform("shadowMaps[" + std::to_string(i) + "]"), currentTextureUnit);
+		currentTextureUnit++;
+		//m_shader.SetProperty(ShaderProperty("shadowMaps[" + std::to_string(i) + "]", &shadowMap));
+	}
 
 	//Draw the mesh
 	mesh->StreamToOpenGL
@@ -152,13 +159,16 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 		}
 	}
 
-	//Unbind the shadow map texture
-	shadowMap.Unbind(currentTextureUnit);
-	++currentTextureUnit;
+	//Unbind the shadow map textures
+	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
+	{
+		Texture& shadowMap = lights[i]->GetShadowMap();
+		shadowMap.Unbind(currentTextureUnit);
+		currentTextureUnit++;
+	}
 
 	//Unbind the shader
 	m_shader.Unbind();
-
 }
 
 void Material::SaveToFile(const std::string & materialName)

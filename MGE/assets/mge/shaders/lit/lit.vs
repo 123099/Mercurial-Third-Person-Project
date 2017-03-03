@@ -9,6 +9,7 @@ in vec3 normal;
 in vec2 uv;
 in vec4 tangent;
 
+out vec4 vertex_worldSpace;
 out vec4 vertex_cameraSpace;
 out vec4 normal_cameraSpace;
 out vec2 frag_uv;
@@ -18,8 +19,9 @@ out mat3 tbnMVMatrix;
 void main ( void )
 {	
 	const mat4 mvMatrix = viewMatrix * modelMatrix;
-	vertex_cameraSpace = mvMatrix * vec4(vertex, 1);
-	normal_cameraSpace = mvMatrix * vec4(normal, 0);
+	vertex_worldSpace = modelMatrix * vec4(vertex, 1.0);
+	vertex_cameraSpace = mvMatrix * vec4(vertex, 1.0);
+	normal_cameraSpace = mvMatrix * vec4(normal, 0.0);
 	
 	frag_uv = uv;
 	

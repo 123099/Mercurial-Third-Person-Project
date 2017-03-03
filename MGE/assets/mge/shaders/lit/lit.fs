@@ -16,8 +16,8 @@ uniform float materialReflectivity;
 uniform sampler2D diffuseTexture;
 uniform sampler2D normalMap;
 uniform sampler2D specularMap;
-uniform sampler2D shadowMap;
 
+uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform samplerCube environmentMap;
 
@@ -36,6 +36,7 @@ struct Light
 	float intensity;
 	float spotInnerAngleCos;
 	float spotOuterAngleCos;
+	mat4 vpMatrix;
 };
 
 layout (std430) buffer lightData
@@ -43,6 +44,10 @@ layout (std430) buffer lightData
 	Light lights[];
 };
 
+uniform sampler2D shadowMaps[20];
+uniform sampler2D shadowMaps1;
+
+in vec4 vertex_worldSpace;
 in vec4 vertex_cameraSpace;
 in vec4 normal_cameraSpace;
 in vec2 frag_uv;
@@ -123,6 +128,28 @@ vec4 calculateFragmentNormal()
 	}
 }
 
+float calculateShadowAttenuation(int index)
+{
+	//DIRECTIONAL FOR NOW! REMOVE LATER!!!
+	if(lights[index].type != 0.0) return 1.0;
+	vec4 vertexLightSpace = lights[index].vpMatrix * vec4(vertex_worldSpace.xyz, 1.0);
+	vec3 projectedCoords = 0.5 * (vertexLightSpace.xyz / vertexLightSpace.w) + vec3(0.5);
+	
+	if(projectedCoords.z > 1.0)
+	{
+		return 1.0;
+	}
+	
+	float closestDepth = texture(shadowMaps[index], projectedCoords.xy).x;
+	
+	if(closestDepth < projectedCoords.z + 0.05)
+	{
+		return 0.2;
+	}
+	
+	return 1.0;
+}
+
 vec4 calculateLight(int index, vec4 normal)
 {
 	if(lights[index].intensity == 0.0)
@@ -151,11 +178,13 @@ vec4 calculateLight(int index, vec4 normal)
 		spotFalloff = clamp((currentAngleCos - lights[index].spotOuterAngleCos) / innerMinusOuterAngleCos, 0.0, 1.0);
 	}
 
+	const float shadowAttenuation = calculateShadowAttenuation(index);
+	
 	const vec4 ambient = calculateAmbient(index);
 	const vec4 diffuse = calculateDiffuse(index, L, normal);
 	const vec4 specular = calculateSpecular(index, L, normal);
 	
-	vec3 ambientAndDiffuse = ambient.xyz + diffuse.xyz;
+	vec3 ambientAndDiffuse = ambient.xyz + diffuse.xyz * shadowAttenuation;
 	
 	//Decide whether to apply a diffuse texture or not
 	const vec4 diffuseTextureColor = pow(texture(diffuseTexture, frag_uv), gamma);
@@ -164,7 +193,7 @@ vec4 calculateLight(int index, vec4 normal)
 		ambientAndDiffuse *= diffuseTextureColor.xyz;
 	}
 	
-	return vec4((ambientAndDiffuse.xyz + specular.xyz) * vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff), (ambient.a + diffuse.a + specular.a) * 0.34);
+	return vec4((ambientAndDiffuse.xyz + specular.xyz * shadowAttenuation) * vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff), (ambient.a + diffuse.a + specular.a) * 0.34);
 }
 
 vec4 calculateReflection(vec4 currentColor)
@@ -222,6 +251,13 @@ void main ( void )
 	
 	//Apply fog
 	fragColor = calculateFog(fragColor);
+
+	/*vec4 vertexLightSpace = lights[1].vpMatrix * vec4(vertex_worldSpace.xyz, 1.0);
+	vec3 projectedCoords = 0.5 * (vertexLightSpace.xyz / vertexLightSpace.w) + vec3(0.5);
+	float closestDepth = texture(shadowMaps[1], projectedCoords.xy).x;
+	fragColor = vec4(closestDepth);*/
+	
+	//fragColor = texture(shadowMaps1, frag_uv);
 }
 
 

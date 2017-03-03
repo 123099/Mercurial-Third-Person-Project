@@ -3,7 +3,6 @@
 #include <Utils\Singleton.hpp>
 #include <Utils\glm.hpp>
 #include <Utils\Singleton.hpp>
-#include <Textures\RenderTexture.hpp>
 #include <vector>
 
 class Light;
@@ -14,7 +13,7 @@ friend Singleton<LightManager>;
 friend Light;
 
 public:
-	int GetLightCount() const;
+	size_t GetLightCount() const;
 
 	void SetGlobalAmbientColor(glm::vec4 color);
 	void SetFogColor(glm::vec4 color);
@@ -27,15 +26,13 @@ public:
 	float GetFogStartDistance() const;
 
 	void UpdateLightData(glm::mat4 viewMatrix);
+	void RenderShadowMaps();
 
-	void BindShadowMap();
-	void UnbindShadowMap();
-	RenderTexture& GetShadowMap();
+	std::vector<Light*> GetLights();
 	
 	void LoadFromConfig();
 private:
 	std::vector<Light*> m_lights;
-	RenderTexture m_shadowMap;
 
 	glm::vec4 m_globalAmbient;
 	glm::vec4 m_fogColor;

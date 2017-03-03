@@ -5,7 +5,7 @@ using namespace std;
 #include <SFML/Graphics.hpp>
 
 
-RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), m_fboHandle(0)
+RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), m_fboHandle(0), m_width(width), m_height(height)
 {
     cout << "TODO FIX SIZE OF THE RENDER TEXTURE!!!" << endl;
 
@@ -27,8 +27,8 @@ RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), 
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
     //generate a depth buffer
     GLuint depthBuf;
@@ -63,12 +63,16 @@ void RenderTexture::Activate()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_fboHandle);
     glClearColor(0,0,0,0);
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	glGetIntegerv(GL_VIEWPORT, &m_previousViewport[0]);
+	glViewport(0, 0, m_width, m_height);
 }
 
 void RenderTexture::Deactivate() 
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glViewport(m_previousViewport[0], m_previousViewport[1], m_previousViewport[2], m_previousViewport[3]);
 }
 
 void RenderTexture::SetBindDepthTexture(bool bindDepthTexture)

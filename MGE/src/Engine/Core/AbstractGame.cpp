@@ -27,6 +27,9 @@
 
 AbstractGame::AbstractGame() : m_debugHud("arial.ttf"), m_hierarchyDebugHud("arial.ttf") 
 {
+	InitializeWindow();
+	InitializeHelperSingletons();
+
 	m_debugHud.SetPositionOnScreen(10, 10); 
 	m_debugHud.SetBackground("poison.png");
 	m_hierarchyDebugHud.SetPositionOnScreen(300, 10);
@@ -41,9 +44,6 @@ AbstractGame::AbstractGame() : m_debugHud("arial.ttf"), m_hierarchyDebugHud("ari
 void AbstractGame::Initialize()
 {
 	std::cout << "Initializing engine..." << '\n' << '\n';
-	//TODO: InitializeSkybox(); (Add RenderSettings)
-	InitializeWindow();
-	InitializeHelperSingletons();
 	PrintVersionInfo();
 	InitializeGlew();
 	InitializeShaders();
@@ -381,19 +381,16 @@ void AbstractGame::PreRender()
 
 	Profiler::Instance().BeginSample("UpdateLight");
 	//Update light UBO
-	LightManager::Instance().UpdateLightData(Renderer::Instance().GetViewMatrix());
+	LightManager::Instance().UpdateLightData(Camera::GetMainCamera()->GetViewMatrix());
 	Profiler::Instance().EndSample();
+
+	LightManager::Instance().RenderShadowMaps();
 }
-#include <Importers\MaterialImporter.hpp>
+
 void AbstractGame::Render() 
 {
-	//Shadow Pass
-	LightManager::Instance().BindShadowMap();
-	Renderer::Instance().Render();
-	LightManager::Instance().UnbindShadowMap();
-
 	//Render pass
-	Renderer::Instance().Render();
+	Renderer::Instance().Render(Camera::GetMainCamera()->GetViewMatrix(), Camera::GetMainCamera()->GetProjectionMatrix());
 
 	//Render UI
 	UIRenderer::Instance().Render(*m_window);
