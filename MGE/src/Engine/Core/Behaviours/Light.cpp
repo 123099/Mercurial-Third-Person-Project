@@ -195,7 +195,7 @@ Light::Data Light::GetLightData()
 		//Decide whether to use the light's direction
 		if (m_type == Light::Type::Directional || m_type == Light::Type::Spot)
 		{
-			direction = glm::vec4(m_gameObject->GetTransform()->GetForwardVector(), 0.0f);
+			direction = glm::vec4(-m_gameObject->GetTransform()->GetForwardVector(), 0.0f);
 		}
 
 		//Calculate the light's VP matrix for shadows

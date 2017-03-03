@@ -133,8 +133,6 @@ vec4 calculateFragmentNormal()
 
 float calculateShadowAttenuation(int index)
 {
-	//DIRECTIONAL FOR NOW! REMOVE LATER!!!
-	if(lights[index].type != 0.0) return 1.0;
 	vec4 vertexLightSpace = lights[index].vpMatrix * vec4(vertex_worldSpace.xyz, 1.0);
 	vec3 projectedCoords = 0.5 * (vertexLightSpace.xyz / vertexLightSpace.w) + vec3(0.5);
 	
