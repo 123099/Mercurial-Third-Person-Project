@@ -21,10 +21,7 @@ public:
 
     void SetClearColor (float r, float g, float b);
 
-	glm::mat4 GetViewMatrix() const;
-	glm::mat4 GetProjectionMatrix() const;
-
-    void Render ();
+    void Render (const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
 private:
 	Renderer() = default;
 	std::vector<MeshRenderer*> m_renderables;

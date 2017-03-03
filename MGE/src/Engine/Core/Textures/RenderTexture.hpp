@@ -18,4 +18,8 @@ protected:
 	GLuint m_depthTextureID;
 
 	bool m_bindDepthTexture;
+
+	int m_width;
+	int m_height;
+	GLint m_previousViewport[4];
 };
