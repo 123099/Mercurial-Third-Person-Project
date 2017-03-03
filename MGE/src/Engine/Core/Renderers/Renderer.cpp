@@ -1,14 +1,12 @@
 #include <Renderers\Renderer.hpp>
 #include <Core\GameObject.hpp>
-#include <Behaviours\Camera.hpp>
 #include <Core\Mesh.hpp>
 #include <Core\Material.hpp>
-#include <Utils\Profiler.hpp>
+
+#include <Behaviours\Camera.hpp>
 #include <Behaviours\MeshRenderer.hpp>
-#include <Behaviours\Transform.hpp>
-#include <Core\Scene.hpp>
+
 #include <GL/glew.h>
-#include <iostream>
 #include <algorithm>
 
 void Renderer::Initialize()
@@ -26,30 +24,20 @@ void Renderer::SetClearColor(float r, float g, float b)
     glClearColor(r, g, b, 1.0f );
 }
 
-glm::mat4 Renderer::GetViewMatrix() const
-{
-	return Camera::GetMainCamera()->GetViewMatrix();
-}
-
-glm::mat4 Renderer::GetProjectionMatrix() const
-{
-	return Camera::GetMainCamera()->GetProjectionMatrix();
-}
-
-void Renderer::Render ()
+void Renderer::Render (const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix)
 {
 	//Get the matrices common to all game objects for this frame
-	const glm::mat4 viewMatrix = GetViewMatrix();
-	const glm::mat4 projectionMatrix = GetProjectionMatrix();
 	const glm::mat4 viewProjectionMatrix = projectionMatrix * viewMatrix;
 
-	//Render all the renderables that are part of the currently active scene
-	//TODO: UNORDERED MAP WITH KEY = SCENE
+	//Render all the renderables that are registered
 	const size_t renderablesCount = m_renderables.size();
 	for (size_t i = 0; i < renderablesCount; ++i)
 	{
 		m_renderables[i]->Render(viewMatrix, projectionMatrix, viewProjectionMatrix);
 	}
+
+	//Set the active texture back to texture unit 0, which is the default mode for SFML
+	glActiveTexture(GL_TEXTURE0);
 }
 
 void Renderer::AddRenderable(MeshRenderer * meshRenderer)

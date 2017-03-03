@@ -10,6 +10,6 @@ else
 	if npc2:isenabled() == false then
 		player:log("This seems to be broken. Is there a way to fix it?")
 	else
-		player:log("My DNA is already all over this little piece of glass")
+		player:log("I heard something when I pressed it before..")
 	end
 end

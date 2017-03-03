@@ -1,5 +1,6 @@
 #pragma once
 #include <Behaviours\AbstractBehaviour.hpp>
+#include <Textures\RenderTexture.hpp>
 #include <Utils\glm.hpp>
 #include <string>
 
@@ -25,6 +26,7 @@ public:
 		float intensity;
 		float spotInnerAngleCos;
 		float spotOuterAngleCos;
+		glm::mat4 vpMatrix;
 	};
 
 	Light();
@@ -45,6 +47,10 @@ public:
 	void SetSpotInnerAngle(float spotAngle);
 	void SetSpotOuterAngle(float spotAngle);
 
+	Type GetType();
+
+	RenderTexture& GetShadowMap();
+
 	glm::vec4 GetAmbientColor();
 	glm::vec4 GetDiffuseColor();
 	glm::vec4 GetSpecularColor();
@@ -55,9 +61,14 @@ public:
 
 	glm::vec3 GetAttenuation();
 
+	glm::mat4 GetViewMatrix();
+	glm::mat4 GetProjectionMatrix();
+
 	Data GetLightData();
 private:
 	Type m_type;
+
+	RenderTexture m_shadowMap;
 
 	glm::vec4 m_ambientColor;
 	glm::vec4 m_diffuseColor;

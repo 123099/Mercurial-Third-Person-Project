@@ -3,8 +3,8 @@
 
 BulletDebugRenderer::BulletDebugRenderer() : m_lineShader(Shader::Find("unlit/lineShader"))
 {
-	m_vertexAttrib = m_lineShader->GetAttribute("vertex");
-	m_colorAttrib = m_lineShader->GetAttribute("color");
+//	m_vertexAttrib = m_lineShader->GetAttribute("vertex");
+//	m_colorAttrib = m_lineShader->GetAttribute("color");
 }
 
 void BulletDebugRenderer::StartRender()

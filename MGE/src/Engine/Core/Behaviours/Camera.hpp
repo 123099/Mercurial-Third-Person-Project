@@ -38,6 +38,4 @@ private:
 	float m_aspect;
 	float m_nearPlane;
 	float m_farPlane;
-
-	bool m_hasChanged; //Tracks when a change has occured to require a recalculation of the projection matrix
 };

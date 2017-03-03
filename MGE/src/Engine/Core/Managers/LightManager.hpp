@@ -13,7 +13,7 @@ friend Singleton<LightManager>;
 friend Light;
 
 public:
-	int GetLightCount() const;
+	size_t GetLightCount() const;
 
 	void SetGlobalAmbientColor(glm::vec4 color);
 	void SetFogColor(glm::vec4 color);
@@ -26,6 +26,9 @@ public:
 	float GetFogStartDistance() const;
 
 	void UpdateLightData(glm::mat4 viewMatrix);
+	void RenderShadowMaps();
+
+	std::vector<Light*> GetLights();
 	
 	void LoadFromConfig();
 private:

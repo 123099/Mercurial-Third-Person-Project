@@ -50,18 +50,12 @@
 #include <Behaviours\Rigidbody.hpp>
 #include <Behaviours\PlayerInput.hpp>
 
-#include <UI\Crosshair.hpp>
-
-Crosshair c("crosshair.png");
-
 void Application::OnInitialized()
 {
 	SetFPSLimit(60);
 	SetDebugHudEnabled(true);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
-
-	c.SetPositionOnScreen(Screen::Instance().GetWidth() * 0.5f - 16, Screen::Instance().GetHeight() * 0.5f - 16);
 }
 
 void Application::InitializeScene()
@@ -69,29 +63,18 @@ void Application::InitializeScene()
 	Scene* scene = SceneManager::Instance().CreateScene("Main Scene");
 
 	CubeMap* cubeMap = new CubeMap();
-	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/FullMoon/", ".png");
+	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/Sunset/", ".png");
 
 	GameObject* skyboxObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("SkyBox");
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
 	skybox->SetSkyboxCubeMap(cubeMap);
 	skybox->SetExposure(5);
 
-	Material* litMaterial = MaterialImporter::LoadMaterial("lit");
+	Material* litMaterial = MaterialImporter::LoadMaterial("Capsule");
 	litMaterial->SetTexture("environmentMap", cubeMap);
 
 	LevelImporter::LoadLevel("Level2");
-	
-	GameObject* input = SceneManager::Instance().GetActiveScene()->CreateGameObject("Input");
-	input->AddBehaviour<PlayerInput>();
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
-
-	GameObject* test = SceneManager::Instance().GetActiveScene()->CreateGameObject("Test");
-	test->GetTransform()->SetWorldPosition(glm::vec3(5, 10, 0));
-	test->AddBehaviour<SphereCollider>()->SetRadius(5);
-	test->AddBehaviour<Rigidbody>()->SetMass(100);
-	MeshRenderer* ms = test->AddBehaviour<MeshRenderer>();
-	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
-	ms->SetSharedMesh(ObjImporter::LoadObj("Shape"));
 }

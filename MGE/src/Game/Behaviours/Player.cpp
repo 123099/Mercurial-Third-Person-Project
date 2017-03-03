@@ -15,10 +15,16 @@
 
 #include <Utils\Screen.hpp>
 
-Player::Player() : m_textLog("arial.ttf") 
+Player::Player() : m_textLog("arial.ttf"), m_crosshair("crosshair.png")
 {
 	m_textLog.SetPositionOnScreen(10, 400);
 	m_textLog.SetFontColor(sf::Color::Red);
+	m_crosshair.SetPositionOnScreen(Screen::Instance().GetWidth() * 0.5f - 16, Screen::Instance().GetHeight() * 0.5f - 16);
+}
+
+void Player::SetWalkVelocity(float velocity)
+{
+	m_walkVelocity = velocity;
 }
 
 void Player::Awake()
@@ -31,7 +37,7 @@ void Player::Awake()
 	m_accumulatedCameraRotation = glm::vec2(cameraEulers.y, cameraEulers.x);
 
 	m_characterController = m_gameObject->GetBehaviour<CharacterController>();
-	m_characterController->SetWalkVelocity(5);
+	m_characterController->SetWalkVelocity(m_walkVelocity);
 	m_characterController->SetStepHeight(0.35f);
 	m_characterController->SetSlopeLimit(45);
 }
@@ -49,6 +55,16 @@ void Player::Update()
 	if (Input::GetMouseButtonDown(sf::Mouse::Button::Right))
 	{
 		DropCarriedObject();
+	}
+
+	if (m_carriedObject != nullptr)
+	{
+		m_carriedObject->SetWorldPosition(
+			m_camera->GetGameObject()->GetTransform()->GetWorldPosition() +
+			1.0f * m_camera->GetGameObject()->GetTransform()->GetForwardVector() +
+			0.6f * m_camera->GetGameObject()->GetTransform()->GetRightVector()
+		);
+		m_carriedObject->SetWorldRotation(m_camera->GetGameObject()->GetTransform()->GetWorldRotation());
 	}
 }
 
@@ -85,11 +101,11 @@ void Player::Interact()
 		Ray ray = m_camera->ScreenPointToRay(Screen::Instance().GetWindowCenter());
 
 		//Move the origin of the ray 1 unit forward on the ray line to prevent intersection with the player
-		ray.ChangeOrigin(1);
+		ray.ChangeOrigin(0.6f);
 
 		//Cast the ray and see if we hit an interactble
 		RaycastHit hitInfo;
-		if (Physics::Instance().Raycast(ray, hitInfo, 15.0f) == true)
+		if (Physics::Instance().Raycast(ray, hitInfo, 5.0f) == true)
 		{
 			std::cout << "HIT " << hitInfo.GetCollider()->GetGameObject()->GetName() << " at " << hitInfo.GetPoint() << '\n';
 			const Collider* collider = hitInfo.GetCollider();
@@ -149,7 +165,7 @@ int Player::Carry(lua_State * luaState)
 
 		//Start carrying the new item
 		m_carriedObject = objectToCarry->GetGameObject()->GetTransform();
-		m_carriedObject->SetParent(m_camera->GetGameObject()->GetTransform());
+		m_carriedObject->SetParent(GetGameObject()->GetTransform());
 
 		Rigidbody* carriedObjectRigidbody = m_carriedObject->GetGameObject()->GetBehaviour<Rigidbody>();
 		if (carriedObjectRigidbody != nullptr)
