@@ -126,6 +126,12 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 		m_shader.SetProperty(property);
 	}
 
+	//Pass the environment map to the shader
+	CubeMap& skybox = LightManager::Instance().GetSkyBox();
+	skybox.Bind(currentTextureUnit);
+	++currentTextureUnit;
+	m_shader.SetProperty(ShaderProperty("environmentMap", &skybox));
+
 	//Pass the shadow map textures to the shader at the latest texture unit
 	const std::vector<Light*> lights = LightManager::Instance().GetLights();
 	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
@@ -158,6 +164,10 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 			++currentTextureUnit;
 		}
 	}
+
+	//Unbind the skybox
+	skybox.Unbind(currentTextureUnit);
+	++currentTextureUnit;
 
 	//Unbind the shadow map textures
 	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)

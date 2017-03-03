@@ -1,6 +1,6 @@
 #define MAX_LIGHTS 20
 
-#include "LightManager.hpp"
+#include <Managers\LightManager.hpp>
 #include <Behaviours\Light.hpp>
 #include <Core\GameObject.hpp>
 #include <Behaviours\Transform.hpp>
@@ -17,7 +17,11 @@ LightManager::LightManager() :
 	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)),
 	m_fogColor(glm::vec4(1.0)),
 	m_fogDensity(0.03f),
-	m_fogStartDistance(10.0f) {}
+	m_fogStartDistance(10.0f) 
+{
+	//Load a default skybox
+	m_skybox.SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/Sunset/", ".png");
+}
 
 void LightManager::AddLight(Light * light)
 {
@@ -42,6 +46,11 @@ size_t LightManager::GetLightCount() const
 	return m_lights.size();
 }
 
+void LightManager::SetSkyBox(CubeMap skybox)
+{
+	m_skybox = skybox;
+}
+
 void LightManager::SetGlobalAmbientColor(glm::vec4 color)
 {
 	m_globalAmbient = color;
@@ -60,6 +69,11 @@ void LightManager::SetFogDensity(float density)
 void LightManager::SetFogStartDistance(float distance)
 {
 	m_fogStartDistance = distance;
+}
+
+CubeMap& LightManager::GetSkyBox()
+{
+	return m_skybox;
 }
 
 glm::vec4 LightManager::GetGlobalAmbientColor() const

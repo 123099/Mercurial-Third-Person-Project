@@ -62,16 +62,10 @@ void Application::InitializeScene()
 {
 	Scene* scene = SceneManager::Instance().CreateScene("Main Scene");
 
-	CubeMap* cubeMap = new CubeMap();
-	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/Sunset/", ".png");
-
 	GameObject* skyboxObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("SkyBox");
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
-	skybox->SetSkyboxCubeMap(cubeMap);
+	skybox->SetSkyboxCubeMap(&LightManager::Instance().GetSkyBox());
 	skybox->SetExposure(5);
-
-	Material* litMaterial = MaterialImporter::LoadMaterial("Capsule");
-	litMaterial->SetTexture("environmentMap", cubeMap);
 
 	LevelImporter::LoadLevel("Level2");
 
