@@ -369,6 +369,9 @@
     <ClInclude Include="src\Game\Behaviours\LightIdentifier.hpp">
       <Filter>Header Files\Behaviours</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\TextLogBehaviour.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -613,6 +616,9 @@
     </ClCompile>
     <ClCompile Include="src\Game\Behaviours\LightIdentifier.cpp">
       <Filter>Source Files\Behaviours</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\TextLogBehaviour.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

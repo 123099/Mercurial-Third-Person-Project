@@ -2,6 +2,8 @@
 #include <Core\Time.hpp>
 #include <Input\Input.hpp>
 
+TextLogBehaviour::TextLogBehaviour() : m_textlog("arial.ttf") {}
+
 void TextLogBehaviour::Awake()
 {
 	SetTimeToFade(10.0f);

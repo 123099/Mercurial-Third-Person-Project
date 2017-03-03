@@ -91,20 +91,32 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 	m_shader.Bind();
 
 	//Validate that the shader is still okay with the current context. This is only useful during development
-	//m_shader.Validate();
+#ifdef _DEBUG
+	m_shader.Validate();
+#endif
 
-	//Send the MVP matrices properties of the shader
-	m_shader.SetProperty(ShaderProperty("modelMatrix", modelMatrix));
-	m_shader.SetProperty(ShaderProperty("viewMatrix", viewMatrix));
-	m_shader.SetProperty(ShaderProperty("projectionMatrix", projectionMatrix));
-	m_shader.SetProperty(ShaderProperty("mvpMatrix", viewProjectionMatrix * modelMatrix));
+	//Update the MVP matrix properties in the material
+	SetProperty(ShaderProperty("modelMatrix", modelMatrix));
+	SetProperty(ShaderProperty("viewMatrix", viewMatrix));
+	SetProperty(ShaderProperty("projectionMatrix", projectionMatrix));
+	SetProperty(ShaderProperty("mvpMatrix", viewProjectionMatrix * modelMatrix));
 
-	//Send the global light properties to the shader
+	//Update the global light properties in the material
 	const LightManager& lightManager = LightManager::Instance();
-	m_shader.SetProperty(ShaderProperty("globalAmbient", lightManager.GetGlobalAmbientColor()));
-	m_shader.SetProperty(ShaderProperty("fogColor", lightManager.GetFogColor()));
-	m_shader.SetProperty(ShaderProperty("fogDensity", lightManager.GetFogDensity()));
-	m_shader.SetProperty(ShaderProperty("fogStartDistance", lightManager.GetFogStartDistance()));
+	SetProperty(ShaderProperty("globalAmbient", lightManager.GetGlobalAmbientColor()));
+	SetProperty(ShaderProperty("fogColor", lightManager.GetFogColor()));
+	SetProperty(ShaderProperty("fogDensity", lightManager.GetFogDensity()));
+	SetProperty(ShaderProperty("fogStartDistance", lightManager.GetFogStartDistance()));
+
+	//Pass the environment map to the material
+	SetProperty(ShaderProperty("environmentMap", &LightManager::Instance().GetSkyBox()));
+
+	//Pass the shadow map textures to the shader at the latest texture unit
+	const std::vector<Light*> lights = LightManager::Instance().GetLights();
+	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
+	{
+		SetProperty(ShaderProperty("shadowMaps[" + std::to_string(i) + "].shadowMap", &lights[i]->GetShadowMap()));
+	}
 
 	//Since the default sampler2D value is 0, start from 1, and make 0 represent a non existent texture
 	GLuint currentTextureUnit = 1;
@@ -124,23 +136,6 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 
 		//Send the property to the shader
 		m_shader.SetProperty(property);
-	}
-
-	//Pass the environment map to the shader
-	CubeMap& skybox = LightManager::Instance().GetSkyBox();
-	skybox.Bind(currentTextureUnit);
-	++currentTextureUnit;
-	m_shader.SetProperty(ShaderProperty("environmentMap", &skybox));
-
-	//Pass the shadow map textures to the shader at the latest texture unit
-	const std::vector<Light*> lights = LightManager::Instance().GetLights();
-	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
-	{
-		Texture& shadowMap = lights[i]->GetShadowMap();
-		shadowMap.Bind(currentTextureUnit);
-		glUniform1i(m_shader.GetUniform("shadowMaps[" + std::to_string(i) + "]"), currentTextureUnit);
-		currentTextureUnit++;
-		//m_shader.SetProperty(ShaderProperty("shadowMaps[" + std::to_string(i) + "]", &shadowMap));
 	}
 
 	//Draw the mesh
@@ -163,18 +158,6 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 			property.textureValue->Unbind(currentTextureUnit);
 			++currentTextureUnit;
 		}
-	}
-
-	//Unbind the skybox
-	skybox.Unbind(currentTextureUnit);
-	++currentTextureUnit;
-
-	//Unbind the shadow map textures
-	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
-	{
-		Texture& shadowMap = lights[i]->GetShadowMap();
-		shadowMap.Unbind(currentTextureUnit);
-		currentTextureUnit++;
 	}
 
 	//Unbind the shader
