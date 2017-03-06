@@ -1,7 +1,7 @@
 #include <Textures\Texture.hpp>
 #include <SFML/Graphics.hpp>
 #include <Core\config.hpp>
-#include <iostream>
+#include <Utils\Debug.hpp>
 #include <string>
 
 InstanceCache<Texture> Texture::s_textureCache;
@@ -45,9 +45,8 @@ Texture* Texture::Load(const std::string& name, bool useFullPath)
         texture = LoadFromFile(useFullPath ? name : config::MGE_TEXTURES_PATH + name);
 		if (texture != nullptr)
 		{
-			std::cout << "Texture " << name << " with ID " << texture->GetID() << " loaded." << '\n';
-			std::cout << "Caching texture..." << '\n';
 			s_textureCache.AddValue(texture);
+			Debug::Instance().LogSuccess("Texture " + name + " with ID " + std::to_string(texture->GetID()) + " loaded and cached!");
 		}
     } 
 	

@@ -308,6 +308,7 @@
     <ClInclude Include="src\Engine\Core\UI\UI.h" />
     <ClInclude Include="src\Engine\Core\Utils\BulletDebugRenderer.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\Debug.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\glm.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\MeshFactory.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
@@ -403,6 +404,7 @@
     <ClCompile Include="src\Engine\Core\UI\UI.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\BulletDebugRenderer.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\Debug.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\MeshFactory.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />

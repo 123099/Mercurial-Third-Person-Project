@@ -37,7 +37,7 @@
 
 #include <Utils\Quaternion.hpp>
 #include <Utils\StringUtils.hpp>
-#include <iostream>
+#include <Utils\Debug.hpp>
 #include <cctype>
 
 static std::vector<GameObject*> s_loadedObjects;
@@ -177,7 +177,7 @@ static int AddChild(lua_State* luaState)
 
 #pragma region Behaviours
 
-static int AddLight(GameObject* gameObject, lua_State* luaState)
+static void AddLight(GameObject* gameObject, lua_State* luaState)
 {
 	//Command structure:
 	//1 - light type
@@ -221,11 +221,9 @@ static int AddLight(GameObject* gameObject, lua_State* luaState)
 	light->SetColor(color);
 	light->SetIntensity(intensity);
 	light->SetSpotInnerAngle(spotInnerAngle);
-
-	return 0;
 }
 
-static int AddRotatingBehaviour(GameObject* gameObject, lua_State* luaState)
+static void AddRotatingBehaviour(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - Speed
@@ -235,11 +233,9 @@ static int AddRotatingBehaviour(GameObject* gameObject, lua_State* luaState)
 
 	//Add the behaviour
 	gameObject->AddBehaviour<RotatingBehaviour>()->SetSpeed(speed);
-
-	return 0;
 }
 
-static int AddTerrain(GameObject* gameObject, lua_State* luaState)
+static void AddTerrain(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - width
@@ -257,18 +253,9 @@ static int AddTerrain(GameObject* gameObject, lua_State* luaState)
 	//Setup the terrain
 	terrain->SetSize(width, depth);
 	terrain->SetHeight(height);
-
-	return 0;
 }
 
-static int AddWobbleBehaviour(GameObject* gameObject, lua_State* luaState)
-{
-	gameObject->AddBehaviour<WobbleBehaviour>();
-
-	return 0;
-}
-
-static int AddCamera(GameObject* gameObject, lua_State* luaState)
+static void AddCamera(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - FoV
@@ -289,11 +276,9 @@ static int AddCamera(GameObject* gameObject, lua_State* luaState)
 	camera->SetFieldOfView(fieldOfView);
 	camera->SetNearPlane(nearPlane);
 	camera->SetFarPlane(farPlane);
-
-	return 0;
 }
 
-static int AddFreeLookCamera(GameObject* gameObject, lua_State* luaState)
+static void AddFreeLookCamera(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - Move speed
@@ -306,11 +291,9 @@ static int AddFreeLookCamera(GameObject* gameObject, lua_State* luaState)
 	FreeLookCamera* flc = gameObject->AddBehaviour<FreeLookCamera>();
 	flc->SetMoveSpeed(moveSpeed);
 	flc->SetRotationSpeed(rotationSpeed);
-
-	return 0;
 }
 
-static int AddNPC(GameObject* gameObject, lua_State* luaState)
+static void AddNPC(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - NPC ID
@@ -331,11 +314,9 @@ static int AddNPC(GameObject* gameObject, lua_State* luaState)
 	npc->SetID(ID);
 	npc->SetEnabled(isInteractble);
 	npc->SetRunEveryFrame(runEveryFrame);
-
-	return 0;
 }
 
-static int AddPlayer(GameObject* gameObject, lua_State* luaState)
+static void AddPlayer(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - Walk velocity
@@ -343,11 +324,9 @@ static int AddPlayer(GameObject* gameObject, lua_State* luaState)
 	float walkVelocity = (float)luaL_checknumber(luaState, 1);
 
 	gameObject->AddBehaviour<Player>()->SetWalkVelocity(walkVelocity);
-
-	return 0;
 }
 
-static int AddAudioSource(GameObject* gameObject, lua_State* luaState)
+static void AddAudioSource(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - file name
@@ -393,11 +372,9 @@ static int AddAudioSource(GameObject* gameObject, lua_State* luaState)
 	audioSource->SetPitch(pitch);
 	audioSource->SetVolume(volume);
 	audioSource->SetSpatialBlend(is2D ? AudioSource::Type::TwoD : AudioSource::Type::ThreeD);
-	
-	return 0;
 }
 
-static int AddSphereCollider(GameObject* gameObject, lua_State* luaState)
+static void AddSphereCollider(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - radius
@@ -406,11 +383,9 @@ static int AddSphereCollider(GameObject* gameObject, lua_State* luaState)
 	const float radius = (float)luaL_checknumber(luaState, 1);
 
 	gameObject->AddBehaviour<SphereCollider>()->SetRadius(radius);
-
-	return 0;
 }
 
-static int AddBoxCollider(GameObject* gameObject, lua_State* luaState)
+static void AddBoxCollider(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1..3 - half extents
@@ -424,11 +399,9 @@ static int AddBoxCollider(GameObject* gameObject, lua_State* luaState)
 	const glm::vec3 halfExtents = glm::make_vec3(halfExtentsValues);
 
 	gameObject->AddBehaviour<BoxCollider>()->SetHalfExtents(halfExtents);
-
-	return 0;
 }
 
-static int AddCapsuleCollider(GameObject* gameObject, lua_State* luaState)
+static void AddCapsuleCollider(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - radius
@@ -443,11 +416,9 @@ static int AddCapsuleCollider(GameObject* gameObject, lua_State* luaState)
 	CapsuleCollider* capsuleCollider = gameObject->AddBehaviour<CapsuleCollider>();
 	capsuleCollider->SetRadius(radius);
 	capsuleCollider->SetHeight(height);
-
-	return 0;
 }
 
-static int AddMeshCollider(GameObject* gameObject, lua_State* luaState)
+static void AddMeshCollider(GameObject* gameObject, lua_State* luaState)
 {
 	//Command structure:
 	//1 - Is Convex?
@@ -463,11 +434,9 @@ static int AddMeshCollider(GameObject* gameObject, lua_State* luaState)
 	{
 		gameObject->AddBehaviour<ConcaveMeshCollider>();
 	}
-
-	return 0;
 }
 
-static int AddRigidbody(GameObject* gameObject, lua_State* luaState)
+static void AddRigidbody(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - mass
@@ -505,11 +474,9 @@ static int AddRigidbody(GameObject* gameObject, lua_State* luaState)
 	rigidbody->SetKinematic(isKinematic);
 	rigidbody->FreezePosition(freezeXPos, freezeYPos, freezeZPos);
 	rigidbody->FreezeRotation(freezeXRot, freezeYRot, freezeZRot);
-
-	return 0;
 }
 
-int AddCharacterController(GameObject* gameObject, lua_State* luaState)
+static void AddCharacterController(GameObject* gameObject, lua_State* luaState)
 {
 	//Command Structure:
 	//1 - Slope limit
@@ -527,68 +494,53 @@ int AddCharacterController(GameObject* gameObject, lua_State* luaState)
 	controller->SetStepHeight(stepHeight);
 	controller->SetRadius(radius);
 	controller->SetHeight(height);
-
-	return 0;
 }
 
-int AddTranslationAnimation(GameObject* gameObject, lua_State* luaState)
+static void AddTranslationAnimation(GameObject* gameObject, lua_State* luaState)
 {
 	gameObject->AddBehaviour<TranslationAnimation>();
-
-	return 0;
 }
 
-int AddAudioListener(GameObject* gameObject, lua_State* luaState)
+static void AddAudioListener(GameObject* gameObject, lua_State* luaState)
 {
 	gameObject->AddBehaviour<AudioListener>();
-
-	return 0;
 }
 
-int AddLightIdentifier(GameObject* gameObject, lua_State* luaState)
+static void AddLightIdentifier(GameObject* gameObject, lua_State* luaState)
 {
 	//Command structure:
 	//1 - Light ID
 	int ID = (int)luaL_checknumber(luaState, 1);
 
 	gameObject->AddBehaviour<LightIdentifier>()->SetID(ID);
-
-	return 0;
 }
 
-int AddFog(GameObject* gameObject, lua_State* luaState)
+static void AddFog(GameObject* gameObject, lua_State* luaState)
 {
 	gameObject->AddBehaviour<Fog>();
-
-	return 0;
 }
 
-int AddContrast(GameObject* gameObject, lua_State* luaState)
+static void AddContrast(GameObject* gameObject, lua_State* luaState)
 {
 	//Command structure:
 	//1 - contrast
 
 	const float contrast = (float)luaL_checknumber(luaState, 1);
 
-	gameObject->AddBehaviour<Contrast>()->SetContrast(contrast);
-
-	return 0;	
+	gameObject->AddBehaviour<Contrast>()->SetContrast(contrast);	
 }
 
-int AddVignette(GameObject* gameObject, lua_State* luaState)
+static void AddVignette(GameObject* gameObject, lua_State* luaState)
 {
 	gameObject->AddBehaviour<Vignette>();
-
-	return 0;
 }
 
-using func = std::add_pointer_t<int(GameObject*, lua_State*)>;
+using func = std::add_pointer_t<void(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
 	std::make_pair("light", AddLight),
 	std::make_pair("rotatingbehaviour", AddRotatingBehaviour),
 	std::make_pair("terrain", AddTerrain),
-	std::make_pair("wobblebehaviour", AddWobbleBehaviour),
 	std::make_pair("camera", AddCamera),
 	std::make_pair("freelookcamera", AddFreeLookCamera),
 	std::make_pair("npc", AddNPC),
@@ -631,7 +583,7 @@ static int AddBehaviour(lua_State* luaState)
 	auto found = creationFunctions.find(behaviour);
 	if (found != creationFunctions.end())
 	{
-		return found->second(gameObject, luaState);
+		found->second(gameObject, luaState);
 	}
 
 	return 0;
@@ -641,7 +593,7 @@ static int AddBehaviour(lua_State* luaState)
 
 std::vector<GameObject*> LevelImporter::LoadLevel(const std::string & levelName)
 {
-	std::cout << "[Loading level " << levelName << "...]" << '\n';
+	Debug::Instance().Log("[Loading] Level " + levelName + "...", 11);
 
 	//Clear the loaded objects list
 	s_loadedObjects.clear();
@@ -660,7 +612,7 @@ std::vector<GameObject*> LevelImporter::LoadLevel(const std::string & levelName)
 	//Execute the loading script
 	script.Execute();
 
-	std::cout << "[Level loaded successfully!]\n\n";
+	Debug::Instance().LogSuccess("Level " + levelName + " loaded successfully!");
 
 	//Return the loaded objects list
 	return s_loadedObjects;

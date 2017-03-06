@@ -2,6 +2,7 @@
 #include <fstream>
 #include <memory>
 #include <Core\config.hpp>
+#include <Utils\Debug.hpp>
 
 Material* MaterialImporter::LoadMaterial(const std::string & materialName)
 {
@@ -101,7 +102,7 @@ Material* MaterialImporter::LoadMaterial(const std::string & materialName)
 							}
 							else
 							{
-								std::cerr << "[Error] while loading material " << materialName << ": Failed to load texture " << property << " from " << value << '\n';
+								Debug::Instance().LogError("While loading material " + materialName + ": Failed to load texture " + property + " from " + value);
 							}
 						}
 						else
@@ -130,25 +131,25 @@ Material* MaterialImporter::LoadMaterial(const std::string & materialName)
 					}
 					else
 					{
-						std::cerr << "[Warning] while loading material " << materialName << ": Unknown type " << definition << " on line " << lineNumber << '\n';
+						Debug::Instance().LogWarning("While loading material " + materialName + ": Unknown type " + definition + " on line " + std::to_string(lineNumber));
 					}
 				}
 				else 
 				{
-					std::cerr << "[Error] Bad material file format. First line must start with the word 'shader' and define the name of the shader to use!" << '\n';
+					Debug::Instance().LogError("Bad material file format. First line must start with the word 'shader' and define the name of the shader to use!");
 					return nullptr;
 				}
 
 				if (success == false)
 				{
-					std::cerr << "[Error] while loading material " << materialName << ": Failed to read property " << property << '\n';
+					Debug::Instance().LogError("While loading material " + materialName + ": Failed to read property " + property);
 				}
 
 				++lineNumber;
 			}
 			else
 			{
-				std::cerr << "[Error] Bad material file format. First line must start with the word 'shader' and define the name of the shader to use!" << '\n';
+				Debug::Instance().LogError("Bad material file format. First line must start with the word 'shader' and define the name of the shader to use!");
 				return nullptr;
 			}
 		}
@@ -156,7 +157,7 @@ Material* MaterialImporter::LoadMaterial(const std::string & materialName)
 		//Close the stream
 		file.close();
 
-		std::cout << "Material " << materialName << " loaded successfully." << '\n';
+		Debug::Instance().LogSuccess("Material " + materialName + " loaded successfully!");
 
 		//Add the material to the cache
 		Material::GetCache().AddValue(material.get());
@@ -166,7 +167,7 @@ Material* MaterialImporter::LoadMaterial(const std::string & materialName)
 	}
 	else
 	{
-		std::cerr << "[Error] Failed to open material file " << materialName << ".mat" << '\n';
+		Debug::Instance().LogError("Failed to open material file " + materialName + ".mat");
 		return nullptr;
 	}
 }

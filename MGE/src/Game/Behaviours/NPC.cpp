@@ -43,7 +43,6 @@ static std::string GetNpcScriptPath(int npcID)
 void NPC::Awake()
 {
 	LuaEnvironment::GetLua()->RegisterType<NPC>("NPC");
-	LuaEnvironment::GetLua()->BindObject<NPC>(this, "NPC", "npc" + std::to_string(m_ID));
 	
 	m_script = m_gameObject->GetBehaviour<LuaScript>();
 	m_script->SetScript(GetNpcScriptPath(m_ID));
@@ -74,6 +73,9 @@ void NPC::SetRunEveryFrame(bool runEveryFrame)
 
 void NPC::StartInteraction()
 {
+	//Bind the current NPC before execution, in case multiple objects share the same NPC ID
+	LuaEnvironment::GetLua()->BindObject<NPC>(this, "NPC", "npc" + std::to_string(m_ID));
+
 	m_script->Execute();
 }
 

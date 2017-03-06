@@ -89,7 +89,7 @@ void AbstractGame::InitializeRenderTexture()
 {
 	std::cout << "Initialize screen render texture..." << '\n';
 	m_renderTexture = std::make_unique<RenderTexture>(m_window->getSize().x, m_window->getSize().y);
-	std::cout << "Render texture initialized." << '\n' << 'n';
+	std::cout << "Render texture initialized." << '\n' << '\n';
 }
 
 void AbstractGame::InitializeHelperSingletons()

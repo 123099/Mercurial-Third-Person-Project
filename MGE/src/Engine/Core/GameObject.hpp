@@ -3,6 +3,7 @@
 #include <Behaviours\Transform.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Core\Scene.hpp>
+#include <Utils\Debug.hpp>
 #include <vector>
 #include <string>
 #include <memory>
@@ -29,7 +30,7 @@ public:
 
 		if (std::is_base_of<DisallowMultiple, T>() == true && GetBehaviour<T>() != nullptr)
 		{
-			std::cerr << "[Warning - GameObject: " << m_name << "] Only 1 Instance of type " << typeid(T).name() << " is allowed!" << '\n';
+			Debug::Instance().LogWarning("GameObject: " + m_name + " - Only 1 Instance of type " + typeid(T).name() + " is allowed!");
 		}
 
 		//If check is enabled, check if we already have the behaviour attached

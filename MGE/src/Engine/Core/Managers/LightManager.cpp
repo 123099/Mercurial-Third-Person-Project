@@ -9,6 +9,7 @@
 #include <Renderers\Renderer.hpp>
 #include <Utils\Profiler.hpp>
 #include <Utils\ShadowBox.hpp>
+#include <Utils\Debug.hpp>
 #include <Core\config.hpp>
 #include <fstream>
 #include <memory>
@@ -176,12 +177,13 @@ void LightManager::RenderShadowMaps()
 			//Activate the shadow map render texture
 			light->GetShadowMap().Activate();
 
-			glm::mat4 lightViewMatrix = light->GetViewMatrix();
+			/*glm::mat4 lightViewMatrix = light->GetViewMatrix();
 			ShadowBox shadowBox(*Camera::GetMainCamera(), 100.0f, 10.0f);
 			shadowBox.Calculate(lightViewMatrix);
 
 			//Render the scene to the texture
-			Renderer::Instance().Render(shadowBox.GetViewMatrix(lightViewMatrix, light->GetGameObject()->GetTransform()->GetForwardVector()), shadowBox.GetProjectionMatrix(), true);
+			Renderer::Instance().Render(shadowBox.GetViewMatrix(lightViewMatrix, light->GetGameObject()->GetTransform()->GetForwardVector()), shadowBox.GetProjectionMatrix(), true);*/
+			Renderer::Instance().Render(light->GetViewMatrix(), light->GetProjectionMatrix(), true);
 
 			//Finish with the render texture
 			light->GetShadowMap().Deactivate();
@@ -264,13 +266,13 @@ void LightManager::LoadFromConfig()
 
 			if (success == false)
 			{
-				std::cerr << "[Error] Reading light manager config property " << propertyName << "!\n";
+				Debug::Instance().LogError("Reading light manager config property " + propertyName + "!");
 			}
 		}
 	}
 	else
 	{
-		std::cerr << "Failed to open the config file for the light manager at " << fullPath << "!\n";
+		Debug::Instance().LogError("Failed to open the config file for the light manager at " + fullPath + "!");
 	}
 }
 
