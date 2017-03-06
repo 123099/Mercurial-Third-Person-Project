@@ -312,6 +312,7 @@
     <ClInclude Include="src\Engine\Core\Utils\MeshFactory.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Screen.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\ShadowBox.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Timer.hpp" />
     <ClInclude Include="src\Game\Behaviours\Elevator.hpp" />
@@ -405,6 +406,7 @@
     <ClCompile Include="src\Engine\Core\Utils\MeshFactory.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\ShadowBox.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Timer.cpp" />
     <ClCompile Include="src\Game\Behaviours\Elevator.cpp" />
     <ClCompile Include="src\Game\Behaviours\LightIdentifier.cpp" />

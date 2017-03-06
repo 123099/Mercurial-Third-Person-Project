@@ -74,7 +74,7 @@ void Application::InitializeScene()
 	skybox->SetSkyboxCubeMap(&LightManager::Instance().GetSkyBox());
 	skybox->SetExposure(5);
 
-	LevelImporter::LoadLevel("Level 1");
+	LevelImporter::LoadLevel("Spaceship");
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();

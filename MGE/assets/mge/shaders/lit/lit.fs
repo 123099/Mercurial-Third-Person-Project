@@ -133,6 +133,7 @@ vec4 calculateFragmentNormal()
 
 float calculateShadowAttenuation(int index)
 {
+return 1.0;
 	if(lights[index].type != 0.0)
 	{
 		return 1.0;

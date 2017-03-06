@@ -44,5 +44,5 @@ private:
 	void Look();
 	void Interact();
 
-	void DropCarriedObject();
+	void DropCarriedObject(float throwForce = 200.0f);
 };

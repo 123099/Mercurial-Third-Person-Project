@@ -59,12 +59,16 @@ void Player::Update()
 	{
 		DropCarriedObject();
 	}
+	else if (Input::IsKeyPressed(sf::Keyboard::E))
+	{
+		DropCarriedObject(500.0f);
+	}
 
 	if (m_carriedObject != nullptr)
 	{
 		m_carriedObject->SetWorldPosition(
 			m_camera->GetGameObject()->GetTransform()->GetWorldPosition() +
-			1.0f * m_camera->GetGameObject()->GetTransform()->GetForwardVector() +
+			1.5f * m_camera->GetGameObject()->GetTransform()->GetForwardVector() +
 			0.6f * m_camera->GetGameObject()->GetTransform()->GetRightVector() -
 			0.5f * m_camera->GetGameObject()->GetTransform()->GetUpVector()
 		);
@@ -125,7 +129,7 @@ void Player::Interact()
 	}
 }
 
-void Player::DropCarriedObject()
+void Player::DropCarriedObject(float throwForce)
 {
 	if (m_carriedObject != nullptr)
 	{
@@ -135,7 +139,7 @@ void Player::DropCarriedObject()
 		if (carriedObjectRigidbody != nullptr)
 		{
 			carriedObjectRigidbody->SetKinematic(false);
-			carriedObjectRigidbody->AddRelativeForce(glm::vec3(0, 0, -500));
+			carriedObjectRigidbody->AddRelativeForce(glm::vec3(0, 0, -throwForce));
 		}
 
 		m_carriedObject = nullptr;

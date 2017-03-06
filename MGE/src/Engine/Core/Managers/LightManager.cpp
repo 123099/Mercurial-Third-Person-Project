@@ -8,6 +8,7 @@
 #include <Managers\ShaderManager.hpp>
 #include <Renderers\Renderer.hpp>
 #include <Utils\Profiler.hpp>
+#include <Utils\ShadowBox.hpp>
 #include <Core\config.hpp>
 #include <fstream>
 #include <memory>
@@ -17,7 +18,7 @@ LightManager::LightManager() :
 	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)),
 	m_fogColor(glm::vec4(1.0)),
 	m_fogDensity(0.03f),
-	m_fogStartDistance(10.0f) 
+	m_fogStartDistance(0.0f) 
 {
 	//Load a default skybox
 	m_skybox.SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/FullMoon/", ".png");
@@ -172,15 +173,41 @@ void LightManager::RenderShadowMaps()
 		Light* light = m_lights[i];
 		if (light->GetType() == Light::Type::Directional)
 		{
-
 			//Activate the shadow map render texture
 			light->GetShadowMap().Activate();
 
+			glm::mat4 lightViewMatrix = light->GetViewMatrix();
+			ShadowBox shadowBox(*Camera::GetMainCamera(), 100.0f, 10.0f);
+			shadowBox.Calculate(lightViewMatrix);
+
 			//Render the scene to the texture
-			Renderer::Instance().Render(light->GetViewMatrix(), light->GetProjectionMatrix(), true);
+			Renderer::Instance().Render(shadowBox.GetViewMatrix(lightViewMatrix, light->GetGameObject()->GetTransform()->GetForwardVector()), shadowBox.GetProjectionMatrix(), true);
 
 			//Finish with the render texture
 			light->GetShadowMap().Deactivate();
+
+			//Draw rendered texture to the screen
+			/*glDisable(GL_CULL_FACE);
+			glEnable(GL_TEXTURE_2D);
+			light->GetShadowMap().SetBindDepthTexture(true);
+			light->GetShadowMap().Bind();
+
+			glBegin(GL_QUADS);
+			glTexCoord2f(0.0f, 0.0f);
+			glVertex2f(-1.0, -1.0f);
+
+			glTexCoord2f(1.0f, 0.0f);
+			glVertex2f(1.0, -1.0f);
+
+			glTexCoord2f(1.0f, 1.0f);
+			glVertex2f(1.0, 1.0f);
+
+			glTexCoord2f(0.0f, 1.0f);
+			glVertex2f(-1.0, 1.0f);
+			glEnd();
+
+			m_renderTexture->Unbind();
+			glEnable(GL_CULL_FACE);*/
 		}
 	}
 }
