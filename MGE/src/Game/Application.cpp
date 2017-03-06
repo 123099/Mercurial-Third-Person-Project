@@ -52,6 +52,7 @@
 #include <Behaviours\PostProcessors\Fog.hpp>
 #include <Behaviours\PostProcessors\Vignette.hpp>
 #include <Behaviours\PostProcessors\Contrast.hpp>
+#include <Behaviours\PostProcessors\Transition.hpp>
 
 void Application::OnInitialized()
 {
@@ -92,4 +93,5 @@ void Application::InitializeScene()
 	elevator->AddBehaviour<Vignette>();
 	elevator->AddBehaviour<Fog>();
 	elevator->AddBehaviour<Contrast>()->SetContrast(0.05f);
+	elevator->AddBehaviour<Transition>();
 }
