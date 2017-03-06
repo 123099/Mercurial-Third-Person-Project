@@ -385,6 +385,7 @@
     <ClCompile Include="src\Engine\Core\Behaviours\PlayerInput.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Fog.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Vignette.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Rigidbody.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />

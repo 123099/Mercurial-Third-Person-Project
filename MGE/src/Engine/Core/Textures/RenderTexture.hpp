@@ -4,7 +4,7 @@
 class RenderTexture : public Texture
 {
 public:
-  	RenderTexture(int width, int height);
+  	RenderTexture(int width, int height, bool depth = true);
 	~RenderTexture();
 
     void Activate(bool clear = true);
@@ -22,6 +22,7 @@ protected:
 	GLuint m_depthTextureID;
 
 	bool m_bindDepthTexture;
+	bool m_hasDepth;
 
 	int m_width;
 	int m_height;

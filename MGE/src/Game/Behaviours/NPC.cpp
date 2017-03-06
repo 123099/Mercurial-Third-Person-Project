@@ -62,9 +62,9 @@ void NPC::SetID(int ID)
 	m_ID = ID;
 }
 
-void NPC::SetInteractble(bool interactble)
+void NPC::SetEnabled(bool enabled)
 {
-	m_isInteractble = interactble;
+	m_isEnabled = enabled;
 }
 
 void NPC::SetRunEveryFrame(bool runEveryFrame)
@@ -110,7 +110,7 @@ int NPC::SetEnabled(lua_State * luaState)
 	//Retrieve whether enabled or not
 	const bool isInteractble = (bool)lua_toboolean(luaState, 1);
 
-	SetInteractble(isInteractble);
+	SetEnabled(isInteractble);
 
 	return 0;
 }
@@ -118,7 +118,7 @@ int NPC::SetEnabled(lua_State * luaState)
 int NPC::IsEnabled(lua_State * luaState)
 {
 	//Push whether npc is interactable
-	lua_pushboolean(luaState, m_isInteractble);
+	lua_pushboolean(luaState, m_isEnabled);
 
 	return 1;
 }
@@ -229,7 +229,7 @@ static const luaL_Reg functions[]
 	{"distanceTo", lua_asmethod<NPC, &NPC::DistanceTo>},
 	{"translate", lua_asmethod<NPC, &NPC::Translate>},
 	{"elevatorpointa", lua_asmethod<NPC, &NPC::MoveElevatorToPointA>},
-	{ "elevatorpointb", lua_asmethod<NPC, &NPC::MoveElevatorToPointB> },
+	{"elevatorpointb", lua_asmethod<NPC, &NPC::MoveElevatorToPointB>},
 	{NULL, NULL}
 };
 

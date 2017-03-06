@@ -10,7 +10,7 @@ class NPC final : public AbstractBehaviour, public RequireBehaviours<LuaScript>
 {
 public:
 	void SetID(int ID);
-	void SetInteractble(bool interactble);
+	void SetEnabled(bool enabled);
 	void SetRunEveryFrame(bool runEveryFrame);
 
 	void Awake() override final;
@@ -40,6 +40,6 @@ private:
 	int m_ID;
 	LuaScript* m_script;
 
-	bool m_isInteractble;
+	bool m_isEnabled;
 	bool m_runEveryFrame;
 };

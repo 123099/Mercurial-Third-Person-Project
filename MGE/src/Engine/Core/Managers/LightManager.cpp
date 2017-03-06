@@ -170,15 +170,18 @@ void LightManager::RenderShadowMaps()
 	{
 		//Get the light
 		Light* light = m_lights[i];
+		if (light->GetType() == Light::Type::Directional)
+		{
 
-		//Activate the shadow map render texture
-		light->GetShadowMap().Activate();
+			//Activate the shadow map render texture
+			light->GetShadowMap().Activate();
 
-		//Render the scene to the texture
-		Renderer::Instance().Render(light->GetViewMatrix(), light->GetProjectionMatrix(), true);
+			//Render the scene to the texture
+			Renderer::Instance().Render(light->GetViewMatrix(), light->GetProjectionMatrix(), true);
 
-		//Finish with the render texture
-		light->GetShadowMap().Deactivate();
+			//Finish with the render texture
+			light->GetShadowMap().Deactivate();
+		}
 	}
 }
 

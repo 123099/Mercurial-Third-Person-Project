@@ -81,7 +81,7 @@ void AbstractGame::OnInitialized() {}
 void AbstractGame::InitializeWindow()
 {
 	std::cout << "Initializing window..." << '\n';
-	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800,600), "Mercurial", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
+	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1280,720), "Mercurial", sf::Style::Fullscreen, sf::ContextSettings(24,8,4,3,3));
 	std::cout << "Window initialized." << '\n' << '\n';
 }
 
@@ -258,13 +258,8 @@ void AbstractGame::ProcessEvents()
 	sf::Event event;
 	
 	//Process all the accumulated events in the event queue
-	Profiler::Instance().BeginSample("Poll Event");
-	bool a = m_window->pollEvent(event);
-	Profiler::Instance().EndSample();
-
-	while( a ) 
+	while(m_window->pollEvent(event))
 	{
-
 		Profiler::Instance().BeginSample("Input Manager Update");
 		//Handle Input events by the Input Manager
 		m_inputManager.Update(*m_window, event);
@@ -284,7 +279,6 @@ void AbstractGame::ProcessEvents()
             break;
         }
 		Profiler::Instance().EndSample();
-		a = m_window->pollEvent(event);
 	}
 }
 
@@ -388,13 +382,15 @@ void AbstractGame::PreRender()
 	LightManager::Instance().UpdateLightData(Camera::GetMainCamera()->GetViewMatrix());
 	Profiler::Instance().EndSample();
 
+	Profiler::Instance().BeginSample("Render Shadow Maps");
 	LightManager::Instance().RenderShadowMaps();
+	Profiler::Instance().EndSample();
 }
 
 void AbstractGame::Render() 
 {
 #ifdef _DEBUG
-	Camera::GetMainCamera()->SetAspect(2.0f / 3.0f);
+	Camera::GetMainCamera()->SetAspect((float)m_window->getSize().x / 2.0f, (float)m_window->getSize().y);
 
 	//Render pass
 	m_renderTexture->Activate();
@@ -405,13 +401,15 @@ void AbstractGame::Render()
 	glViewport(0, 0, m_window->getSize().x / 2, m_window->getSize().y);
 	RenderTextureToScreen();
 
+	Profiler::Instance().BeginSample("Post Process");
 	PostProcessRenderer::Instance().Render(*m_renderTexture.get());
+	Profiler::Instance().EndSample();
 
 	//Post-post processing
 	glViewport(m_window->getSize().x / 2, 0, m_window->getSize().x / 2, m_window->getSize().y);
 	RenderTextureToScreen();
 
-	Camera::GetMainCamera()->SetAspect(4.0f / 3.0f);
+	Camera::GetMainCamera()->SetAspect((float)m_window->getSize().x, (float)m_window->getSize().y);
 	glViewport(0, 0, m_window->getSize().x, m_window->getSize().y);
 #else
 	//Render pass
