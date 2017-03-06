@@ -60,4 +60,9 @@ void TextLog::OnDraw(sf::RenderWindow& window)
 	window.draw(m_logText);
 }
 
+void TextLog::ClearLogHistory() 
+{
+	m_logText.setString("");
+}
+
 

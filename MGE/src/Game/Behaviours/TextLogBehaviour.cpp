@@ -7,12 +7,19 @@ TextLogBehaviour::TextLogBehaviour() : m_textlog("arial.ttf") {}
 void TextLogBehaviour::Awake()
 {
 	SetTimeToFade(10.0f);
+	SetTimeToErase(150.0f);
 	m_lastFadeTime = Time::s_gameTime;
+	m_lastEraseTime = Time::s_gameTime;
 }
 
 void TextLogBehaviour::SetTimeToFade(float time)
 {
 	m_timeToFade = time;
+}
+
+void TextLogBehaviour::SetTimeToErase(float time)
+{
+	m_timeToErase = time;
 }
 
 void TextLogBehaviour::Update()
@@ -24,6 +31,10 @@ void TextLogBehaviour::Update()
 	if (Input::IsKeyPressed(sf::Keyboard::Return)) 
 	{
 		Appear();
+	}
+	if (Time::s_gameTime - m_lastEraseTime >= m_timeToErase)
+	{
+		m_textlog.SetText("");
 	}
 }
 
