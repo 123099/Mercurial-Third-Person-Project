@@ -372,6 +372,27 @@
     <ClInclude Include="src\Game\Behaviours\TextLogBehaviour.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Fog.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Vignette.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Renderers\PostProcessRenderer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Utils\MeshFactory.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Game\Behaviours\Elevator.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="src\Engine\Core\Behaviours\Sun.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -623,10 +644,28 @@
     <ClCompile Include="src\Game\Behaviours\TextLogBehaviour.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Core\Behaviours\Sun.cpp">
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.cpp">
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Fog.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Vignette.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Renderers\PostProcessRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Utils\MeshFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Behaviours\Elevator.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\Sun.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
