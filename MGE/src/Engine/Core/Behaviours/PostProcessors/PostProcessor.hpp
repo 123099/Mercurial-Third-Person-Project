@@ -3,13 +3,13 @@
 #include <Textures\RenderTexture.hpp>
 #include <Core\Shader.hpp>
 #include <Core\Mesh.hpp>
-#include <Utils\MeshFactory.hpp>
 #include <memory>
 
 class PostProcessor : public AbstractBehaviour
 {
 public:
-	PostProcessor(Shader& shader) : m_shader(shader), m_quad(MeshFactory::Instance().CreateQuad()) {}
+	PostProcessor(Shader& shader);
+	virtual ~PostProcessor();
 
 	virtual void ProcessTexture(RenderTexture& texture, RenderTexture& originalTexture) = 0;
 protected:

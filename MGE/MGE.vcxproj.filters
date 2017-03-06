@@ -659,6 +659,9 @@
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MGE.rc">

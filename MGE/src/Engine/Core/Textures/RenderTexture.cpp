@@ -1,7 +1,7 @@
 #include "RenderTexture.hpp"
 #include <SFML/Graphics.hpp>
 
-RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), m_fboHandle(0), m_width(width), m_height(height)
+RenderTexture::RenderTexture(int width, int height, bool depth) : Texture("RenderTexture"), m_fboHandle(0), m_width(width), m_height(height), m_hasDepth(depth)
 {
     //Create the Frame Buffer
     glGenFramebuffers(1, &m_fboHandle);
@@ -15,26 +15,31 @@ RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	//Setup depth texture
-	glGenTextures(1, &m_depthTextureID);
-	glBindTexture(GL_TEXTURE_2D, m_depthTextureID);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+	if (m_hasDepth == true)
+	{
+		//Setup depth texture
+		glGenTextures(1, &m_depthTextureID);
+		glBindTexture(GL_TEXTURE_2D, m_depthTextureID);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT24, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, NULL);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+		glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
-    //generate a depth buffer
-    glGenRenderbuffers(1, &m_depthRenderBuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, m_depthRenderBuffer);
-    glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
+		//generate a depth buffer
+		glGenRenderbuffers(1, &m_depthRenderBuffer);
+		glBindRenderbuffer(GL_RENDERBUFFER, m_depthRenderBuffer);
+		glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 
-    // Bind the depth buffer to the FBO
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthRenderBuffer);
+		// Bind the depth buffer to the FBO
+		glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthRenderBuffer);
 
-	//Bind the textures to the frame buffer
+		//Bind the depth texture to the frame buffer
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTextureID, 0);
+	}
+
+	//Bind the color texture to the frame buffer
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ID, 0);
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_depthTextureID, 0);
 
     //set the target for the fragment shader outputs
     GLenum drawBufs[] = {GL_COLOR_ATTACHMENT0};
@@ -46,8 +51,12 @@ RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), 
 
 RenderTexture::~RenderTexture()
 {
-	glDeleteTextures(1, &m_depthTextureID);
-	glDeleteRenderbuffers(1, &m_depthRenderBuffer);
+	if (m_hasDepth == true)
+	{
+		glDeleteTextures(1, &m_depthTextureID);
+		glDeleteRenderbuffers(1, &m_depthRenderBuffer);
+	}
+
     glDeleteFramebuffers(1, &m_fboHandle);
 	Deactivate();
 }

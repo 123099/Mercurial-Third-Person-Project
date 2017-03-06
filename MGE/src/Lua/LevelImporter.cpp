@@ -21,6 +21,10 @@
 #include <Behaviours\Rigidbody.hpp>
 #include <Behaviours\AudioListener.hpp>
 
+#include <Behaviours\PostProcessors\Fog.hpp>
+#include <Behaviours\PostProcessors\Contrast.hpp>
+#include <Behaviours\PostProcessors\Vignette.hpp>
+
 #include <Game\Behaviours\NPC.hpp>
 #include <Game\Behaviours\RotatingBehaviour.hpp>
 #include <Game\Behaviours\WobbleBehaviour.hpp>
@@ -325,7 +329,7 @@ static int AddNPC(GameObject* gameObject, lua_State* luaState)
 	//Add NPC to object
 	NPC* npc = gameObject->AddBehaviour<NPC>();
 	npc->SetID(ID);
-	npc->SetInteractble(isInteractble);
+	npc->SetEnabled(isInteractble);
 	npc->SetRunEveryFrame(runEveryFrame);
 
 	return 0;
@@ -474,6 +478,7 @@ static int AddRigidbody(GameObject* gameObject, lua_State* luaState)
 	//6 - freeze x rotation
 	//7 - freeze y rotation
 	//8 - freeze z rotation
+	//9 - friction
 
 	//Get mass
 	const float mass = (float)luaL_checknumber(luaState, 1);
@@ -491,8 +496,12 @@ static int AddRigidbody(GameObject* gameObject, lua_State* luaState)
 	const bool freezeYRot = (bool)lua_toboolean(luaState, 7);
 	const bool freezeZRot = (bool)lua_toboolean(luaState, 8);
 
+	//Get friction
+	const float friction = (float)luaL_checknumber(luaState, 9);
+
 	Rigidbody* rigidbody = gameObject->AddBehaviour<Rigidbody>();
 	rigidbody->SetMass(mass);
+	rigidbody->SetFriction(friction);
 	rigidbody->SetKinematic(isKinematic);
 	rigidbody->FreezePosition(freezeXPos, freezeYPos, freezeZPos);
 	rigidbody->FreezeRotation(freezeXRot, freezeYRot, freezeZRot);
@@ -547,6 +556,32 @@ int AddLightIdentifier(GameObject* gameObject, lua_State* luaState)
 	return 0;
 }
 
+int AddFog(GameObject* gameObject, lua_State* luaState)
+{
+	gameObject->AddBehaviour<Fog>();
+
+	return 0;
+}
+
+int AddContrast(GameObject* gameObject, lua_State* luaState)
+{
+	//Command structure:
+	//1 - contrast
+
+	const float contrast = (float)luaL_checknumber(luaState, 1);
+
+	gameObject->AddBehaviour<Contrast>()->SetContrast(contrast);
+
+	return 0;	
+}
+
+int AddVignette(GameObject* gameObject, lua_State* luaState)
+{
+	gameObject->AddBehaviour<Vignette>();
+
+	return 0;
+}
+
 using func = std::add_pointer_t<int(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
@@ -568,6 +603,9 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("translationanimation", AddTranslationAnimation),
 	std::make_pair("audiolistener", AddAudioListener),
 	std::make_pair("lightidentifier", AddLightIdentifier),
+	std::make_pair("fog", AddLightIdentifier),
+	std::make_pair("contrast", AddLightIdentifier),
+	std::make_pair("vignette", AddLightIdentifier),
 };
 
 static int AddBehaviour(lua_State* luaState)

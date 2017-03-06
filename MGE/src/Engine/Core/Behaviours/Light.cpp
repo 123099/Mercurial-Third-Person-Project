@@ -7,7 +7,7 @@
 
 Light::Light() :
 	m_type(Light::Type::Directional),
-	m_shadowMap(4096, 4096),
+	m_shadowMap(2048, 2048),
 	m_ambientColor(glm::vec4(0)),
 	m_diffuseColor(glm::vec4(0)),
 	m_specularColor(glm::vec4(0)),

@@ -20,7 +20,7 @@ void main(void)
 	const float distanceFromCenter = length(relativePosition);
 	
 	//Calculate vignette value
-	const float vignette = smoothstep(0.6, 0.45, distanceFromCenter);
+	const float vignette = smoothstep(0.7, 0.45, distanceFromCenter);
 	
 	//Mix the original color with the vignette color
 	fragColor.rgb = mix(fragColor.rgb, fragColor.rgb * vignette, 0.7);
