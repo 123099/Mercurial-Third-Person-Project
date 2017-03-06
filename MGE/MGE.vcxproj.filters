@@ -393,7 +393,7 @@
     <ClInclude Include="src\Game\Behaviours\Elevator.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Core\Behaviours\Sun.hpp">
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Transition.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -665,7 +665,7 @@
     <ClCompile Include="src\Game\Behaviours\Elevator.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Core\Behaviours\Sun.cpp">
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Transition.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -293,10 +293,10 @@
     <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Fog.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Transition.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Vignette.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Rigidbody.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp" />
-    <ClInclude Include="src\Engine\Core\Behaviours\Sun.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp" />
@@ -387,10 +387,10 @@
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Fog.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Transition.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Vignette.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Rigidbody.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />
-    <ClCompile Include="src\Engine\Core\Behaviours\Sun.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp" />
