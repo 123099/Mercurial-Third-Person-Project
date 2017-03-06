@@ -1,8 +1,9 @@
 #version 430
 
-uniform float contrast;
+uniform float time;
 
 uniform sampler2D colorTexture;
+
 
 in vec2 fragUV;
 
@@ -13,6 +14,6 @@ void main(void)
 	//Get the current fragment color
 	fragColor = texture(colorTexture, fragUV);
 	
-	//Apply contrast
-	fragColor.rgb = (fragColor.rgb - 0.5) * (1.0 + contrast) + 0.5;
+	//whiten something
+	fragColor.rgb += vec3(0.34)*time;
 }
