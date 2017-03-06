@@ -93,5 +93,4 @@ void Application::InitializeScene()
 	elevator->AddBehaviour<Vignette>();
 	elevator->AddBehaviour<Fog>();
 	elevator->AddBehaviour<Contrast>()->SetContrast(0.05f);
-	elevator->AddBehaviour<Transition>();
 }

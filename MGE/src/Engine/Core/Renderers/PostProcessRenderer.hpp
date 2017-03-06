@@ -12,7 +12,9 @@ friend PostProcessor;
 public:
 	void Render(RenderTexture& sceneTexture);
 private:
-	PostProcessRenderer() = default;
+	PostProcessRenderer();
+
+	RenderTexture m_backbuffer;
 
 	void AddPostProcessor(PostProcessor* processor);
 	void RemovePostProcessor(PostProcessor* processor);

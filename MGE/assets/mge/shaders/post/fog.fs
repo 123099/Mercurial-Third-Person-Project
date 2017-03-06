@@ -30,7 +30,7 @@ void main(void)
 	const float fogCoordShifted = fogCoord - fogStartDistance;
 	
 	//If the shifted coordinate is whitin the starting distance, there should be no fog
-	if(fogCoordShifted < -100)
+	if(fogCoordShifted < -450)
 	{
 		fragColor = currentColor;
 	}

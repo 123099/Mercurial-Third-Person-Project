@@ -28,19 +28,21 @@ void TextLogBehaviour::Update()
 	{
 		m_textlog.SetVisible(false);
 	}
-	if (Input::IsKeyPressed(sf::Keyboard::Return)) 
-	{
-		Appear();
-	}
 	if (Time::s_gameTime - m_lastEraseTime >= m_timeToErase)
 	{
 		m_textlog.SetText("");
+	}
+
+	if (Input::IsKeyPressed(sf::Keyboard::Return)) 
+	{
+		Appear();
 	}
 }
 
 void TextLogBehaviour::Appear()
 {
 	m_lastFadeTime = Time::s_gameTime;
+	m_lastEraseTime = Time::s_gameTime;
 	m_textlog.SetVisible(true);
 }
 

@@ -4,7 +4,6 @@ uniform float time;
 
 uniform sampler2D colorTexture;
 
-
 in vec2 fragUV;
 
 out vec4 fragColor;
@@ -15,5 +14,5 @@ void main(void)
 	fragColor = texture(colorTexture, fragUV);
 	
 	//whiten something
-	fragColor.rgb += vec3(0.34)*time;
+	fragColor.rgb += vec3(0.6)*time;
 }
