@@ -15,7 +15,12 @@ int Screen::GetHeight() const
 	return m_window->getSize().y;
 }
 
+glm::vec2 Screen::GetResolution()
+{
+	return glm::vec2(GetWidth(), GetHeight());
+}
+
 glm::vec2 Screen::GetWindowCenter()
 {
-	return glm::vec2(GetWidth() * 0.5f, GetHeight() * 0.5f);
+	return GetResolution() * 0.5f;
 }

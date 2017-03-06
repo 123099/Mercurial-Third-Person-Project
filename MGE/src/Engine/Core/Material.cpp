@@ -6,6 +6,7 @@
 #include <fstream>
 
 InstanceCache<Material> Material::s_materialCache;
+Shader* Material::s_simpleShader = nullptr;
 
 InstanceCache<Material>& Material::GetCache()
 {
@@ -85,90 +86,16 @@ void Material::SetVector(const std::string & propertyName, glm::vec4 vector)
 	SetProperty(vectorProperty);
 }
 
-void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix)
+void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender)
 {
-	//Bind the shader
-	m_shader.Bind();
-
-	//Validate that the shader is still okay with the current context. This is only useful during development
-	//m_shader.Validate();
-
-	//Send the MVP matrices properties of the shader
-	m_shader.SetProperty(ShaderProperty("modelMatrix", modelMatrix));
-	m_shader.SetProperty(ShaderProperty("viewMatrix", viewMatrix));
-	m_shader.SetProperty(ShaderProperty("projectionMatrix", projectionMatrix));
-	m_shader.SetProperty(ShaderProperty("mvpMatrix", viewProjectionMatrix * modelMatrix));
-
-	//Send the global light properties to the shader
-	const LightManager& lightManager = LightManager::Instance();
-	m_shader.SetProperty(ShaderProperty("globalAmbient", lightManager.GetGlobalAmbientColor()));
-	m_shader.SetProperty(ShaderProperty("fogColor", lightManager.GetFogColor()));
-	m_shader.SetProperty(ShaderProperty("fogDensity", lightManager.GetFogDensity()));
-	m_shader.SetProperty(ShaderProperty("fogStartDistance", lightManager.GetFogStartDistance()));
-
-	//Since the default sampler2D value is 0, start from 1, and make 0 represent a non existent texture
-	GLuint currentTextureUnit = 1;
-
-	//Pass all the properties to the shader
-	for (const auto& propertyPair : m_shaderProperties)
+	if (simpleRender == true)
 	{
-		//Retrieve a reference to the property
-		const ShaderProperty& property = *propertyPair.second;
-
-		//If the property is a texture, bind the texture
-		if (property.type == PropertyType::Texture)
-		{
-			property.textureValue->Bind(currentTextureUnit);
-			++currentTextureUnit;
-		}
-
-		//Send the property to the shader
-		m_shader.SetProperty(property);
+		SimpleRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix);
 	}
-
-	//Pass the shadow map textures to the shader at the latest texture unit
-	const std::vector<Light*> lights = LightManager::Instance().GetLights();
-	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
+	else
 	{
-		Texture& shadowMap = lights[i]->GetShadowMap();
-		shadowMap.Bind(currentTextureUnit);
-		glUniform1i(m_shader.GetUniform("shadowMaps[" + std::to_string(i) + "]"), currentTextureUnit);
-		currentTextureUnit++;
-		//m_shader.SetProperty(ShaderProperty("shadowMaps[" + std::to_string(i) + "]", &shadowMap));
+		FullRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix);
 	}
-
-	//Draw the mesh
-	mesh->StreamToOpenGL
-	(
-		m_shader.GetAttribute("vertex"),
-		m_shader.GetAttribute("normal"),
-		m_shader.GetAttribute("uv"),
-		m_shader.GetAttribute("tangents")
-	);
-
-	//Unbind any texture that may have been active
-	currentTextureUnit = 1;
-	for (const auto& propertyPair : m_shaderProperties)
-	{
-		const ShaderProperty& property = *propertyPair.second;
-
-		if (property.type == PropertyType::Texture)
-		{
-			property.textureValue->Unbind(currentTextureUnit);
-			++currentTextureUnit;
-		}
-	}
-
-	//Unbind the shadow map textures
-	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
-	{
-		Texture& shadowMap = lights[i]->GetShadowMap();
-		shadowMap.Unbind(currentTextureUnit);
-		currentTextureUnit++;
-	}
-
-	//Unbind the shader
-	m_shader.Unbind();
 }
 
 void Material::SaveToFile(const std::string & materialName)
@@ -216,6 +143,115 @@ bool Material::HasProperty(const std::string & propertyName)
 
 bool Material::CanBindExtraTexture()
 {
-	return GL_TEXTURE0 + m_setTextureCount + 1 < GL_MAX_TEXTURE_UNITS;
+	GLint maxTextures = 0;
+	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextures);
+	return m_setTextureCount + 1 < maxTextures;
+}
+
+void Material::FullRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix)
+{
+	//Bind the shader
+	m_shader.Bind();
+
+	//Validate that the shader is still okay with the current context. This is only useful during development
+#ifdef _DEBUG
+	m_shader.Validate();
+#endif
+
+	//Update the MVP matrix properties in the material
+	SetProperty(ShaderProperty("modelMatrix", modelMatrix));
+	SetProperty(ShaderProperty("viewMatrix", viewMatrix));
+	SetProperty(ShaderProperty("projectionMatrix", projectionMatrix));
+	SetProperty(ShaderProperty("mvpMatrix", viewProjectionMatrix * modelMatrix));
+
+	//Update the global light properties in the material
+	const LightManager& lightManager = LightManager::Instance();
+	SetProperty(ShaderProperty("globalAmbient", lightManager.GetGlobalAmbientColor()));
+	SetProperty(ShaderProperty("fogColor", lightManager.GetFogColor()));
+	SetProperty(ShaderProperty("fogDensity", lightManager.GetFogDensity()));
+	SetProperty(ShaderProperty("fogStartDistance", lightManager.GetFogStartDistance()));
+
+	//Pass the environment map to the material
+	SetProperty(ShaderProperty("environmentMap", &LightManager::Instance().GetSkyBox()));
+
+	//Pass the shadow map textures to the shader at the latest texture unit
+	const std::vector<Light*> lights = LightManager::Instance().GetLights();
+	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
+	{
+		SetProperty(ShaderProperty("shadowMaps[" + std::to_string(i) + "].shadowMap", &lights[i]->GetShadowMap()));
+	}
+
+	//Since the default sampler2D value is 0, start from 1, and make 0 represent a non existent texture
+	GLuint currentTextureUnit = 1;
+
+	//Pass all the properties to the shader
+	for (const auto& propertyPair : m_shaderProperties)
+	{
+		//Retrieve a reference to the property
+		const ShaderProperty& property = *propertyPair.second;
+
+		//If the property is a texture, bind the texture
+		if (property.type == PropertyType::Texture)
+		{
+			property.textureValue->Bind(currentTextureUnit);
+			++currentTextureUnit;
+		}
+
+		//Send the property to the shader
+		m_shader.SetProperty(property);
+	}
+
+	//Draw the mesh
+	mesh->StreamToOpenGL
+	(
+		m_shader.GetAttribute("vertex"),
+		m_shader.GetAttribute("normal"),
+		m_shader.GetAttribute("uv"),
+		m_shader.GetAttribute("tangents")
+	);
+	
+
+	//Unbind any texture that may have been active
+	currentTextureUnit = 1;
+	for (const auto& propertyPair : m_shaderProperties)
+	{
+		const ShaderProperty& property = *propertyPair.second;
+
+		if (property.type == PropertyType::Texture)
+		{
+			property.textureValue->Unbind(currentTextureUnit);
+			++currentTextureUnit;
+		}
+	}
+
+	//Unbind the shader
+	m_shader.Unbind();
+}
+
+void Material::SimpleRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix)
+{
+	//Load the simple shader
+	if (s_simpleShader == nullptr)
+	{
+		s_simpleShader = Shader::Find("unlit/depth");
+	}
+
+	//Bind the simple shader
+	s_simpleShader->Bind();
+
+	//Pass in the mvpMatrix to the shader
+	s_simpleShader->SetProperty(ShaderProperty("mvpMatrix", viewProjectionMatrix * modelMatrix));
+
+	//Draw the mesh
+	mesh->StreamToOpenGL
+	(
+		s_simpleShader->GetAttribute("vertex"),
+		s_simpleShader->GetAttribute("normal"),
+		s_simpleShader->GetAttribute("uv"),
+		s_simpleShader->GetAttribute("tangents")
+	);
+
+	//Unbind the shader
+	s_simpleShader->Unbind();
 }
 

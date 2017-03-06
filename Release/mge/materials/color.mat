@@ -1,3 +1,3 @@
 shader unlit/color
 
-diffuseColor color 0.2 0.2 0.4 0.5
+diffuseColor color 1 0 0 1

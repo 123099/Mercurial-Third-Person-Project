@@ -33,6 +33,11 @@ void TextLog::AddText(const std::string & text)
 	SetText(GetText() + text);
 }
 
+void TextLog::AddTextOnTop(const std::string & text)
+{
+	SetText(text + GetText());
+}
+
 void TextLog::SetText(const std::string & text)
 {
 	m_logText.setString(text);

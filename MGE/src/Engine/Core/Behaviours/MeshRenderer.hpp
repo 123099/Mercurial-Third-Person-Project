@@ -39,6 +39,6 @@ private:
 	void UnlinkFromSharedMesh();
 	void UnlinkFromSharedMaterial();
 
-	void Render(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix) const;
+	void Render(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender = false) const;
 };
 

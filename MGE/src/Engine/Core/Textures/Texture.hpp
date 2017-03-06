@@ -1,11 +1,7 @@
 #pragma once
-#ifndef TEXTURE_H
-#define TEXTURE_H
-
-#include <string>
-#include <memory>
-#include <GL/glew.h>
 #include <Utils\InstanceCache.hpp>
+#include <GL/glew.h>
+#include <string>
 
 class Texture : public ICacheable
 {
@@ -26,5 +22,3 @@ protected:
 
 	GLuint m_ID;
 };
-
-#endif // TEXTURE_H

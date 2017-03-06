@@ -165,7 +165,7 @@ GLuint Shader::GetLightBufferBlockIndex()
 
 void Shader::SetProperty(const ShaderProperty & property)
 {
-	GLuint propertyID = GetUniform(property.name);
+	GLint propertyID = GetUniform(property.name);
 
 	if (propertyID == -1)
 	{

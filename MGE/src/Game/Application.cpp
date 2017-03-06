@@ -48,33 +48,48 @@
 #include <Behaviours\BoxCollider.hpp>
 #include <Behaviours\CapsuleCollider.hpp>
 #include <Behaviours\Rigidbody.hpp>
-#include <Behaviours\PlayerInput.hpp>
+#include <Game\Behaviours\Elevator.hpp>
+#include <Behaviours\PostProcessors\Fog.hpp>
+#include <Behaviours\PostProcessors\Vignette.hpp>
+#include <Behaviours\PostProcessors\Contrast.hpp>
 
 void Application::OnInitialized()
 {
 	SetFPSLimit(60);
-	SetDebugHudEnabled(true);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
+
+#ifdef _DEBUG
+	SetDebugHudEnabled(true);
+#endif
 }
 
 void Application::InitializeScene()
 {
 	Scene* scene = SceneManager::Instance().CreateScene("Main Scene");
 
-	CubeMap* cubeMap = new CubeMap();
-	cubeMap->SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/Sunset/", ".png");
-
 	GameObject* skyboxObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("SkyBox");
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
-	skybox->SetSkyboxCubeMap(cubeMap);
+	skybox->SetSkyboxCubeMap(&LightManager::Instance().GetSkyBox());
 	skybox->SetExposure(5);
 
-	Material* litMaterial = MaterialImporter::LoadMaterial("Capsule");
-	litMaterial->SetTexture("environmentMap", cubeMap);
-
-	LevelImporter::LoadLevel("Level2");
+	LevelImporter::LoadLevel("Level 1");
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
+
+	GameObject* elevator = SceneManager::Instance().GetActiveScene()->CreateGameObject("Elevator");
+	MeshRenderer* ms = elevator->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	elevator->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(1));
+	Rigidbody* rb = elevator->AddBehaviour<Rigidbody>();
+	rb->SetMass(0);
+	rb->SetKinematic(true);
+	Elevator* e = elevator->AddBehaviour<Elevator>();
+	e->SetPointB(glm::vec3(0, 10, 0));
+	e->SetSpeed(2);
+	elevator->AddBehaviour<Vignette>();
+	elevator->AddBehaviour<Fog>();
+	elevator->AddBehaviour<Contrast>()->SetContrast(0.05f);
 }

@@ -3,7 +3,7 @@
 #include <Core\GameObject.hpp>
 #include <Behaviours\Transform.hpp>
 
-Rigidbody::Rigidbody() : m_mass(1.0f) {}
+Rigidbody::Rigidbody() : m_mass(1.0f), m_friction(0.5f) {}
 
 Rigidbody::~Rigidbody()
 {
@@ -33,6 +33,9 @@ void Rigidbody::Awake()
 	//Create the Rigidbody
 	const btRigidBody::btRigidBodyConstructionInfo rigidbodyInfo(m_mass, m_rigidbodyMotion.get(), collisionShape, inertia);
 	m_rigidbody = std::make_unique<btRigidBody>(rigidbodyInfo);
+
+	//Set friction
+	SetFriction(m_friction);
 
 	//Set static
 	if (m_gameObject->GetTransform()->IsStatic() == true)
@@ -98,6 +101,16 @@ void Rigidbody::SetMass(float mass)
 
 		//Add the rigidbody back to the world
 		Physics::Instance().AddRigidbody(*m_rigidbody);
+	}
+}
+
+void Rigidbody::SetFriction(float friction)
+{
+	m_friction = friction;
+
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->setFriction(friction);
 	}
 }
 

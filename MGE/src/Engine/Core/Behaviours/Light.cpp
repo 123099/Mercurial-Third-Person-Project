@@ -7,7 +7,7 @@
 
 Light::Light() :
 	m_type(Light::Type::Directional),
-	m_shadowMap(1024, 1024),
+	m_shadowMap(4096, 4096),
 	m_ambientColor(glm::vec4(0)),
 	m_diffuseColor(glm::vec4(0)),
 	m_specularColor(glm::vec4(0)),
@@ -127,13 +127,20 @@ glm::mat4 Light::GetViewMatrix()
 {
 	const glm::vec3 position = GetGameObject()->GetTransform()->GetWorldPosition();
 	const glm::vec3 forward = GetGameObject()->GetTransform()->GetForwardVector();
-	
-	return glm::lookAt(position, position - forward, glm::vec3(0, 1, 0));
+	if (m_type == Light::Type::Directional)
+	{
+		//Position light far behind and looking forward
+		return glm::lookAt(position + 100.0f * forward,  -forward, glm::vec3(0, 1, 0));
+	}
+	else
+	{
+		return glm::lookAt(position, position - forward, glm::vec3(0, 1, 0));
+	}
 }
 
 #include <Input\Input.hpp>
-float a = 10;
-float b = 50;
+float a = 38;
+float b = 500;
 glm::mat4 Light::GetProjectionMatrix()
 {
 	if (Input::IsKeyPressed(sf::Keyboard::Num1))
@@ -162,7 +169,7 @@ glm::mat4 Light::GetProjectionMatrix()
 	}
 	else
 	{
-		return glm::perspective(glm::radians(45.0f), 1.0f, 0.1f, 100.0f);
+		return glm::perspective(glm::radians(m_spotOuterAngle), 1.0f, 0.1f, 1000.0f);
 	}
 }
 
@@ -188,7 +195,7 @@ Light::Data Light::GetLightData()
 		//Decide whether to use the light's direction
 		if (m_type == Light::Type::Directional || m_type == Light::Type::Spot)
 		{
-			direction = glm::vec4(m_gameObject->GetTransform()->GetForwardVector(), 0.0f);
+			direction = glm::vec4(-m_gameObject->GetTransform()->GetForwardVector(), 0.0f);
 		}
 
 		//Calculate the light's VP matrix for shadows

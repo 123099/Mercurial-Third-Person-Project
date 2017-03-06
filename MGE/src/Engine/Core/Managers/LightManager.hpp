@@ -1,8 +1,9 @@
 #pragma once
-#include <GL\glew.h>
+#include <Textures\CubeMap.hpp>
 #include <Utils\Singleton.hpp>
 #include <Utils\glm.hpp>
 #include <Utils\Singleton.hpp>
+#include <GL\glew.h>
 #include <vector>
 
 class Light;
@@ -15,10 +16,14 @@ friend Light;
 public:
 	size_t GetLightCount() const;
 
+	void SetSkyBox(CubeMap skybox);
+
 	void SetGlobalAmbientColor(glm::vec4 color);
 	void SetFogColor(glm::vec4 color);
 	void SetFogDensity(float density);
 	void SetFogStartDistance(float distance);
+
+	CubeMap& GetSkyBox();
 
 	glm::vec4 GetGlobalAmbientColor() const;
 	glm::vec4 GetFogColor() const;
@@ -33,6 +38,8 @@ public:
 	void LoadFromConfig();
 private:
 	std::vector<Light*> m_lights;
+
+	CubeMap m_skybox;
 
 	glm::vec4 m_globalAmbient;
 	glm::vec4 m_fogColor;

@@ -17,6 +17,8 @@ public:
 	void SetFontSize(unsigned size);
 
 	void AddText(const std::string& text);
+	void AddTextOnTop(const std::string& text);
+
 	void SetText(const std::string& text);
 	std::string GetText();
 

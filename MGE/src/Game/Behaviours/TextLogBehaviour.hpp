@@ -6,6 +6,8 @@
 class TextLogBehaviour final : public AbstractBehaviour 
 {
 public:
+	TextLogBehaviour();
+
 	void Awake() override final;
 	void SetTimeToFade(float time);
 	void Update() override final;

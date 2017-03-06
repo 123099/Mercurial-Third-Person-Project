@@ -1,0 +1,12 @@
+shader lit/lit
+
+materialAmbient color 1 1 1 1
+materialDiffuse color 1 1 1 1
+materialSpecular color 1 1 1 1
+materialEmission color 0 0 0 1
+materialShininess float 10
+materialReflectivity float 0.7
+
+diffuseTexture texture mge/textures/TV's/albedo.png
+normalMap texture mge/textures/TV's/normal.png
+specularMap texture mge/textures/TV's/metallic.png

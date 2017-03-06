@@ -98,7 +98,7 @@ public:
 	}
 
 	template <typename T>
-	std::vector<T*> GetBehavioursInChildren() const
+	std::vector<T*> GetBehaviours() const
 	{
 		//Make sure the type is a behaviour
 		static_assert(std::is_base_of<AbstractBehaviour, T>(), "Type must be a behaviour!");
@@ -107,7 +107,7 @@ public:
 		std::vector<T*> behaviours;
 
 		//Loop through the list of behaviours
-		for ( const auto& behaviour : m_behaviours)
+		for (const auto& behaviour : m_behaviours)
 		{
 			//Check if the behaviour is of the given type
 			if (T* cast_behaviour = dynamic_cast<T*>(behaviour.get()))
@@ -116,6 +116,15 @@ public:
 				behaviours.push_back(cast_behaviour);
 			}
 		}
+
+		return behaviours;
+	}
+
+	template <typename T>
+	std::vector<T*> GetBehavioursInChildren() const
+	{
+		//Get all behaviours of type T in this game object
+		std::vector<T*> behaviours = GetBehaviours<T>();
 
 		//Go through all the children and retrieve all their behaviours
 		const int childCount = GetTransform()->GetChildCount();
@@ -169,7 +178,7 @@ public:
 		std::vector<T*> objects;
 
 		const auto& rootGameObjects = SceneManager::Instance().GetActiveScene()->GetRootGameObjects();
-		for (const auto& rootObject : rootGameObjects)
+		for (GameObject* rootObject : rootGameObjects)
 		{
 			//Retrieve all the children of the game object
 			auto children = rootObject->GetTransform()->GetAllChildrenRecursively();
@@ -177,18 +186,18 @@ public:
 			//Add the game object to the list to be included in the search
 			children.push_back(rootObject->GetTransform());
 
-			//Go through all the objects and find the behaviour
+			//Go through all the objects and find all behaviours of the type
 			for (const auto& child : children)
 			{
-				T* behaviour = child->GetGameObject()->GetBehaviour<T>();
-				if (behaviour != nullptr)
+				std::vector<T*> behaviours = child->GetGameObject()->GetBehaviours<T>();
+				if (behaviours.size() > 0)
 				{
-					objects.push_back(behaviour);
-
 					if (returnFirst == true)
 					{
-						return objects;
+						return std::vector<T*>{ behaviours[0] };
 					}
+					
+					objects.insert(objects.end(), behaviours.begin(), behaviours.end());
 				}
 			}
 		}
