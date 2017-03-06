@@ -29,9 +29,13 @@ public:
 	int IsEnabled(lua_State* luaState);
 
 	int SwapTexture(lua_State* luaState);
+	int SwapMesh(lua_State* luaState);
 
 	int DistanceTo(lua_State* luaState);
 	int Translate(lua_State* luaState);
+
+	int MoveElevatorToPointA(lua_State* luaState);
+	int MoveElevatorToPointB(lua_State* luaState);
 private:
 	int m_ID;
 	LuaScript* m_script;

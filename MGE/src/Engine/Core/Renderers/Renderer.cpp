@@ -24,7 +24,7 @@ void Renderer::SetClearColor(float r, float g, float b)
     glClearColor(r, g, b, 1.0f );
 }
 
-void Renderer::Render (const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix)
+void Renderer::Render (const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, bool simpleRender)
 {
 	//Get the matrices common to all game objects for this frame
 	const glm::mat4 viewProjectionMatrix = projectionMatrix * viewMatrix;
@@ -33,7 +33,7 @@ void Renderer::Render (const glm::mat4& viewMatrix, const glm::mat4& projectionM
 	const size_t renderablesCount = m_renderables.size();
 	for (size_t i = 0; i < renderablesCount; ++i)
 	{
-		m_renderables[i]->Render(viewMatrix, projectionMatrix, viewProjectionMatrix);
+		m_renderables[i]->Render(viewMatrix, projectionMatrix, viewProjectionMatrix, simpleRender);
 	}
 
 	//Set the active texture back to texture unit 0, which is the default mode for SFML

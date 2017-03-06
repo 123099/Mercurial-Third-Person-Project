@@ -12,6 +12,7 @@ public:
 	int GetWidth() const;
 	int GetHeight() const;
 
+	glm::vec2 GetResolution();
 	glm::vec2 GetWindowCenter();
 private:
 	sf::RenderWindow* m_window;

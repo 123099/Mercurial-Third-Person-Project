@@ -1,10 +1,16 @@
 #include <Game\Behaviours\NPC.hpp>
 #include <Core\GameObject.hpp>
+
 #include <Behaviours\Transform.hpp>
 #include <Behaviours\Lua\LuaEnvironment.hpp>
 #include <Behaviours\MeshRenderer.hpp>
+
 #include <Game\Behaviours\Player.hpp>
+#include <Game\Behaviours\Elevator.hpp>
 #include <Game\Behaviours\TranslationAnimation.hpp>
+
+#include <Importers\ObjImporter.hpp>
+
 #include <Textures\Texture.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Core\Scene.hpp>
@@ -38,7 +44,6 @@ void NPC::Awake()
 {
 	LuaEnvironment::GetLua()->RegisterType<NPC>("NPC");
 	LuaEnvironment::GetLua()->BindObject<NPC>(this, "NPC", "npc" + std::to_string(m_ID));
-
 	
 	m_script = m_gameObject->GetBehaviour<LuaScript>();
 	m_script->SetScript(GetNpcScriptPath(m_ID));
@@ -137,6 +142,21 @@ int NPC::SwapTexture(lua_State * luaState)
 	return 0;
 }
 
+int NPC::SwapMesh(lua_State * luaState)
+{
+	//Retrieve the mesh name
+	const std::string meshName = luaL_checkstring(luaState, 1);
+
+	//Swap the mesh if the npc has a mesh renderer
+	MeshRenderer* meshRenderer = m_gameObject->GetBehaviour<MeshRenderer>();
+	if (meshRenderer != nullptr)
+	{
+		meshRenderer->SetSharedMesh(ObjImporter::LoadObj(meshName));
+	}
+
+	return 0;
+}
+
 int NPC::DistanceTo(lua_State * luaState)
 {
 	//Retrieve the player
@@ -174,6 +194,28 @@ int NPC::Translate(lua_State * luaState)
 	return 0;
 }
 
+int NPC::MoveElevatorToPointA(lua_State * luaState)
+{
+	Elevator* elevator = m_gameObject->GetBehaviour<Elevator>();
+	if (elevator != nullptr)
+	{
+		elevator->GoToPointA();
+	}
+
+	return 0;
+}
+
+int NPC::MoveElevatorToPointB(lua_State * luaState)
+{
+	Elevator* elevator = m_gameObject->GetBehaviour<Elevator>();
+	if (elevator != nullptr)
+	{
+		elevator->GoToPointB();
+	}
+
+	return 0;
+}
+
 static const luaL_Reg functions[]
 {
 	{"gettransform", lua_asmethod<NPC, &NPC::GetTransform>},
@@ -183,8 +225,11 @@ static const luaL_Reg functions[]
 	{"setenabled", lua_asmethod<NPC, &NPC::SetEnabled>},
 	{"isenabled", lua_asmethod<NPC, &NPC::IsEnabled>},
 	{"settexture", lua_asmethod<NPC, &NPC::SwapTexture>},
+	{"setmesh", lua_asmethod<NPC, &NPC::SwapMesh>},
 	{"distanceTo", lua_asmethod<NPC, &NPC::DistanceTo>},
 	{"translate", lua_asmethod<NPC, &NPC::Translate>},
+	{"elevatorpointa", lua_asmethod<NPC, &NPC::MoveElevatorToPointA>},
+	{ "elevatorpointb", lua_asmethod<NPC, &NPC::MoveElevatorToPointB> },
 	{NULL, NULL}
 };
 

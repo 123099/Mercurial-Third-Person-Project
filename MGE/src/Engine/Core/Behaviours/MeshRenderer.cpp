@@ -170,13 +170,13 @@ void MeshRenderer::UnlinkFromSharedMaterial()
 	m_materialLinkedToShared = false;
 }
 
-void MeshRenderer::Render(const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix) const
+void MeshRenderer::Render(const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender) const
 {
 	Mesh* mesh = m_mesh == nullptr ? m_sharedMesh : m_mesh;
 	Material* material = m_material == nullptr ? m_sharedMaterial : m_material;
 
 	if (material != nullptr && mesh != nullptr)
 	{
-		material->Render(mesh, m_gameObject->GetTransform()->GetModelMatrix(), viewMatrix, projectionMatrix, viewProjectionMatrix);
+		material->Render(mesh, m_gameObject->GetTransform()->GetModelMatrix(), viewMatrix, projectionMatrix, viewProjectionMatrix, simpleRender);
 	}
 }

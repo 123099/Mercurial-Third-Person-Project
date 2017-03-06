@@ -8,9 +8,6 @@ class GameObject;
 class Camera;
 class MeshRenderer;
 
-/**
- * Renderer implements a default single pass forward renderer.
- */
 class Renderer final : public Singleton<Renderer>
 {
 friend Singleton<Renderer>;
@@ -21,7 +18,7 @@ public:
 
     void SetClearColor (float r, float g, float b);
 
-    void Render (const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix);
+    void Render (const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, bool simpleRender = false);
 private:
 	Renderer() = default;
 	std::vector<MeshRenderer*> m_renderables;

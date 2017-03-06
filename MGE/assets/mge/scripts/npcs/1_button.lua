@@ -1,6 +1,6 @@
 --npc button--
 if npc1:isenabled() == true then
-	npc2:settexture("keypadlit.png") --npc2 = keypad
+	npc2:settexture("Keypad/albedo_lit.png") --npc2 = keypad
 	local x,y,z = npc2:getposition()
 	luautils:playsound("keypadenabled.wav", x, y, z, false, 1)
 	npc2:setenabled(true)
