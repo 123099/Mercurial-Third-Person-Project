@@ -125,14 +125,21 @@ glm::vec3 Light::GetAttenuation()
 
 glm::mat4 Light::GetViewMatrix()
 {
-	const glm::vec3 position = GetGameObject()->GetTransform()->GetWorldPosition();
-	const glm::vec3 forward = GetGameObject()->GetTransform()->GetForwardVector();
-	
-	return glm::lookAt(position, position - forward, glm::vec3(0, 1, 0));
+	if (m_type == Light::Type::Directional)
+	{
+		const glm::vec3 position = GetGameObject()->GetTransform()->GetWorldPosition();
+		const glm::vec3 forward = GetGameObject()->GetTransform()->GetForwardVector();
+
+		return glm::lookAt(glm::vec3(0),  - forward, glm::vec3(0, 1, 0));
+	}
+	else
+	{
+		return glm::inverse(m_gameObject->GetTransform()->GetModelMatrix());
+	}
 }
 
 #include <Input\Input.hpp>
-float a = 10;
+float a = 20;
 float b = 50;
 glm::mat4 Light::GetProjectionMatrix()
 {
@@ -188,7 +195,7 @@ Light::Data Light::GetLightData()
 		//Decide whether to use the light's direction
 		if (m_type == Light::Type::Directional || m_type == Light::Type::Spot)
 		{
-			direction = glm::vec4(m_gameObject->GetTransform()->GetForwardVector(), 0.0f);
+			direction = glm::vec4(-m_gameObject->GetTransform()->GetForwardVector(), 0.0f);
 		}
 
 		//Calculate the light's VP matrix for shadows

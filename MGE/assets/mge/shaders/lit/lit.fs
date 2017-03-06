@@ -44,8 +44,11 @@ layout (std430) buffer lightData
 	Light lights[];
 };
 
-uniform sampler2D shadowMaps[20];
-uniform sampler2D shadowMaps1;
+struct ShadowMapFix
+{
+	sampler2D shadowMap;
+};
+uniform ShadowMapFix shadowMaps[10];
 
 in vec4 vertex_worldSpace;
 in vec4 vertex_cameraSpace;
@@ -130,8 +133,6 @@ vec4 calculateFragmentNormal()
 
 float calculateShadowAttenuation(int index)
 {
-	//DIRECTIONAL FOR NOW! REMOVE LATER!!!
-	if(lights[index].type != 0.0) return 1.0;
 	vec4 vertexLightSpace = lights[index].vpMatrix * vec4(vertex_worldSpace.xyz, 1.0);
 	vec3 projectedCoords = 0.5 * (vertexLightSpace.xyz / vertexLightSpace.w) + vec3(0.5);
 	
@@ -140,7 +141,7 @@ float calculateShadowAttenuation(int index)
 		return 1.0;
 	}
 	
-	float closestDepth = texture(shadowMaps[index], projectedCoords.xy).x;
+	float closestDepth = texture(shadowMaps[index].shadowMap, projectedCoords.xy).x;
 	
 	if(closestDepth < projectedCoords.z + 0.05)
 	{

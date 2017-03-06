@@ -1,5 +1,7 @@
 #pragma once
 #include <Behaviours\AbstractBehaviour.hpp>
+#include <Behaviours\BehaviourAttributes.hpp>
+#include <Game\Behaviours\TextLogBehaviour.hpp>
 #include <Utils\glm.hpp>
 #include <LuaAPI\lua.hpp>
 #include <UI\TextLog.hpp>
@@ -9,7 +11,7 @@ class CharacterController;
 class Transform;
 class Camera;
 
-class Player final : public AbstractBehaviour
+class Player final : public AbstractBehaviour, public RequireBehaviours<TextLogBehaviour>
 {
 public:
 	Player();
@@ -35,7 +37,7 @@ private:
 
 	float m_walkVelocity;
 
-	TextLog m_textLog;
+	TextLogBehaviour* m_textLogBehaviour;
 	Crosshair m_crosshair;
 
 	void Move();

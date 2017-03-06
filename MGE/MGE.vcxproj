@@ -310,6 +310,7 @@
     <ClInclude Include="src\Game\Behaviours\LightIdentifier.hpp" />
     <ClInclude Include="src\Game\Behaviours\NPC.hpp" />
     <ClInclude Include="src\Game\Behaviours\Player.hpp" />
+    <ClInclude Include="src\Game\Behaviours\TextLogBehaviour.hpp" />
     <ClInclude Include="src\Game\Behaviours\TranslationAnimation.hpp" />
     <ClInclude Include="src\Lua\Closure.hpp" />
     <ClInclude Include="src\Lua\Environment.hpp" />
@@ -393,6 +394,7 @@
     <ClCompile Include="src\Game\Behaviours\LightIdentifier.cpp" />
     <ClCompile Include="src\Game\Behaviours\NPC.cpp" />
     <ClCompile Include="src\Game\Behaviours\Player.cpp" />
+    <ClCompile Include="src\Game\Behaviours\TextLogBehaviour.cpp" />
     <ClCompile Include="src\Game\Behaviours\TranslationAnimation.cpp" />
     <ClCompile Include="src\Lua\Closure.cpp" />
     <ClCompile Include="src\Lua\Environment.cpp" />

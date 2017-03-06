@@ -8,5 +8,5 @@ materialShininess float 1
 materialReflectivity float 0.5
 
 diffuseTexture texture mge/textures/tex.jpg
-normalMap texture mge/textures/New_Graph_normal.png
-specularMap texture mge/textures/New_Graph_roughness.png
+normalMap texture mge/textures/normal.jpg
+specularMap texture mge/textures/specular.jpg

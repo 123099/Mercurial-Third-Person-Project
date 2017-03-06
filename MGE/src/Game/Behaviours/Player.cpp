@@ -15,10 +15,8 @@
 
 #include <Utils\Screen.hpp>
 
-Player::Player() : m_textLog("arial.ttf"), m_crosshair("crosshair.png")
+Player::Player() : m_crosshair("crosshair.png")
 {
-	m_textLog.SetPositionOnScreen(10, 400);
-	m_textLog.SetFontColor(sf::Color::Red);
 	m_crosshair.SetPositionOnScreen(Screen::Instance().GetWidth() * 0.5f - 16, Screen::Instance().GetHeight() * 0.5f - 16);
 }
 
@@ -31,6 +29,10 @@ void Player::Awake()
 {
 	LuaEnvironment::GetLua()->RegisterType<Player>("Player");
 	LuaEnvironment::GetLua()->BindObject<Player>(this, "Player", "player");
+
+	m_textLogBehaviour = m_gameObject->GetBehaviour<TextLogBehaviour>();
+	m_textLogBehaviour->GetTextLog().SetPositionOnScreen(10, 400);
+	m_textLogBehaviour->GetTextLog().SetFontColor(sf::Color::Red);
 
 	m_camera = m_gameObject->GetBehavioursInChildren<Camera>()[0];
 	glm::vec3 cameraEulers = m_camera->GetGameObject()->GetTransform()->GetLocalRotation().GetEulerAngles();
@@ -187,7 +189,8 @@ int Player::IsCarrying(lua_State * luaState)
 int Player::Log(lua_State* luaState)
 {
 	const std::string textToLog(luaL_checkstring(luaState, 1));
-	m_textLog.AddText(textToLog + "\n");
+	m_textLogBehaviour->GetTextLog().AddTextOnTop(textToLog + "\n");
+	m_textLogBehaviour->Appear();
 
 	return 0;
 }
