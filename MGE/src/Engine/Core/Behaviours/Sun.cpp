@@ -1,5 +1,7 @@
 #include "Sun.hpp"
 #include <Core\Time.hpp>
+#include <Core\GameObject.hpp>
+#include <Behaviours\PostProcessors\Trannsition.hpp>
 
 void Sun::Awake()
 {
@@ -9,10 +11,14 @@ void Sun::Awake()
 
 void Sun::Update()
 {
-	if(Time::s_gameTime - m_timeWhenGameStarted >=m_timeToLoseGame)
-		//lose game
+	//lose game
+	if (Time::s_gameTime - m_timeWhenGameStarted >= m_timeToLoseGame)
+	{
+		m_gameObject->AddBehaviour<Transition>();
+		if (Time::s_gameTime - m_timeWhenGameStarted >= m_timeToLoseGame + 5);
+			//TODO: Restart game;
 
-
+	}
 }
 
 void Sun::SetTimeToLose(float time)
