@@ -2,6 +2,7 @@
 #include <Core\Time.hpp>
 #include <Core\GameObject.hpp>
 #include <Behaviours\PostProcessors\Trannsition.hpp>
+#include <Behaviours\Transform.hpp>
 
 void Sun::Awake()
 {
@@ -12,16 +13,23 @@ void Sun::Awake()
 void Sun::Update()
 {
 	//lose game
-	if (Time::s_gameTime - m_timeWhenGameStarted >= m_timeToLoseGame)
+	if (GetPassedTime() >= m_timeToLoseGame)
 	{
 		m_gameObject->AddBehaviour<Transition>();
-		if (Time::s_gameTime - m_timeWhenGameStarted >= m_timeToLoseGame + 5);
+		if (GetPassedTime() >= m_timeToLoseGame + 5);
 			//TODO: Restart game;
 
 	}
+	m_gameObject->GetTransform()->SetLocalScale(m_gameObject->GetTransform()->GetLocalScale()*GetPassedTime() / m_timeToLoseGame+glm::vec3(0.8f));
+	
 }
 
 void Sun::SetTimeToLose(float time)
 {
 	m_timeToLoseGame = time;
+}
+
+float Sun::GetPassedTime()
+{
+	return Time::s_gameTime - m_timeWhenGameStarted;
 }
