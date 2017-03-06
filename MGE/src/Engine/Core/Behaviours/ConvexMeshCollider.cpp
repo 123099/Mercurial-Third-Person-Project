@@ -2,6 +2,7 @@
 #include <Core\Mesh.hpp>
 #include <Core\GameObject.hpp>
 #include <bullet\BulletCollision\CollisionShapes\btShapeHull.h>
+#include <Utils\Debug.hpp>
 
 void ConvexMeshCollider::SetupCollisionShape()
 {
@@ -13,7 +14,7 @@ void ConvexMeshCollider::SetupCollisionShape()
 
 	if (mesh == nullptr)
 	{
-		std::cerr << "[Warning - GameObject: " << m_gameObject->GetName() << "] Cannot initialize mesh collider without a mesh set in a mesh renderer!" << '\n';
+		Debug::Instance().LogError("GameObject: " + m_gameObject->GetName() + " - Cannot initialize mesh collider without a mesh set in a mesh renderer!");
 		
 	}
 	else

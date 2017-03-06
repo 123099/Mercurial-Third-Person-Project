@@ -78,19 +78,4 @@ void Application::InitializeScene()
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
-
-	GameObject* elevator = SceneManager::Instance().GetActiveScene()->CreateGameObject("Elevator");
-	MeshRenderer* ms = elevator->AddBehaviour<MeshRenderer>();
-	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
-	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
-	elevator->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(1));
-	Rigidbody* rb = elevator->AddBehaviour<Rigidbody>();
-	rb->SetMass(0);
-	rb->SetKinematic(true);
-	Elevator* e = elevator->AddBehaviour<Elevator>();
-	e->SetPointB(glm::vec3(0, 10, 0));
-	e->SetSpeed(2);
-	elevator->AddBehaviour<Vignette>();
-	elevator->AddBehaviour<Fog>();
-	elevator->AddBehaviour<Contrast>()->SetContrast(0.05f);
 }

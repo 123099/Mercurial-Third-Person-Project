@@ -130,6 +130,10 @@ static int CreateGameObject(lua_State* luaState)
 		{
 			gameObject->GetBehaviour<MeshRenderer>()->SetSharedMesh(ObjImporter::LoadObj(name));
 		}
+		else
+		{
+			Debug::Instance().LogError("Unknown model extension " + extension + " in model name " + modelName + ", from Game Object " + gameObject->GetName());
+		}
 	}
 
 	//Load the material
@@ -555,9 +559,9 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("translationanimation", AddTranslationAnimation),
 	std::make_pair("audiolistener", AddAudioListener),
 	std::make_pair("lightidentifier", AddLightIdentifier),
-	std::make_pair("fog", AddLightIdentifier),
-	std::make_pair("contrast", AddLightIdentifier),
-	std::make_pair("vignette", AddLightIdentifier),
+	std::make_pair("fog", AddFog),
+	std::make_pair("contrast", AddContrast),
+	std::make_pair("vignette", AddVignette),
 };
 
 static int AddBehaviour(lua_State* luaState)
