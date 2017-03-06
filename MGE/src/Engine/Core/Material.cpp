@@ -6,6 +6,7 @@
 #include <fstream>
 
 InstanceCache<Material> Material::s_materialCache;
+Shader* Material::s_simpleShader = nullptr;
 
 InstanceCache<Material>& Material::GetCache()
 {
@@ -85,7 +86,69 @@ void Material::SetVector(const std::string & propertyName, glm::vec4 vector)
 	SetProperty(vectorProperty);
 }
 
-void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix)
+void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender)
+{
+	if (simpleRender == true)
+	{
+		SimpleRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix);
+	}
+	else
+	{
+		FullRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix);
+	}
+}
+
+void Material::SaveToFile(const std::string & materialName)
+{
+	//Create an output file stream
+	std::ofstream file(config::MGE_MATERIALS_PATH + materialName + ".mat");
+
+	//The first line of the file would define the shader name
+	file << "shader " << m_shader.GetName() << '\n';
+
+	//The rest of the lines define the properties in the following structure
+	//name type value
+	//For example: diffuseColor vector 1 1 1 1
+	//Go through all the properties and add them to the contents of the file
+	for (const auto& propertyPair : m_shaderProperties)
+	{
+		file << *propertyPair.second << '\n';
+	}
+
+	//Close the file stream
+	file.close();
+}
+
+void Material::SetProperty(const ShaderProperty& property)
+{
+	m_shaderProperties[property.name] = std::make_shared<ShaderProperty>(property);
+}
+
+ShaderProperty* Material::GetProperty(const std::string & propertyName)
+{
+	if (HasProperty(propertyName))
+	{
+		return m_shaderProperties[propertyName].get();
+	}
+	else
+	{
+		return nullptr;
+	}
+}
+
+bool Material::HasProperty(const std::string & propertyName)
+{
+	return m_shaderProperties.find(propertyName) != m_shaderProperties.end();
+}
+
+bool Material::CanBindExtraTexture()
+{
+	GLint maxTextures = 0;
+	glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &maxTextures);
+	return m_setTextureCount + 1 < maxTextures;
+}
+
+void Material::FullRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix)
 {
 	//Bind the shader
 	m_shader.Bind();
@@ -146,6 +209,7 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 		m_shader.GetAttribute("uv"),
 		m_shader.GetAttribute("tangents")
 	);
+	
 
 	//Unbind any texture that may have been active
 	currentTextureUnit = 1;
@@ -164,51 +228,30 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 	m_shader.Unbind();
 }
 
-void Material::SaveToFile(const std::string & materialName)
+void Material::SimpleRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix)
 {
-	//Create an output file stream
-	std::ofstream file(config::MGE_MATERIALS_PATH + materialName + ".mat");
-
-	//The first line of the file would define the shader name
-	file << "shader " << m_shader.GetName() << '\n';
-
-	//The rest of the lines define the properties in the following structure
-	//name type value
-	//For example: diffuseColor vector 1 1 1 1
-	//Go through all the properties and add them to the contents of the file
-	for (const auto& propertyPair : m_shaderProperties)
+	//Load the simple shader
+	if (s_simpleShader == nullptr)
 	{
-		file << *propertyPair.second << '\n';
+		s_simpleShader = Shader::Find("unlit/depth");
 	}
 
-	//Close the file stream
-	file.close();
-}
+	//Bind the simple shader
+	s_simpleShader->Bind();
 
-void Material::SetProperty(const ShaderProperty& property)
-{
-	m_shaderProperties[property.name] = std::make_shared<ShaderProperty>(property);
-}
+	//Pass in the mvpMatrix to the shader
+	s_simpleShader->SetProperty(ShaderProperty("mvpMatrix", viewProjectionMatrix * modelMatrix));
 
-ShaderProperty* Material::GetProperty(const std::string & propertyName)
-{
-	if (HasProperty(propertyName))
-	{
-		return m_shaderProperties[propertyName].get();
-	}
-	else
-	{
-		return nullptr;
-	}
-}
+	//Draw the mesh
+	mesh->StreamToOpenGL
+	(
+		s_simpleShader->GetAttribute("vertex"),
+		s_simpleShader->GetAttribute("normal"),
+		s_simpleShader->GetAttribute("uv"),
+		s_simpleShader->GetAttribute("tangents")
+	);
 
-bool Material::HasProperty(const std::string & propertyName)
-{
-	return m_shaderProperties.find(propertyName) != m_shaderProperties.end();
-}
-
-bool Material::CanBindExtraTexture()
-{
-	return GL_TEXTURE0 + m_setTextureCount + 1 < GL_MAX_TEXTURE_UNITS;
+	//Unbind the shader
+	s_simpleShader->Unbind();
 }
 

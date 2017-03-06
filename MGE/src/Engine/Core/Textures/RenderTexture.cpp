@@ -1,14 +1,8 @@
-#include <iostream>
-#include <string>
-using namespace std;
 #include "RenderTexture.hpp"
 #include <SFML/Graphics.hpp>
 
-
 RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), m_fboHandle(0), m_width(width), m_height(height)
 {
-    cout << "TODO FIX SIZE OF THE RENDER TEXTURE!!!" << endl;
-
     //Create the Frame Buffer
     glGenFramebuffers(1, &m_fboHandle);
     glBindFramebuffer(GL_FRAMEBUFFER, m_fboHandle);
@@ -31,13 +25,12 @@ RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), 
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
 
     //generate a depth buffer
-    GLuint depthBuf;
-    glGenRenderbuffers(1, &depthBuf);
-    glBindRenderbuffer(GL_RENDERBUFFER, depthBuf);
+    glGenRenderbuffers(1, &m_depthRenderBuffer);
+    glBindRenderbuffer(GL_RENDERBUFFER, m_depthRenderBuffer);
     glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, width, height);
 
     // Bind the depth buffer to the FBO
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT,GL_RENDERBUFFER,depthBuf);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, m_depthRenderBuffer);
 
 	//Bind the textures to the frame buffer
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ID, 0);
@@ -54,16 +47,20 @@ RenderTexture::RenderTexture(int width, int height) : Texture("RenderTexture"), 
 RenderTexture::~RenderTexture()
 {
 	glDeleteTextures(1, &m_depthTextureID);
-
-	Deactivate();
+	glDeleteRenderbuffers(1, &m_depthRenderBuffer);
     glDeleteFramebuffers(1, &m_fboHandle);
+	Deactivate();
 }
 
-void RenderTexture::Activate() 
+void RenderTexture::Activate(bool clear) 
 {
     glBindFramebuffer(GL_FRAMEBUFFER, m_fboHandle);
-    glClearColor(0,0,0,0);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if (clear == true)
+	{
+		glClearColor(0, 0, 0, 0);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
 
 	glGetIntegerv(GL_VIEWPORT, &m_previousViewport[0]);
 	glViewport(0, 0, m_width, m_height);
@@ -73,6 +70,16 @@ void RenderTexture::Deactivate()
 {
     glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glViewport(m_previousViewport[0], m_previousViewport[1], m_previousViewport[2], m_previousViewport[3]);
+}
+
+int RenderTexture::GetWidth()
+{
+	return m_width;
+}
+
+int RenderTexture::GetHeight()
+{
+	return m_height;
 }
 
 void RenderTexture::SetBindDepthTexture(bool bindDepthTexture)

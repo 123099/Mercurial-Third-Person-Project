@@ -48,14 +48,20 @@
 #include <Behaviours\BoxCollider.hpp>
 #include <Behaviours\CapsuleCollider.hpp>
 #include <Behaviours\Rigidbody.hpp>
-#include <Behaviours\PlayerInput.hpp>
+#include <Game\Behaviours\Elevator.hpp>
+#include <Behaviours\PostProcessors\Fog.hpp>
+#include <Behaviours\PostProcessors\Vignette.hpp>
+#include <Behaviours\PostProcessors\Contrast.hpp>
 
 void Application::OnInitialized()
 {
 	SetFPSLimit(60);
-	SetDebugHudEnabled(true);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
+
+#ifdef _DEBUG
+	SetDebugHudEnabled(true);
+#endif
 }
 
 void Application::InitializeScene()
@@ -71,4 +77,19 @@ void Application::InitializeScene()
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();
+
+	GameObject* elevator = SceneManager::Instance().GetActiveScene()->CreateGameObject("Elevator");
+	MeshRenderer* ms = elevator->AddBehaviour<MeshRenderer>();
+	ms->SetSharedMesh(ObjImporter::LoadObj("plane"));
+	ms->SetSharedMaterial(MaterialImporter::LoadMaterial("lit"));
+	elevator->AddBehaviour<BoxCollider>()->SetHalfExtents(glm::vec3(1));
+	Rigidbody* rb = elevator->AddBehaviour<Rigidbody>();
+	rb->SetMass(0);
+	rb->SetKinematic(true);
+	Elevator* e = elevator->AddBehaviour<Elevator>();
+	e->SetPointB(glm::vec3(0, 10, 0));
+	e->SetSpeed(2);
+	elevator->AddBehaviour<Vignette>();
+	elevator->AddBehaviour<Fog>();
+	elevator->AddBehaviour<Contrast>()->SetContrast(0.05f);
 }

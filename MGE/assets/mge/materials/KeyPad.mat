@@ -5,8 +5,8 @@ materialDiffuse color 1 1 1 1
 materialSpecular color 1 1 1 1
 materialEmission color 0 0 0 1
 materialShininess float 10
-materialReflectivity float 0
+materialReflectivity float 0.05
 
-diffuseTexture texture mge/textures/KeyPadLock_albedo.png
-normalMap texture mge/textures/KeyPadLock_normal.png
-specularMap texture mge/textures/KeyPadLock_metallic.png
+diffuseTexture texture mge/textures/Keypad/albedo.png
+normalMap texture mge/textures/Keypad/normal.png
+specularMap texture mge/textures/Keypad/metallic.png
