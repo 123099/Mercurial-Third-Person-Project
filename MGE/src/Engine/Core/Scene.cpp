@@ -46,9 +46,6 @@ GameObject * Scene::CreateGameObject(const std::string& name)
 
 void Scene::DestroyGameObject(GameObject * gameObject)
 {
-	//Remove the game object from the root list
-	RemoveFromRoot(gameObject);
-
 	//Remove the object from uninitialized list if it was there
 	if (ContainsGameObjectInVector(gameObject, m_uninitializedGameObjects) == true)
 	{
@@ -56,6 +53,7 @@ void Scene::DestroyGameObject(GameObject * gameObject)
 	}
 
 	//Mark object as to be detroyed
+	gameObject->m_destroyed = true;
 	m_objectsToBeDestroyed.push_back(gameObject);
 }
 
@@ -93,7 +91,13 @@ void Scene::ProcessObjectsToBeDestroyed()
 	//Destroy all objects in the to be destroyed list
 	for (size_t i = 0; i < m_objectsToBeDestroyed.size(); ++i)
 	{
-		delete m_objectsToBeDestroyed[i];
+		GameObject* gameObject = m_objectsToBeDestroyed[i];
+
+		//Remove the game object from the root list
+		RemoveFromRoot(gameObject);
+
+		//Delete the object
+		delete gameObject;
 	}
 
 	m_objectsToBeDestroyed.clear();

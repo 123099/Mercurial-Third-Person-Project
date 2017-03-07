@@ -23,6 +23,12 @@ Light::Light() :
 Light::~Light()
 {
 	LightManager::Instance().RemoveLight(this);
+	delete m_shadowBox;
+}
+
+void Light::Awake()
+{
+	m_shadowBox = new ShadowBox(*Camera::GetMainCamera(), 100.0f, 10.0f);
 }
 
 void Light::SetType(Type type)
@@ -88,6 +94,11 @@ RenderTexture & Light::GetShadowMap()
 	return m_shadowMap;
 }
 
+ShadowBox & Light::GetShadowBox()
+{
+	return *m_shadowBox;
+}
+
 glm::vec4 Light::GetAmbientColor()
 {
 	return m_ambientColor;
@@ -130,7 +141,7 @@ glm::mat4 Light::GetViewMatrix()
 	if (m_type == Light::Type::Directional)
 	{
 		//Position light far behind and looking forward
-		return glm::lookAt(position + 100.0f * forward,  -forward, glm::vec3(0, 1, 0));
+		return glm::lookAt(position + 80.0f * forward,  position, glm::vec3(0, 1, 0));
 	}
 	else
 	{
@@ -139,8 +150,8 @@ glm::mat4 Light::GetViewMatrix()
 }
 
 #include <Input\Input.hpp>
-float a = 38;
-float b = 500;
+float a = 50;
+float b = 400;
 glm::mat4 Light::GetProjectionMatrix()
 {
 	if (Input::IsKeyPressed(sf::Keyboard::Num1))
@@ -199,7 +210,7 @@ Light::Data Light::GetLightData()
 		}
 
 		//Calculate the light's VP matrix for shadows
-		glm::mat4 vpMatrix = GetProjectionMatrix() * GetViewMatrix();
+		glm::mat4 vpMatrix = GetProjectionMatrix() * GetViewMatrix();//GetShadowBox().GetProjectionMatrix() * GetShadowBox().GetViewMatrix(direction);
 
 		return
 		{

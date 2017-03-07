@@ -161,7 +161,7 @@ int LuaUtils::ToggleLight(lua_State * l_luaState)
 			Light* light = lightIdentifiers[i]->GetGameObject()->GetBehaviour<Light>();
 			if (light != nullptr)
 			{
-				light->SetIntensity((float)enabled);
+				light->SetIntensity((float)enabled*2);
 			}
 		}
 	}

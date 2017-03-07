@@ -1,4 +1,5 @@
 --npc cable--
+--start enabled--
 if npc0:isenabled() == true then
 	local x,y,z = npc0:getposition()
 	luautils:playsound("connectcable.wav", x, y, z, false, 1)
@@ -6,5 +7,6 @@ if npc0:isenabled() == true then
 	npc0:setenabled(false)
 	npc1:setenabled(true)
 	luautils:togglelight(0, true)
-	player:log("Cable connected")
+	luautils:togglelight(1, true)
+	player:log("Cable is connected!")
 end

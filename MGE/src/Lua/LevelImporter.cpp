@@ -101,6 +101,7 @@ static int CreateGameObject(lua_State* luaState)
 	//Command structure:
 	//1 - model name (could be empty string)
 	//2 - material name (could be empty string)
+	//3 - cast shadows?
 
 	//Create the base game object
 	GameObject* gameObject = CreateGameObjectFromBaseData(luaState);
@@ -111,10 +112,13 @@ static int CreateGameObject(lua_State* luaState)
 	//Retrieve the material name
 	std::string materialName = lua_tostring(luaState, 2);
 
+	//Retrieve whether to cast shadows
+	const bool castShadows = (bool)lua_toboolean(luaState, 3);
+
 	if (modelName != "" || materialName != "")
 	{
 		//Add a Mesh renderer to the game object
-		gameObject->AddBehaviour<MeshRenderer>();
+		gameObject->AddBehaviour<MeshRenderer>()->SetCastShadows(castShadows);
 	}
 
 	//Load mesh based on file extension

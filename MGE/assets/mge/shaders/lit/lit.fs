@@ -1,5 +1,6 @@
 #version 430
 const vec4 gamma = vec4(1.0 / 2.2);
+const float Epsilon = 0.0000001;
 
 uniform vec4 globalAmbient;
 uniform vec4 fogColor;
@@ -133,7 +134,6 @@ vec4 calculateFragmentNormal()
 
 float calculateShadowAttenuation(int index)
 {
-return 1.0;
 	if(lights[index].type != 0.0)
 	{
 		return 1.0;
@@ -149,32 +149,16 @@ return 1.0;
 	
 	float shadowAttenuation = 0.0;
 	
-	int iterations = 0;
-	/*float num = 0.001;
-	for(float offsetY = -num; offsetY <= num; offsetY += 0.5 * num)
-	{
-		for(float offsetX = -num; offsetX <= num; offsetX += 0.5 * num)
-		{
-			const float closestDepth = texture(shadowMaps[index].shadowMap, projectedCoords.xy + vec2(offsetX, offsetY)).x;
-	
-			if(closestDepth < projectedCoords.z + 0.0002)
-			{
-				shadowAttenuation += 1.0;
-			}
-			
-			++iterations;
-		}
-	}*/
-	
-	float texelSize = 1.0 / 4096.0;
+	float texelSize = 1.0 / 2048.0;
 	int pcfCount = 3;
+	int iterations = 0;
 	
 	for(int x = -pcfCount; x <= pcfCount; ++x)
 		for(int y = -pcfCount; y <= pcfCount; ++y)
 		{
 			const float closestDepth = texture(shadowMaps[index].shadowMap, projectedCoords.xy + vec2(x, y) * texelSize).x;
 			
-			if(closestDepth < projectedCoords.z + 0.00005)
+			if(closestDepth < projectedCoords.z + Epsilon || closestDepth < projectedCoords.z - Epsilon)
 			{
 				shadowAttenuation += 1.0;
 			}

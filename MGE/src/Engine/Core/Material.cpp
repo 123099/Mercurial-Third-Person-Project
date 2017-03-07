@@ -86,11 +86,11 @@ void Material::SetVector(const std::string & propertyName, glm::vec4 vector)
 	SetProperty(vectorProperty);
 }
 
-void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender)
+void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender, bool castShadows)
 {
 	if (simpleRender == true)
 	{
-		SimpleRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix);
+		SimpleRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix, castShadows);
 	}
 	else
 	{
@@ -228,8 +228,13 @@ void Material::FullRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm:
 	m_shader.Unbind();
 }
 
-void Material::SimpleRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix)
+void Material::SimpleRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix, bool castShadows)
 {
+	if (castShadows == false)
+	{
+		return;
+	}
+
 	//Load the simple shader
 	if (s_simpleShader == nullptr)
 	{

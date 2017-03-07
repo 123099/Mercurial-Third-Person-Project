@@ -7,6 +7,6 @@ materialEmission color 0 0 0 1
 materialShininess float 1
 materialReflectivity float 0
 
-diffuseTexture texture mge/textures/Crate/albedo.png
-normalMap texture mge/textures/Crate/normal.png
-specularMap texture mge/textures/Crate/metallic.png
+diffuseTexture texture mge/textures/Door/albedo.png
+normalMap texture mge/textures/Door/normal.png
+specularMap texture mge/textures/Door/metallic.png

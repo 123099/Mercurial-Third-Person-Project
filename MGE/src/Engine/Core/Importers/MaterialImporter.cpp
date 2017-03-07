@@ -149,7 +149,7 @@ Material* MaterialImporter::LoadMaterial(const std::string & materialName)
 			}
 			else
 			{
-				Debug::Instance().LogError("Bad material file format. First line must start with the word 'shader' and define the name of the shader to use!");
+				Debug::Instance().LogError("Bad material file format in material " + materialName + " . First line must start with the word 'shader' and define the name of the shader to use!");
 				return nullptr;
 			}
 		}

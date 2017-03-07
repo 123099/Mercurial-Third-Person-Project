@@ -24,7 +24,7 @@ public:
 	void SetVector(const std::string& propertyName, glm::vec4 vector);
 	void SetTexture(const std::string& propertyName, Texture* texture);
 
-    void Render(Mesh* mesh, const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender = false);
+    void Render(Mesh* mesh, const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender = false, bool castShadows = true);
 
 	void SaveToFile(const std::string& materialName);
 
@@ -44,5 +44,5 @@ private:
 	bool CanBindExtraTexture();
 
 	void FullRender(Mesh* mesh, const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix);
-	void SimpleRender(Mesh* mesh, const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix);
+	void SimpleRender(Mesh* mesh, const glm::mat4& modelMatrix, const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix, bool castShadows);
 };

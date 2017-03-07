@@ -177,14 +177,14 @@ void AbstractGame::Run()
 
 	while (m_window->isOpen())
 	{
-		Profiler::Instance().BeginSample("Events");
-		//Process Events
-		ProcessEvents();
-		Profiler::Instance().EndSample();
-
 		//Make sure the Fps is locked to the limit set
 		if (CheckFPSLimit(clock) == true)
 		{
+			Profiler::Instance().BeginSample("Events");
+			//Process Events
+			ProcessEvents();
+			Profiler::Instance().EndSample();
+
 			//Calculate time per frame
 			Time::s_deltaTime = clock.getElapsedTime().asSeconds() - Time::s_gameTime;
 

@@ -1,5 +1,6 @@
 #pragma once
 #include <Utils\Singleton.hpp>
+#include <sstream>
 #include <string>
 
 class Debug final : public Singleton<Debug>

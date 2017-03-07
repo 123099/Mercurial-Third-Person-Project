@@ -1,1 +1,0 @@
---npc elevator door--

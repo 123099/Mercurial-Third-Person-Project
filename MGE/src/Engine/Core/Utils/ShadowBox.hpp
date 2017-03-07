@@ -7,16 +7,17 @@ class ShadowBox final
 public:
 	ShadowBox(Camera& camera, float distance, float offset);
 
-	void Calculate(const glm::mat4& lightViewMatrix);
+	void Calculate(glm::vec3 lightDirection);
 
-	glm::vec3 GetCenter(const glm::mat4& lightViewMatrix);
+	glm::vec3 GetCenter();
 
-	glm::mat4 GetViewMatrix(const glm::mat4& lightViewMatrix, glm::vec3 lightDirection);
+	glm::mat4 GetViewMatrix();
 	glm::mat4 GetProjectionMatrix();
 private:
 	Camera& m_camera;
 	float m_shadowDistance;
 	float m_boxOffset;
+	glm::mat4 lightViewMatrix;
 
 	float m_minX, m_maxX;
 	float m_minY, m_maxY;
@@ -25,8 +26,8 @@ private:
 	glm::vec2 m_nearPlaneSize;
 	glm::vec2 m_farPlaneSize;
 
-	std::vector<glm::vec3> GetFrustumVertices(const glm::mat4& lightViewMatrix, const glm::vec3& farPlaneCenter, const glm::vec3& nearPlaneCenter);
-	glm::vec3 GetLightSpaceFrustumVertex(const glm::mat4& lightViewMatrix, const glm::vec3& start, const glm::vec3& direction, float width);
+	std::vector<glm::vec3> GetFrustumVertices(glm::vec3 lightDirection, const glm::vec3& farPlaneCenter, const glm::vec3& nearPlaneCenter);
+	glm::vec3 GetLightSpaceFrustumVertex(const glm::vec3& start, const glm::vec3& direction, float width);
 
 	float GetWidth();
 	float GetHeight();

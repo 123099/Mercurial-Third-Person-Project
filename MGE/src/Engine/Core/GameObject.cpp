@@ -75,6 +75,11 @@ void GameObject::Initialize()
 
 void GameObject::FixedUpdate()
 {
+	if (m_destroyed == true)
+	{
+		return;
+	}
+
 	//Update all the behaviours
 	for (const auto& behaviour : m_behaviours)
 	{
@@ -90,6 +95,11 @@ void GameObject::FixedUpdate()
 
 void GameObject::Update()
 {
+	if (m_destroyed == true)
+	{
+		return;
+	}
+
 	//Update all the behaviours
 	for (const auto& behaviour : m_behaviours)
 	{

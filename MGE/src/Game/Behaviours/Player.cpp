@@ -37,7 +37,7 @@ void Player::Awake()
 
 	m_camera = m_gameObject->GetBehavioursInChildren<Camera>()[0];
 	glm::vec3 cameraEulers = m_camera->GetGameObject()->GetTransform()->GetLocalRotation().GetEulerAngles();
-	m_accumulatedCameraRotation = glm::vec2(cameraEulers.y, cameraEulers.x);
+	m_accumulatedCameraRotation = glm::vec2(cameraEulers.x, cameraEulers.y);
 
 	m_characterController = m_gameObject->GetBehaviour<CharacterController>();
 	m_characterController->SetWalkVelocity(m_walkVelocity);

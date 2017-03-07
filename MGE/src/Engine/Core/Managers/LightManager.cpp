@@ -174,22 +174,21 @@ void LightManager::RenderShadowMaps()
 		Light* light = m_lights[i];
 		if (light->GetType() == Light::Type::Directional)
 		{
+			glCullFace(GL_FRONT);
 			//Activate the shadow map render texture
 			light->GetShadowMap().Activate();
 
-			/*glm::mat4 lightViewMatrix = light->GetViewMatrix();
-			ShadowBox shadowBox(*Camera::GetMainCamera(), 100.0f, 10.0f);
-			shadowBox.Calculate(lightViewMatrix);
-
+			//light->GetShadowBox().Calculate(-light->GetGameObject()->GetTransform()->GetForwardVector());
+			
 			//Render the scene to the texture
-			Renderer::Instance().Render(shadowBox.GetViewMatrix(lightViewMatrix, light->GetGameObject()->GetTransform()->GetForwardVector()), shadowBox.GetProjectionMatrix(), true);*/
+			//Renderer::Instance().Render(light->GetShadowBox().GetViewMatrix(-light->GetGameObject()->GetTransform()->GetForwardVector()), light->GetShadowBox().GetProjectionMatrix(), true);
 			Renderer::Instance().Render(light->GetViewMatrix(), light->GetProjectionMatrix(), true);
-
 			//Finish with the render texture
 			light->GetShadowMap().Deactivate();
+			glCullFace(GL_BACK);
 
 			//Draw rendered texture to the screen
-			/*glDisable(GL_CULL_FACE);
+			glDisable(GL_CULL_FACE);
 			glEnable(GL_TEXTURE_2D);
 			light->GetShadowMap().SetBindDepthTexture(true);
 			light->GetShadowMap().Bind();
@@ -199,17 +198,17 @@ void LightManager::RenderShadowMaps()
 			glVertex2f(-1.0, -1.0f);
 
 			glTexCoord2f(1.0f, 0.0f);
-			glVertex2f(1.0, -1.0f);
+			glVertex2f(-0.5f, -1.0f);
 
 			glTexCoord2f(1.0f, 1.0f);
-			glVertex2f(1.0, 1.0f);
+			glVertex2f(-0.5f, -0.5f);
 
 			glTexCoord2f(0.0f, 1.0f);
-			glVertex2f(-1.0, 1.0f);
+			glVertex2f(-1.0, -0.5f);
 			glEnd();
 
-			m_renderTexture->Unbind();
-			glEnable(GL_CULL_FACE);*/
+			light->GetShadowMap().Unbind();
+			glEnable(GL_CULL_FACE);
 		}
 	}
 }

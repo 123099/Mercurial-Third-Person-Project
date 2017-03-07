@@ -225,6 +225,7 @@ private:
 
 	std::string m_name;
 	bool m_initialized;
+	bool m_destroyed;
 
 	std::vector<std::unique_ptr<AbstractBehaviour>> m_behaviours;
 	Transform* m_transform;
