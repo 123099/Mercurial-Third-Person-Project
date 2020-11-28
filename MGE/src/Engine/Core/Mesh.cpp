@@ -212,33 +212,3 @@ void Mesh::StreamToOpenGL(GLint verticesAttrib, GLint normalsAttrib, GLint UVsAt
 	if (verticesAttrib != -1) glDisableVertexAttribArray(verticesAttrib);
 	if (tangentsAttrib != -1) glDisableVertexAttribArray(tangentsAttrib);
 }
-
-void Mesh::drawDebugInfo(const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix) {
-    //demo of how to render some debug info using the good ol' direct rendering mode...
-    glUseProgram(0);
-    glMatrixMode(GL_PROJECTION);
-    glLoadMatrixf(glm::value_ptr(pProjectionMatrix));
-    glMatrixMode(GL_MODELVIEW);
-    glLoadMatrixf(glm::value_ptr(pViewMatrix * pModelMatrix));
-
-    glBegin(GL_LINES);
-    //for each index draw the normal starting at the corresponding vertex
-    for (size_t i=0; i<m_triangles.size(); i++){
-        //draw normal for vertex
-        if (true) {
-            //now get normal end
-            glm::vec3 normal = m_normals[m_triangles[i]];
-            glColor3fv(glm::value_ptr(normal));
-
-            glm::vec3 normalStart = m_vertices[m_triangles[i]];
-            glVertex3fv(glm::value_ptr(normalStart));
-            glm::vec3 normalEnd = normalStart + normal*0.2f;
-            glVertex3fv(glm::value_ptr(normalEnd));
-        }
-
-    }
-    glEnd();
-}
-
-
-

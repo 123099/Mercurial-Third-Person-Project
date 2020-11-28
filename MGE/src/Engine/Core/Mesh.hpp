@@ -40,9 +40,6 @@ public:
 
     // Streams the mesh to OpenGL using the given indices for the different attributes
     void StreamToOpenGL(GLint verticesAttrib, GLint normalsAttrib, GLint UVsAttrib, GLint tangentsAttrib);
-
-    // Draws debug info (normals) for the mesh using the given matrices)
-    void drawDebugInfo(const glm::mat4& pModelMatrix, const glm::mat4& pViewMatrix, const glm::mat4& pProjectionMatrix);
 protected:
 	static InstanceCache<Mesh> s_meshCache;
 
