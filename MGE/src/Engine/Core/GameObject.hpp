@@ -128,8 +128,8 @@ public:
 		std::vector<T*> behaviours = GetBehaviours<T>();
 
 		//Go through all the children and retrieve all their behaviours
-		const int childCount = GetTransform()->GetChildCount();
-		for (int i = 0; i < childCount; ++i)
+		const size_t childCount = GetTransform()->GetChildCount();
+		for (uint32_t i = 0; i < childCount; ++i)
 		{
 			const std::vector<T*> childBehaviours = GetTransform()->GetChildAt(i)->GetGameObject()->GetBehavioursInChildren<T>();
 			behaviours.insert(behaviours.end(), childBehaviours.begin(), childBehaviours.end());

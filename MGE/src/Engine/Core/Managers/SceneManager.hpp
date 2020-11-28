@@ -25,7 +25,7 @@ public:
 	Scene* GetSceneByName(const std::string& name);
 	Scene* GetSceneByIndex(int index);
 
-	int GetSceneCount();
+	size_t GetSceneCount();
 private:
 	std::vector<std::unique_ptr<Scene>> m_scenes;
 	Scene* m_activeScene;

@@ -371,12 +371,12 @@ Transform * Transform::GetRoot()
 	}
 }
 
-Transform * Transform::GetChildAt(int index) const
+Transform * Transform::GetChildAt(uint32_t index) const
 {
 	return m_children[index];
 }
 
-int Transform::GetChildCount() const
+size_t Transform::GetChildCount() const
 {
 	return m_children.size();
 }

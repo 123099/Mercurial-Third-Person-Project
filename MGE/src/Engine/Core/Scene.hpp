@@ -24,7 +24,7 @@ public:
 	void ProcessUninitializedObjects();
 	void ProcessObjectsToBeDestroyed();
 
-	int GetRootCount() const;
+	size_t GetRootCount() const;
 	const std::vector<GameObject*>& GetRootGameObjects() const;
 
 	bool ContainsGameObject(GameObject* gameObject);

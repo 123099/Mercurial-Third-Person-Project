@@ -269,7 +269,7 @@ static void CheckProgramError(GLuint program, GLuint testParameter, const std::s
 		std::vector<char> log(logLength);
 
 		//Retrieve the log of the error
-		glGetProgramInfoLog(program, log.size(), nullptr, &log[0]);
+		glGetProgramInfoLog(program, logLength, nullptr, &log[0]);
 
 		//Display the log
 		std::cerr << errorMessage << ": (" << std::string(log.begin(), log.end() - 1) << ") " << '\n';
@@ -296,7 +296,7 @@ static void CheckShaderError(GLuint shader, GLuint testParameter, const std::str
 		std::vector<char> log(logLength);
 		
 		//Retrieve the log of the error
-		glGetShaderInfoLog(shader, log.size(), nullptr, &log[0]);
+		glGetShaderInfoLog(shader, logLength, nullptr, &log[0]);
 
 		//Display the log
 		std::cerr << errorMessage << ": (" << std::string(log.begin(), log.end() - 1) << ") " << '\n';
@@ -334,7 +334,7 @@ std::unordered_map<std::string, GLint> LoadUniforms(GLuint program)
 			std::vector<char> uniformName(values[1]);
 
 			//Retrieve the name of the uniform
-			glGetProgramResourceName(program, GL_UNIFORM, i, uniformName.size(), nullptr, &uniformName[0]);
+			glGetProgramResourceName(program, GL_UNIFORM, i, static_cast<int>(uniformName.size()), nullptr, &uniformName[0]);
 
 			//Convert the char vector to a string, excluding the null terminator in the last cell
 			const std::string stringName = std::string(uniformName.begin(), uniformName.end() - 1);

@@ -22,7 +22,7 @@ public:
 	std::vector<glm::vec3> GetVertices();
 	std::vector<glm::vec3> GetNormals();
 	std::vector<glm::vec2> GetUVs();
-	std::vector<GLuint> GetTriangles();
+	std::vector<uint32_t> GetTriangles();
 
 	void SetVertices(std::vector<glm::vec3> vertices);
 	void SetNormals(std::vector<glm::vec3> normals);
@@ -31,8 +31,8 @@ public:
 
 	const std::vector<glm::vec3>& GetVertices() const;
 
-	int GetVertexCount();
-	int GetTriangleCount();
+	size_t GetVertexCount();
+	size_t GetTriangleCount();
 
 	void CalculateTangents(bool flipBinormals = false);
         
@@ -60,7 +60,7 @@ protected:
 	std::vector<glm::vec4> m_tangents;		 //vec4 for tangents to every vertex. The w component indicates whether the binormal should be flipped or not
 
 	//List of triangles that contains indices into the vertex, normals, uvs and tangents vectors
-	std::vector<GLuint> m_triangles;
+	std::vector<uint32_t> m_triangles;
 
     //Buffer vertices, normals, tangents and UV's
 	void Buffer();

@@ -81,7 +81,7 @@ void AbstractGame::OnInitialized() {}
 void AbstractGame::InitializeWindow()
 {
 	std::cout << "Initializing window..." << '\n';
-	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1280,720), "Mercurial", sf::Style::Fullscreen, sf::ContextSettings(24,8,0,3,3));
+	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1280,720), "Mercurial", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
 	std::cout << "Window initialized." << '\n' << '\n';
 }
 

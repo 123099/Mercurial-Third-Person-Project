@@ -8,7 +8,7 @@ class AudioClip;
 class AudioSource final : public AbstractBehaviour
 {
 public:
-	enum Type
+	enum class Type
 	{
 		TwoD, ThreeD
 	};

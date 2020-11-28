@@ -8,7 +8,7 @@
 class Light final : public AbstractBehaviour
 {
 public:
-	enum Type
+	enum class Type
 	{
 		Directional,
 		Point,

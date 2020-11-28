@@ -50,7 +50,7 @@ std::vector<glm::vec2> Mesh::GetUVs()
 	return m_uvs;
 }
 
-std::vector<size_t> Mesh::GetTriangles()
+std::vector<uint32_t> Mesh::GetTriangles()
 {
 	return m_triangles;
 }
@@ -70,7 +70,7 @@ void Mesh::SetUVs(std::vector<glm::vec2> uvs)
 	m_uvs = uvs;
 }
 
-void Mesh::SetTriangles(std::vector<size_t> triangles)
+void Mesh::SetTriangles(std::vector<uint32_t> triangles)
 {
 	//Make sure that the triangle indices count is a multiple of 3
 	if (triangles.size() % 3 != 0)
@@ -88,12 +88,12 @@ const std::vector<glm::vec3>& Mesh::GetVertices() const
 	return m_vertices;
 }
 
-int Mesh::GetVertexCount()
+size_t Mesh::GetVertexCount()
 {
 	return m_vertices.size();
 }
 
-int Mesh::GetTriangleCount()
+size_t Mesh::GetTriangleCount()
 {
 	return m_triangles.size() / 3;
 }
@@ -200,7 +200,7 @@ void Mesh::StreamToOpenGL(GLint verticesAttrib, GLint normalsAttrib, GLint UVsAt
 
 	glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, m_indexBufferID );
 
-	glDrawElements(GL_TRIANGLES, m_triangles.size(), GL_UNSIGNED_INT, (GLvoid*)0);
+	glDrawElements(GL_TRIANGLES, static_cast<int>(m_triangles.size()), GL_UNSIGNED_INT, nullptr);
 
 	//Unbind the buffers to avoid mishaps. Very important for performance
 	glBindBuffer(GL_ARRAY_BUFFER, 0);

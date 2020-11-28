@@ -150,7 +150,7 @@ Mesh* ObjImporter::LoadObj(const std::string & modelName)
 		std::vector<glm::vec3> vertices;
 		std::vector<glm::vec3> normals;
 		std::vector<glm::vec2> uvs;
-		std::vector<GLuint> indices;
+		std::vector<uint32_t> indices;
 
 		//Process the face triplets to organize the data lists according the triplet indices
 		const size_t tripletsCount = indexTriplets.size();
@@ -159,7 +159,7 @@ Mesh* ObjImporter::LoadObj(const std::string & modelName)
 			FaceIndexTriplet triplet = indexTriplets[i];
 
 			//Push the index of the element for OpenGL
-			indices.push_back(i);
+			indices.push_back(static_cast<uint32_t>(i));
 
 			//Push the vertex corresponding to the index stated in the triplet, subtracting 1 to account for obj indices starting from 1
 			vertices.push_back(tempVertices[triplet.vertex - 1]);

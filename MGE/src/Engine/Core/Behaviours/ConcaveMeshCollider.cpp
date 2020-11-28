@@ -21,8 +21,8 @@ void ConcaveMeshCollider::SetupCollisionShape()
 		const glm::vec3 meshScale = m_gameObject->GetTransform()->GetLocalScale();
 
 		//Add all the vertices in the mesh to the triangle mesh except the last one
-		const int vertexCount = mesh->GetVertexCount();
-		for (int i = 0; i < vertexCount - 3; i += 3)
+		const size_t vertexCount = mesh->GetVertexCount();
+		for (uint32_t i = 0; i < vertexCount - 3; i += 3)
 		{
 			const glm::vec3 v1 = vertices[i] * meshScale;
 			const glm::vec3 v2 = vertices[i + 1] * meshScale;

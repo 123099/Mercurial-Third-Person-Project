@@ -46,11 +46,11 @@ void AudioSource::SetSpatialBlend(Type spatialBlendType)
 	//Disable or enable spatialization based on the sound type
 	switch (spatialBlendType)
 	{
-	case TwoD:
+	case Type::TwoD:
 		m_clip->UseRelativePosition(true);
 		m_clip->SetWorldPosition(glm::vec3(0.0));
 		break;
-	case ThreeD:
+	case Type::ThreeD:
 		m_clip->UseRelativePosition(false);
 		break;
 	}

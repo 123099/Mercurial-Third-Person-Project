@@ -57,8 +57,8 @@ public:
 	Transform* GetParent() const;
 	Transform* GetRoot();
 
-	int GetChildCount() const;
-	Transform* GetChildAt(int index) const;
+	size_t GetChildCount() const;
+	Transform* GetChildAt(uint32_t index) const;
 	std::vector<Transform*> GetAllChildrenRecursively() const;
 private:
 	Transform* m_parent;

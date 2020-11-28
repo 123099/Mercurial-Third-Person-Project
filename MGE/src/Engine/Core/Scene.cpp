@@ -103,7 +103,7 @@ void Scene::ProcessObjectsToBeDestroyed()
 	m_objectsToBeDestroyed.clear();
 }
 
-int Scene::GetRootCount() const
+size_t Scene::GetRootCount() const
 {
 	return m_rootGameObjects.size();
 }

@@ -43,7 +43,7 @@ void Terrain::RecalculateMesh()
 	}
 
 	//Generate indices for triangels
-	std::vector<size_t> triangles(m_width * m_depth * 6);
+	std::vector<uint32_t> triangles(m_width * m_depth * 6);
 
 	int index = 0;
 	for (int z = 0; z < m_depth; ++z)

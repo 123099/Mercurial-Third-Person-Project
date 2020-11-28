@@ -88,7 +88,7 @@ Scene * SceneManager::GetSceneByIndex(int index)
 	return m_scenes[index].get();
 }
 
-int SceneManager::GetSceneCount()
+size_t SceneManager::GetSceneCount()
 {
 	return m_scenes.size();
 }

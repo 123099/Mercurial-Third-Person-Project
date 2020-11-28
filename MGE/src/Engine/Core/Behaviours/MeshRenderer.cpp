@@ -15,8 +15,8 @@ void MeshRenderer::GetTotalVertexTriangleCountInScene(int * vertexCount, int * t
 		{
 			if (child->GetGameObject()->GetBehaviour<MeshRenderer>() != nullptr && child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh() != nullptr)
 			{
-				*vertexCount += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetVertexCount();
-				*triangleCount += child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetTriangleCount();
+				*vertexCount += static_cast<int>(child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetVertexCount());
+				*triangleCount += static_cast<int>(child->GetGameObject()->GetBehaviour<MeshRenderer>()->GetSharedMesh()->GetTriangleCount());
 			}
 		}
 	}
