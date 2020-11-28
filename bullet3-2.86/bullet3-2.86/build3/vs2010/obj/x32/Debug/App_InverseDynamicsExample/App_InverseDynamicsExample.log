@@ -1,0 +1,58 @@
+﻿  InverseDynamicsExample.cpp
+  main_console_single_example.cpp
+  b3ResourcePath.cpp
+  TimeSeriesCanvas.cpp
+  TimeSeriesFontData.cpp
+  InvertedPendulumPDControl.cpp
+  tinystr.cpp
+  tinyxml.cpp
+  tinyxmlerror.cpp
+  tinyxmlparser.cpp
+  tiny_obj_loader.cpp
+  LoadMeshFromCollada.cpp
+  LoadMeshFromObj.cpp
+  Wavefront2GLInstanceGraphicsShape.cpp
+  BulletUrdfImporter.cpp
+..\..\examples\ThirdPartyLibs\Wavefront\tiny_obj_loader.cpp(391): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(2254): note: see declaration of 'sscanf'
+..\..\examples\ThirdPartyLibs\Wavefront\tiny_obj_loader.cpp(627): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(2254): note: see declaration of 'sscanf'
+..\..\examples\ThirdPartyLibs\Wavefront\tiny_obj_loader.cpp(643): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(2254): note: see declaration of 'sscanf'
+..\..\examples\ThirdPartyLibs\Wavefront\tiny_obj_loader.cpp(699): warning C4996: 'sscanf': This function or variable may be unsafe. Consider using sscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(2254): note: see declaration of 'sscanf'
+  MyMultiBodyCreator.cpp
+  URDF2Bullet.cpp
+  UrdfParser.cpp
+..\..\examples\MultiBody\InvertedPendulumPDControl.cpp(363): warning C4316: 'btMultiBodyJointFeedback': object allocated on the heap may not be aligned 16
+..\..\examples\MultiBody\InvertedPendulumPDControl.cpp(464): warning C4316: 'InvertedPendulumPDControl': object allocated on the heap may not be aligned 16
+..\..\examples\InverseDynamics\InverseDynamicsExample.cpp(365): warning C4316: 'InverseDynamicsExample': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportObjDemo\Wavefront2GLInstanceGraphicsShape.cpp(52): warning C4018: '<': signed/unsigned mismatch
+..\..\examples\Importers\ImportObjDemo\Wavefront2GLInstanceGraphicsShape.cpp(79): warning C4018: '<': signed/unsigned mismatch
+..\..\examples\Importers\ImportObjDemo\Wavefront2GLInstanceGraphicsShape.cpp(104): warning C4018: '<': signed/unsigned mismatch
+  urdfStringSplit.cpp
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(553): warning C4316: 'UrdfMaterial': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(587): warning C4316: 'UrdfMaterial': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(1336): warning C4316: 'UrdfMaterial': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(1359): warning C4316: 'UrdfLink': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(1407): warning C4316: 'UrdfJoint': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(1495): warning C4316: 'UrdfModel': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(1531): warning C4316: 'UrdfMaterial': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(1554): warning C4316: 'UrdfLink': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\UrdfParser.cpp(1602): warning C4316: 'UrdfJoint': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\MyMultiBodyCreator.cpp(65): warning C4316: 'GenericConstraintUserInfo': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\MyMultiBodyCreator.cpp(148): warning C4316: 'GenericConstraintUserInfo': object allocated on the heap may not be aligned 16
+..\..\examples\Importers\ImportURDFDemo\MyMultiBodyCreator.cpp(172): warning C4316: 'GenericConstraintUserInfo': object allocated on the heap may not be aligned 16
+  b3ImportMeshUtility.cpp
+  stb_image.cpp
+..\..\examples\ThirdPartyLibs\stb_image\stb_image.cpp(228): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+..\..\examples\ThirdPartyLibs\stb_image\stb_image.cpp(290): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+..\..\examples\ThirdPartyLibs\stb_image\stb_image.cpp(328): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+..\..\examples\ThirdPartyLibs\stb_image\stb_image.cpp(4220): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+  C:\Program Files (x86)\Windows Kits\10\Include\10.0.14393.0\ucrt\stdio.h(207): note: see declaration of 'fopen'
+..\..\examples\Importers\ImportMeshUtility\b3ImportMeshUtility.cpp(35): warning C4018: '<': signed/unsigned mismatch
+  App_InverseDynamicsExample.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\bin\App_InverseDynamicsExample_vs2010_debug.exe
+  App_InverseDynamicsExample.vcxproj -> ..\..\bin\App_InverseDynamicsExample_vs2010_debug.pdb (Partial PDB)

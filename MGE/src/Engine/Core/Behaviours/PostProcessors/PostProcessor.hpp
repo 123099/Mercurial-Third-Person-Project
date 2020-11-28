@@ -14,5 +14,8 @@ public:
 	virtual void ProcessTexture(RenderTexture& texture, RenderTexture& originalTexture) = 0;
 protected:
 	Shader& m_shader;
+
+	void DrawToTexture();
+private:
 	std::unique_ptr<Mesh> m_quad;
 };

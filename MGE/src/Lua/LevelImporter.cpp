@@ -31,6 +31,11 @@
 #include <Game\Behaviours\Player.hpp>
 #include <Game\Behaviours\TranslationAnimation.hpp>
 #include <Game\Behaviours\LightIdentifier.hpp>
+#include <Game\Behaviours\Door.hpp>
+#include <Game\Behaviours\Elevator.hpp>
+#include <Game\Behaviours\RotationAnimation.hpp>
+#include <Game\Behaviours\Sun.hpp>
+#include <Game\Behaviours\TV.hpp>
 
 #include <Importers\ObjImporter.hpp>
 #include <Importers\MaterialImporter.hpp>
@@ -102,6 +107,7 @@ static int CreateGameObject(lua_State* luaState)
 	//1 - model name (could be empty string)
 	//2 - material name (could be empty string)
 	//3 - cast shadows?
+	//4 - receive shadows?
 
 	//Create the base game object
 	GameObject* gameObject = CreateGameObjectFromBaseData(luaState);
@@ -115,10 +121,15 @@ static int CreateGameObject(lua_State* luaState)
 	//Retrieve whether to cast shadows
 	const bool castShadows = (bool)lua_toboolean(luaState, 3);
 
+	//Retrieve whether to receive shadows
+	const bool receiveShadows = (bool)lua_toboolean(luaState, 4);
+
 	if (modelName != "" || materialName != "")
 	{
 		//Add a Mesh renderer to the game object
-		gameObject->AddBehaviour<MeshRenderer>()->SetCastShadows(castShadows);
+		MeshRenderer* ms = gameObject->AddBehaviour<MeshRenderer>();
+		ms->SetCastShadows(castShadows);
+		ms->SetReceiveShadows(receiveShadows);
 	}
 
 	//Load mesh based on file extension
@@ -229,6 +240,7 @@ static void AddLight(GameObject* gameObject, lua_State* luaState)
 	light->SetColor(color);
 	light->SetIntensity(intensity);
 	light->SetSpotInnerAngle(spotInnerAngle);
+	light->SetSpotOuterAngle(spotInnerAngle + 10);
 }
 
 static void AddRotatingBehaviour(GameObject* gameObject, lua_State* luaState)
@@ -269,6 +281,7 @@ static void AddCamera(GameObject* gameObject, lua_State* luaState)
 	//1 - FoV
 	//2 - Near Plane
 	//3 - Far Plane
+	//4 - Is main camera?
 
 	//Retrieve FoV
 	float fieldOfView = (float)luaL_checknumber(luaState, 1);
@@ -277,6 +290,8 @@ static void AddCamera(GameObject* gameObject, lua_State* luaState)
 	float nearPlane = (float)luaL_checknumber(luaState, 2);
 	float farPlane = (float)luaL_checknumber(luaState, 3);
 
+	const bool isMainCamera = (bool)lua_toboolean(luaState, 4);
+
 	//Add camera to gameobject
 	Camera* camera = gameObject->AddBehaviour<Camera>();
 
@@ -284,6 +299,11 @@ static void AddCamera(GameObject* gameObject, lua_State* luaState)
 	camera->SetFieldOfView(fieldOfView);
 	camera->SetNearPlane(nearPlane);
 	camera->SetFarPlane(farPlane);
+
+	if (isMainCamera == true)
+	{
+		camera->SetMainCamera(camera);
+	}
 }
 
 static void AddFreeLookCamera(GameObject* gameObject, lua_State* luaState)
@@ -456,6 +476,7 @@ static void AddRigidbody(GameObject* gameObject, lua_State* luaState)
 	//7 - freeze y rotation
 	//8 - freeze z rotation
 	//9 - friction
+	//10 - always active?
 
 	//Get mass
 	const float mass = (float)luaL_checknumber(luaState, 1);
@@ -476,10 +497,14 @@ static void AddRigidbody(GameObject* gameObject, lua_State* luaState)
 	//Get friction
 	const float friction = (float)luaL_checknumber(luaState, 9);
 
+	//Get always active
+	const bool alwaysActive = (bool)lua_toboolean(luaState, 10);
+
 	Rigidbody* rigidbody = gameObject->AddBehaviour<Rigidbody>();
 	rigidbody->SetMass(mass);
 	rigidbody->SetFriction(friction);
 	rigidbody->SetKinematic(isKinematic);
+	rigidbody->SetAlwaysActive(alwaysActive);
 	rigidbody->FreezePosition(freezeXPos, freezeYPos, freezeZPos);
 	rigidbody->FreezeRotation(freezeXRot, freezeYRot, freezeZRot);
 }
@@ -543,6 +568,50 @@ static void AddVignette(GameObject* gameObject, lua_State* luaState)
 	gameObject->AddBehaviour<Vignette>();
 }
 
+static void AddDoor(GameObject* gameObject, lua_State* luaState)
+{
+	gameObject->AddBehaviour<Door>();
+}
+
+static void AddElevator(GameObject* gameObject, lua_State* luaState)
+{
+	//Command Structure:
+	//1..3 - Point B
+	//4 - speed
+
+	const float x = (float)luaL_checknumber(luaState, 1);
+	const float y = (float)luaL_checknumber(luaState, 2);
+	const float z = (float)luaL_checknumber(luaState, 3);
+
+	const float speed = 2; //(float)luaL_checknumber(luaState, 4);
+
+	Elevator* elevator = gameObject->AddBehaviour<Elevator>();
+	elevator->SetPointB(glm::vec3(x, y, z));
+	elevator->SetSpeed(speed);
+}
+
+static void AddRotationAnimation(GameObject* gameObject, lua_State* luaState)
+{
+	//Command structure:
+	//1...3 - speed
+
+	const float x = (float)luaL_checknumber(luaState, 1);
+	const float y = (float)luaL_checknumber(luaState, 2);
+	const float z = (float)luaL_checknumber(luaState, 3);
+
+	gameObject->AddBehaviour<RotationAnimation>()->SetSpeed(glm::vec3(x,y,z));
+}
+
+static void AddSun(GameObject* gameObject, lua_State* luaState)
+{
+	gameObject->AddBehaviour<Sun>();
+}
+
+static void AddTV(GameObject* gameObject, lua_State* luaState)
+{
+	gameObject->AddBehaviour<TV>();
+}
+
 using func = std::add_pointer_t<void(GameObject*, lua_State*)>;
 static const std::unordered_map<std::string, func> creationFunctions
 {
@@ -566,6 +635,11 @@ static const std::unordered_map<std::string, func> creationFunctions
 	std::make_pair("fog", AddFog),
 	std::make_pair("contrast", AddContrast),
 	std::make_pair("vignette", AddVignette),
+	std::make_pair("door", AddDoor),
+	std::make_pair("elevator", AddElevator),
+	std::make_pair("rotationanimation", AddRotationAnimation),
+	std::make_pair("sun", AddSun),
+	std::make_pair("tv", AddTV),
 };
 
 static int AddBehaviour(lua_State* luaState)
@@ -581,7 +655,7 @@ static int AddBehaviour(lua_State* luaState)
 	std::string behaviour = luaL_checkstring(luaState, 2);
 
 	//Convert the behaviour to lower case for consistency
-	std::transform(behaviour.begin(), behaviour.end(), behaviour.begin(), std::tolower);
+	std::transform(behaviour.begin(), behaviour.end(), behaviour.begin(), tolower);
 
 	//Remove the values from the stack
 	lua_remove(luaState, 1);

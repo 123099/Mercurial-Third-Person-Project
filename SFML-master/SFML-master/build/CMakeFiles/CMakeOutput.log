@@ -1,0 +1,490 @@
+The system is: Windows - 10.0.14393 - AMD64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+0
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:22 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CompilerIdC\CompilerIdC.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "Debug\".
+  Creating directory "Debug\CompilerIdC.tlog\".
+InitializeBuildStatus:
+  Creating "Debug\CompilerIdC.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /nologo /W0 /WX- /diagnostics:classic /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue CMakeCCompilerId.c
+  CMakeCCompilerId.c
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdC.lib" /MACHINE:X86 /SAFESEH Debug\CMakeCCompilerId.obj
+  CompilerIdC.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CompilerIdC\.\CompilerIdC.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_C_COMPILER=D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\cl.exe
+FinalizeBuildStatus:
+  Deleting file "Debug\CompilerIdC.tlog\unsuccessfulbuild".
+  Touching "Debug\CompilerIdC.tlog\CompilerIdC.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CompilerIdC\CompilerIdC.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.71
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+
+The C compiler identification is MSVC, found in "C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/3.7.1/CompilerIdC/CompilerIdC.exe"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler:  
+Build flags: 
+Id flags: 
+
+The output was:
+0
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:23 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CompilerIdCXX\CompilerIdCXX.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "Debug\".
+  Creating directory "Debug\CompilerIdCXX.tlog\".
+InitializeBuildStatus:
+  Creating "Debug\CompilerIdCXX.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /nologo /W0 /WX- /diagnostics:classic /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\vc141.pdb" /Gd /TP /analyze- /errorReport:queue CMakeCXXCompilerId.cpp
+  CMakeCXXCompilerId.cpp
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:".\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\CompilerIdCXX.lib" /MACHINE:X86 /SAFESEH Debug\CMakeCXXCompilerId.obj
+  CompilerIdCXX.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CompilerIdCXX\.\CompilerIdCXX.exe
+PostBuildEvent:
+  for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+  :VCEnd
+  CMAKE_CXX_COMPILER=D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\cl.exe
+FinalizeBuildStatus:
+  Deleting file "Debug\CompilerIdCXX.tlog\unsuccessfulbuild".
+  Touching "Debug\CompilerIdCXX.tlog\CompilerIdCXX.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CompilerIdCXX\CompilerIdCXX.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.47
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+
+The CXX compiler identification is MSVC, found in "C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/3.7.1/CompilerIdCXX/CompilerIdCXX.exe"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_0277a.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:24 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_0277a.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_0277a.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_0277a.dir\Debug\cmTC_0277a.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_0277a.dir\Debug\cmTC_0277a.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0277a.dir\Debug\\" /Fd"cmTC_0277a.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\testCCompiler.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0277a.dir\Debug\\" /Fd"cmTC_0277a.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\testCCompiler.c"
+  testCCompiler.c
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_0277a.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_0277a.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_0277a.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_0277a.dir\Debug\testCCompiler.obj
+  cmTC_0277a.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_0277a.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_0277a.dir\Debug\cmTC_0277a.tlog\unsuccessfulbuild".
+  Touching "cmTC_0277a.dir\Debug\cmTC_0277a.tlog\cmTC_0277a.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_0277a.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.60
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_0fa7b.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:25 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_0fa7b.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_0fa7b.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_0fa7b.dir\Debug\cmTC_0fa7b.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_0fa7b.dir\Debug\cmTC_0fa7b.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0fa7b.dir\Debug\\" /Fd"cmTC_0fa7b.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCCompilerABI.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_0fa7b.dir\Debug\\" /Fd"cmTC_0fa7b.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCCompilerABI.c"
+  CMakeCCompilerABI.c
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_0fa7b.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_0fa7b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_0fa7b.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_0fa7b.dir\Debug\CMakeCCompilerABI.obj
+  cmTC_0fa7b.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_0fa7b.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_0fa7b.dir\Debug\cmTC_0fa7b.tlog\unsuccessfulbuild".
+  Touching "cmTC_0fa7b.dir\Debug\cmTC_0fa7b.tlog\cmTC_0fa7b.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_0fa7b.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.54
+
+
+Determining if the CXX compiler works passed with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_15171.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:25 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_15171.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_15171.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_15171.dir\Debug\cmTC_15171.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_15171.dir\Debug\cmTC_15171.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_15171.dir\Debug\\" /Fd"cmTC_15171.dir\Debug\vc141.pdb" /Gd /TP /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_15171.dir\Debug\\" /Fd"cmTC_15171.dir\Debug\vc141.pdb" /Gd /TP /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\testCXXCompiler.cxx"
+  testCXXCompiler.cxx
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_15171.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_15171.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_15171.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_15171.dir\Debug\testCXXCompiler.obj
+  cmTC_15171.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_15171.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_15171.dir\Debug\cmTC_15171.tlog\unsuccessfulbuild".
+  Touching "cmTC_15171.dir\Debug\cmTC_15171.tlog\cmTC_15171.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_15171.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.53
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_83e31.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:26 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_83e31.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_83e31.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_83e31.dir\Debug\cmTC_83e31.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_83e31.dir\Debug\cmTC_83e31.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_83e31.dir\Debug\\" /Fd"cmTC_83e31.dir\Debug\vc141.pdb" /Gd /TP /analyze- /errorReport:queue "D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCXXCompilerABI.cpp"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_83e31.dir\Debug\\" /Fd"cmTC_83e31.dir\Debug\vc141.pdb" /Gd /TP /analyze- /errorReport:queue "D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCXXCompilerABI.cpp"
+  CMakeCXXCompilerABI.cpp
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_83e31.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_83e31.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_83e31.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_83e31.dir\Debug\CMakeCXXCompilerABI.obj
+  cmTC_83e31.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_83e31.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_83e31.dir\Debug\cmTC_83e31.tlog\unsuccessfulbuild".
+  Touching "cmTC_83e31.dir\Debug\cmTC_83e31.tlog\cmTC_83e31.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_83e31.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.55
+
+
+
+
+Detecting CXX [] compiler features compiled with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_66ee7.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:27 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_66ee7.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_66ee7.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_66ee7.dir\Debug\cmTC_66ee7.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_66ee7.dir\Debug\cmTC_66ee7.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_66ee7.dir\Debug\\" /Fd"cmTC_66ee7.dir\Debug\vc141.pdb" /Gd /TP /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\feature_tests.cxx"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_66ee7.dir\Debug\\" /Fd"cmTC_66ee7.dir\Debug\vc141.pdb" /Gd /TP /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\feature_tests.cxx"
+  feature_tests.cxx
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_66ee7.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_66ee7.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_66ee7.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_66ee7.dir\Debug\feature_tests.obj
+  cmTC_66ee7.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_66ee7.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_66ee7.dir\Debug\cmTC_66ee7.tlog\unsuccessfulbuild".
+  Touching "cmTC_66ee7.dir\Debug\cmTC_66ee7.tlog\cmTC_66ee7.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_66ee7.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.51
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+Determining if the include file sys/types.h exists passed with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_42ad3.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:27 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_42ad3.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_42ad3.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_42ad3.dir\Debug\cmTC_42ad3.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_42ad3.dir\Debug\cmTC_42ad3.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_42ad3.dir\Debug\\" /Fd"cmTC_42ad3.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_42ad3.dir\Debug\\" /Fd"cmTC_42ad3.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_42ad3.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_42ad3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_42ad3.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_42ad3.dir\Debug\CheckIncludeFile.obj
+  cmTC_42ad3.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_42ad3.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_42ad3.dir\Debug\cmTC_42ad3.tlog\unsuccessfulbuild".
+  Touching "cmTC_42ad3.dir\Debug\cmTC_42ad3.tlog\cmTC_42ad3.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_42ad3.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.50
+
+
+Determining if the include file stdint.h exists passed with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_9a466.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:28 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_9a466.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_9a466.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_9a466.dir\Debug\cmTC_9a466.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_9a466.dir\Debug\cmTC_9a466.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_9a466.dir\Debug\\" /Fd"cmTC_9a466.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_9a466.dir\Debug\\" /Fd"cmTC_9a466.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_9a466.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_9a466.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_9a466.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_9a466.dir\Debug\CheckIncludeFile.obj
+  cmTC_9a466.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_9a466.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_9a466.dir\Debug\cmTC_9a466.tlog\unsuccessfulbuild".
+  Touching "cmTC_9a466.dir\Debug\cmTC_9a466.tlog\cmTC_9a466.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_9a466.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.51
+
+
+Determining if the include file stddef.h exists passed with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_a0bf3.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:29 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_a0bf3.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_a0bf3.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_a0bf3.dir\Debug\cmTC_a0bf3.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_a0bf3.dir\Debug\cmTC_a0bf3.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_a0bf3.dir\Debug\\" /Fd"cmTC_a0bf3.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_a0bf3.dir\Debug\\" /Fd"cmTC_a0bf3.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\CheckIncludeFile.c"
+  CheckIncludeFile.c
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_a0bf3.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_a0bf3.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_a0bf3.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_a0bf3.dir\Debug\CheckIncludeFile.obj
+  cmTC_a0bf3.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_a0bf3.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_a0bf3.dir\Debug\cmTC_a0bf3.tlog\unsuccessfulbuild".
+  Touching "cmTC_a0bf3.dir\Debug\cmTC_a0bf3.tlog\cmTC_a0bf3.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_a0bf3.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.52
+
+
+Determining size of void* passed with the following output:
+Change Dir: C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"D:/Programs/Microsoft Visual Studio/2017/Community/MSBuild/15.0/Bin/MSBuild.exe" "cmTC_09304.vcxproj" "/p:Configuration=Debug" "/p:VisualStudioVersion=15.0"
+Microsoft (R) Build Engine version 15.1.458.808
+Copyright (C) Microsoft Corporation. All rights reserved.
+
+Build started 2/25/2017 7:32:29 PM.
+Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_09304.vcxproj" on node 1 (default targets).
+PrepareForBuild:
+  Creating directory "cmTC_09304.dir\Debug\".
+  Creating directory "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\".
+  Creating directory "cmTC_09304.dir\Debug\cmTC_09304.tlog\".
+InitializeBuildStatus:
+  Creating "cmTC_09304.dir\Debug\cmTC_09304.tlog\unsuccessfulbuild" because "AlwaysCreate" was specified.
+ClCompile:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\CL.exe /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_09304.dir\Debug\\" /Fd"cmTC_09304.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CheckTypeSize\SIZEOF_VOID_PTR.c"
+  Microsoft (R) C/C++ Optimizing Compiler Version 19.10.24728 for x86
+  Copyright (C) Microsoft Corporation.  All rights reserved.
+  
+  cl /c /Zi /W3 /WX- /diagnostics:classic /Od /Ob0 /Oy- /D WIN32 /D _WINDOWS /D _DEBUG /D "CMAKE_INTDIR=\"Debug\"" /D _MBCS /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_09304.dir\Debug\\" /Fd"cmTC_09304.dir\Debug\vc141.pdb" /Gd /TC /analyze- /errorReport:queue "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CheckTypeSize\SIZEOF_VOID_PTR.c"
+  SIZEOF_VOID_PTR.c
+  
+Link:
+  D:\Programs\Microsoft Visual Studio\2017\Community\VC\Tools\MSVC\14.10.24728\bin\HostX86\x86\link.exe /ERRORREPORT:QUEUE /OUT:"C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_09304.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_09304.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/alex/Desktop/SFML-master/SFML-master/build/CMakeFiles/CMakeTmp/Debug/cmTC_09304.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_09304.dir\Debug\SIZEOF_VOID_PTR.obj
+  cmTC_09304.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\Debug\cmTC_09304.exe
+FinalizeBuildStatus:
+  Deleting file "cmTC_09304.dir\Debug\cmTC_09304.tlog\unsuccessfulbuild".
+  Touching "cmTC_09304.dir\Debug\cmTC_09304.tlog\cmTC_09304.lastbuildstate".
+Done Building Project "C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\CMakeTmp\cmTC_09304.vcxproj" (default targets).
+
+Build succeeded.
+    0 Warning(s)
+    0 Error(s)
+
+Time Elapsed 00:00:00.53
+
+

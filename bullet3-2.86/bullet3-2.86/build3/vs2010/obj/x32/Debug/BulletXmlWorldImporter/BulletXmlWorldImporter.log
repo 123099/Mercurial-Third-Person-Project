@@ -1,0 +1,7 @@
+﻿  btBulletXmlWorldImporter.cpp
+  string_split.cpp
+  tinystr.cpp
+  tinyxml.cpp
+  tinyxmlerror.cpp
+  tinyxmlparser.cpp
+  BulletXmlWorldImporter.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\Extras\lib\BulletXmlWorldImporter_vs2010_debug.lib

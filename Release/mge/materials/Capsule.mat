@@ -5,7 +5,7 @@ materialDiffuse color 1 1 1 1
 materialSpecular color 1 1 1 1
 materialEmission color 0 0 0 1
 materialShininess float 10
-materialReflectivity float 0.1
+materialReflectivity float 0.15
 
 diffuseTexture texture mge/textures/Capsule/albedo.png
 normalMap texture mge/textures/Capsule/normal.png

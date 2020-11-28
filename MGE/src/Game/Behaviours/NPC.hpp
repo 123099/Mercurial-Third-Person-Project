@@ -36,6 +36,12 @@ public:
 
 	int MoveElevatorToPointA(lua_State* luaState);
 	int MoveElevatorToPointB(lua_State* luaState);
+	int IsElevatorAtPointA(lua_State* luaState);
+
+	int OpenDoor(lua_State* luaState);
+	int CloseDoor(lua_State* luaState);
+	int IsDoorOpen(lua_State* luaState);
+	int IsDoorMoving(lua_State* luaState);
 private:
 	int m_ID;
 	LuaScript* m_script;

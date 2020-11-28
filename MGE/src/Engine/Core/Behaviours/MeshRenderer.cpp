@@ -27,7 +27,8 @@ MeshRenderer::MeshRenderer() :
 	m_sharedMaterial(nullptr),
 	m_meshLinkedToShared(true),
 	m_materialLinkedToShared(true),
-	m_castShadows(true)
+	m_castShadows(true),
+	m_receiveShadows(true)
 {
 	Renderer::Instance().AddRenderable(this);
 }
@@ -40,6 +41,11 @@ MeshRenderer::~MeshRenderer()
 void MeshRenderer::SetCastShadows(bool castShadows)
 {
 	m_castShadows = castShadows;
+}
+
+void MeshRenderer::SetReceiveShadows(bool receiveShadows)
+{
+	m_receiveShadows = receiveShadows;
 }
 
 void MeshRenderer::SetMesh(Mesh* mesh)
@@ -183,6 +189,6 @@ void MeshRenderer::Render(const glm::mat4 & viewMatrix, const glm::mat4 & projec
 
 	if (material != nullptr && mesh != nullptr)
 	{
-		material->Render(mesh, m_gameObject->GetTransform()->GetModelMatrix(), viewMatrix, projectionMatrix, viewProjectionMatrix, simpleRender, m_castShadows);
+		material->Render(mesh, m_gameObject->GetTransform()->GetModelMatrix(), viewMatrix, projectionMatrix, viewProjectionMatrix, simpleRender, m_castShadows, m_receiveShadows);
 	}
 }

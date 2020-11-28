@@ -1,0 +1,10 @@
+﻿  glew.c
+  BasicExample.cpp
+  main_opengl_single_example.cpp
+  OpenGLGuiHelper.cpp
+  GL_ShapeDrawer.cpp
+  CollisionShape2TriangleMesh.cpp
+  b3Clock.cpp
+..\..\examples\BasicDemo\BasicExample.cpp(143): warning C4316: 'BasicExample': object allocated on the heap may not be aligned 16
+  App_BasicExampleGui.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\bin\App_BasicExampleGui_vs2010_debug.exe
+  App_BasicExampleGui.vcxproj -> ..\..\bin\App_BasicExampleGui_vs2010_debug.pdb (Partial PDB)

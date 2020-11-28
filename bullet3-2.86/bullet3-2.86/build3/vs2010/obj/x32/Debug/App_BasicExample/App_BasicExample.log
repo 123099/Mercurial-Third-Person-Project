@@ -1,0 +1,5 @@
+﻿  BasicExample.cpp
+  main.cpp
+..\..\examples\BasicDemo\BasicExample.cpp(143): warning C4316: 'BasicExample': object allocated on the heap may not be aligned 16
+  App_BasicExample.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\bin\App_BasicExample_vs2010_debug.exe
+  App_BasicExample.vcxproj -> ..\..\bin\App_BasicExample_vs2010_debug.pdb (Partial PDB)

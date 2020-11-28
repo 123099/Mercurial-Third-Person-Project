@@ -18,6 +18,7 @@ public:
 	~MeshRenderer() override;
 
 	void SetCastShadows(bool castShadows);
+	void SetReceiveShadows(bool receiveShadows);
 
 	void SetMesh(Mesh* mesh);
 	void SetSharedMesh(Mesh* sharedMesh);
@@ -39,6 +40,7 @@ private:
 	bool m_materialLinkedToShared;
 
 	bool m_castShadows;
+	bool m_receiveShadows;
 
 	void UnlinkFromSharedMesh();
 	void UnlinkFromSharedMaterial();

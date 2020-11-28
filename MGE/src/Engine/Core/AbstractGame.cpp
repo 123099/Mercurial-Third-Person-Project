@@ -81,7 +81,7 @@ void AbstractGame::OnInitialized() {}
 void AbstractGame::InitializeWindow()
 {
 	std::cout << "Initializing window..." << '\n';
-	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1280,720), "Mercurial", sf::Style::Default, sf::ContextSettings(24,8,4,3,3));
+	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1280,720), "Mercurial", sf::Style::Fullscreen, sf::ContextSettings(24,8,0,3,3));
 	std::cout << "Window initialized." << '\n' << '\n';
 }
 
@@ -130,6 +130,7 @@ void AbstractGame::InitializeGlew()
 {
 	std::cout << "Initializing GLEW..." << '\n';
     const GLint glewStatus = glewInit();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	std::cout << "GLEW Status: " << (glewStatus == GLEW_OK ? "Initialized" : "Failed to Initialize") << '\n' << '\n';
 }
 
@@ -255,6 +256,11 @@ bool AbstractGame::CheckFPSLimit(const sf::Clock& gameClock)
 
 void AbstractGame::ProcessEvents()
 {
+	Profiler::Instance().BeginSample("Input Manager Reset");
+	//Reset the input manager
+	m_inputManager.Reset();
+	Profiler::Instance().EndSample();
+
 	sf::Event event;
 	
 	//Process all the accumulated events in the event queue
@@ -458,11 +464,6 @@ void AbstractGame::PostRender()
 
 void AbstractGame::PostFrame()
 {
-	Profiler::Instance().BeginSample("Input Manager Reset");
-	//Reset the input manager
-	m_inputManager.Reset();
-	Profiler::Instance().EndSample();
-
 	//Update the cursor
 	if (m_window->hasFocus() == true)
 	{

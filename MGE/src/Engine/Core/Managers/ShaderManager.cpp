@@ -1,8 +1,8 @@
 #include "ShaderManager.hpp"
-#include <experimental\filesystem>
+#include <filesystem>
 #include <Core\config.hpp>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 InstanceCache<Shader> ShaderManager::s_loadedShaders;
 

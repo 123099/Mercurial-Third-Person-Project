@@ -2,6 +2,7 @@
 #include <Behaviours\AbstractBehaviour.hpp>
 #include <Behaviours\BehaviourAttributes.hpp>
 #include <Game\Behaviours\TextLogBehaviour.hpp>
+#include <Behaviours\PostProcessors\Transition.hpp>
 #include <Utils\glm.hpp>
 #include <LuaAPI\lua.hpp>
 #include <UI\TextLog.hpp>
@@ -11,7 +12,7 @@ class CharacterController;
 class Transform;
 class Camera;
 
-class Player final : public AbstractBehaviour, public RequireBehaviours<TextLogBehaviour>
+class Player final : public AbstractBehaviour, public RequireBehaviours<TextLogBehaviour, Transition>
 {
 public:
 	Player();
@@ -36,6 +37,10 @@ private:
 	glm::vec2 m_accumulatedCameraRotation;
 
 	float m_walkVelocity;
+
+	Transition* m_transitionFromBlack;
+
+	Crosshair m_introLogo;
 
 	TextLogBehaviour* m_textLogBehaviour;
 	Crosshair m_crosshair;

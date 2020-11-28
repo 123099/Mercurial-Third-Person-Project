@@ -13,6 +13,8 @@ public:
 
 	void GoToPointA();
 	void GoToPointB();
+
+	bool IsAtPointA();
 private:	
 	float m_speed;
 	
@@ -20,7 +22,6 @@ private:
 	glm::vec3 m_positionB;
 
 	glm::vec3 m_targetPosition;
-	bool m_isAtTarget;
 
 	void Move();
 };

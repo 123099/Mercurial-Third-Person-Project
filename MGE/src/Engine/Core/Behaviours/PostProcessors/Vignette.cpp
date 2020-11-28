@@ -14,14 +14,7 @@ void Vignette::ProcessTexture(RenderTexture & texture, RenderTexture& originalTe
 	texture.Bind(0);
 	m_shader.SetProperty(ShaderProperty("colorTexture", &texture));
 
-	//Draw the mesh
-	m_quad->StreamToOpenGL
-	(
-		m_shader.GetAttribute("vertex"),
-		-1,
-		m_shader.GetAttribute("uv"),
-		-1
-	);
+	DrawToTexture();
 
 	texture.Unbind(0);
 

@@ -1,0 +1,30 @@
+newmtl RailsSG
+illum 4
+Kd 0.34 0.27 0.23
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl RailsSG1
+illum 4
+Kd 0.34 0.27 0.23
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl RailsSG2
+illum 4
+Kd 0.40 0.08 0.08
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl RailsSG3
+illum 4
+Kd 0.34 0.27 0.23
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00
+newmtl RailsSG4
+illum 4
+Kd 0.40 0.08 0.08
+Ka 0.00 0.00 0.00
+Tf 1.00 1.00 1.00
+Ni 1.00

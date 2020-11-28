@@ -19,6 +19,8 @@ public:
 	void SetFriction(float friction);
 	void SetKinematic(bool kinematic);
 
+	void SetAlwaysActive(bool alwaysActive);
+
 	void AddForce(const glm::vec3& force);
 	void AddRelativeForce(const glm::vec3& force);
 
@@ -36,6 +38,7 @@ private:
 	float m_mass;
 	float m_friction;
 	bool m_isKinematic;
+	bool m_isAlwaysActive;
 
 	bool m_freezePositionX;
 	bool m_freezePositionY;

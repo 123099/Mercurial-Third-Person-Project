@@ -8,6 +8,7 @@
 #include <Game\Behaviours\Player.hpp>
 #include <Game\Behaviours\Elevator.hpp>
 #include <Game\Behaviours\TranslationAnimation.hpp>
+#include <Game\Behaviours\Door.hpp>
 
 #include <Importers\ObjImporter.hpp>
 
@@ -19,9 +20,9 @@
 #include <string>
 
 #include <Utils\StringUtils.hpp>
-#include <experimental\filesystem>
+#include <filesystem>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 static std::string GetNpcScriptPath(int npcID)
 {
@@ -219,10 +220,84 @@ int NPC::MoveElevatorToPointB(lua_State * luaState)
 	return 0;
 }
 
+int NPC::IsElevatorAtPointA(lua_State * luaState)
+{
+	Elevator* elevator = m_gameObject->GetBehaviour<Elevator>();
+	if (elevator != nullptr)
+	{
+		lua_pushboolean(luaState, elevator->IsAtPointA());
+	}
+	else
+	{
+		lua_pushboolean(luaState, false);
+	}
+
+	return 1;
+}
+
+int NPC::OpenDoor(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		door->Open();
+	}
+
+	return 0;
+}
+
+int NPC::CloseDoor(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		door->Close();
+	}
+
+	return 0;
+}
+
+int NPC::IsDoorOpen(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		lua_pushboolean(luaState, door->IsOpen());
+	}
+	else
+	{
+		lua_pushboolean(luaState, false);
+	}
+
+	return 1;
+}
+
+int NPC::IsDoorMoving(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		lua_pushboolean(luaState, door->IsMoving());
+	}
+	else
+	{
+		lua_pushboolean(luaState, false);
+	}
+
+	return 1;
+}
+
 static const luaL_Reg functions[]
 {
 	{"gettransform", lua_asmethod<NPC, &NPC::GetTransform>},
-	{"open", lua_asmethod<NPC, &NPC::DestroySelf> },
+	{"open", lua_asmethod<NPC, &NPC::OpenDoor> },
+	{"close", lua_asmethod<NPC, &NPC::CloseDoor> },
+	{"isopen", lua_asmethod<NPC, &NPC::IsDoorOpen>},
+	{"isdoormoving", lua_asmethod<NPC, &NPC::IsDoorMoving>},
 	{"destroyself", lua_asmethod<NPC, &NPC::DestroySelf> },
 	{"getposition", lua_asmethod<NPC, &NPC::GetPosition>},
 	{"setenabled", lua_asmethod<NPC, &NPC::SetEnabled>},
@@ -233,6 +308,7 @@ static const luaL_Reg functions[]
 	{"translate", lua_asmethod<NPC, &NPC::Translate>},
 	{"elevatorpointa", lua_asmethod<NPC, &NPC::MoveElevatorToPointA>},
 	{"elevatorpointb", lua_asmethod<NPC, &NPC::MoveElevatorToPointB>},
+	{"iselevatorpointa", lua_asmethod<NPC, &NPC::IsElevatorAtPointA>},
 	{NULL, NULL}
 };
 

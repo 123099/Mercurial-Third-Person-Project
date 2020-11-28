@@ -1,5 +1,6 @@
 #version 430
 const vec4 gamma = vec4(1.0 / 2.2);
+const float Epsilon = 0.0000001;
 
 uniform vec4 globalAmbient;
 uniform vec4 fogColor;
@@ -44,6 +45,8 @@ layout (std430) buffer lightData
 	Light lights[];
 };
 
+uniform float receiveShadows;
+
 struct ShadowMapFix
 {
 	sampler2D shadowMap;
@@ -70,18 +73,18 @@ vec4 calculateNormalizedLightVector(int lightIndex)
 	return -normalize(L);
 }
 
-vec4 calculateAmbient(int lightIndex)
+vec3 calculateAmbient(int lightIndex)
 {
-	return materialAmbient * lights[lightIndex].ambient;
+	return materialAmbient.rgb * lights[lightIndex].ambient.rgb;
 }
 
-vec4 calculateDiffuse(int lightIndex, vec4 normalizedLightVector, vec4 normal)
+vec3 calculateDiffuse(int lightIndex, vec4 normalizedLightVector, vec4 normal)
 {	
 	//Calculate the diffuse component based on the angle between the light vector and the normal vector
-	return max(dot(normalizedLightVector, normal), 0.0) * lights[lightIndex].diffuse * materialDiffuse;
+	return max(dot(normalizedLightVector, normal), 0.0) * lights[lightIndex].diffuse.rgb * materialDiffuse.rgb;
 }
 
-vec4 calculateSpecular(int lightIndex, vec4 normalizedLightVector, vec4 normal)
+vec3 calculateSpecular(int lightIndex, vec4 normalizedLightVector, vec4 normal)
 {
 	//Reflect the light vector along the fragment normal
 	const vec4 reflectedLightDir = reflect(normalizedLightVector, normal);
@@ -92,7 +95,15 @@ vec4 calculateSpecular(int lightIndex, vec4 normalizedLightVector, vec4 normal)
 	//Make sure shininess is positive, otherwise the pow behaviour is undefined.
 	const float shininess = materialShininess <= 0 ? 1.0 : materialShininess;
 	
-	return pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular * materialSpecular * texture(specularMap, frag_uv).a;
+	vec3 specular = pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular.rgb * materialSpecular.rgb;
+	
+	const vec4 specularTextureColor = texture(specularMap, frag_uv);
+	if(specularTextureColor != vec4(0.0))
+	{
+		specular *= specularTextureColor.rgb;
+	}
+	
+	return specular;
 }
 
 float calculateAttenuation(int lightIndex)
@@ -102,7 +113,7 @@ float calculateAttenuation(int lightIndex)
 	if(lights[lightIndex].type != 0.0) //Anything but directional light
 	{
 		//Get the distance squared to the light source
-		vec4 lv = vertex_cameraSpace - lights[lightIndex].position_cameraSpace;
+		const vec4 lv = vertex_cameraSpace - lights[lightIndex].position_cameraSpace;
 		float distSquared = dot(lv, lv); //DRIVER BUG!!!! dot(lv, lv) doesn't equal lv.x * lv.x + lv.y * lv.y
 		
 		//Get the attenuation factors of the light
@@ -118,12 +129,12 @@ float calculateAttenuation(int lightIndex)
 vec4 calculateFragmentNormal()
 {
 	//Retrieve the color of the normal from the normal map
-	vec4 normalColor = texture(normalMap, frag_uv);
+	const vec4 normalColor = texture(normalMap, frag_uv);
 	
 	//If the color is black, the most probable cause is that the normal map wasn't set. In that case, use the normal of the mesh, otherwise, calculate the normal from the map
 	if(normalColor != vec4(0.0))
 	{
-		return normalize(vec4(tbnMVMatrix * (255.0/128.0 * normalColor.xyz - 1.0), 0.0));
+		return normalize(vec4(tbnMVMatrix * (255.0/128.0 * normalColor.rgb - 1.0), 0.0));
 	}
 	else
 	{
@@ -133,6 +144,11 @@ vec4 calculateFragmentNormal()
 
 float calculateShadowAttenuation(int index)
 {
+	if(lights[index].type != 0.0 || receiveShadows == 0.0)
+	{
+		return 1.0;
+	}
+
 	vec4 vertexLightSpace = lights[index].vpMatrix * vec4(vertex_worldSpace.xyz, 1.0);
 	vec3 projectedCoords = 0.5 * (vertexLightSpace.xyz / vertexLightSpace.w) + vec3(0.5);
 	
@@ -141,14 +157,26 @@ float calculateShadowAttenuation(int index)
 		return 1.0;
 	}
 	
-	float closestDepth = texture(shadowMaps[index].shadowMap, projectedCoords.xy).x;
+	float shadowAttenuation = 0.0;
 	
-	if(closestDepth < projectedCoords.z + 0.05)
-	{
-		return 0.1;
-	}
+	float texelSize = 1.0 / 1024.0;
+	int pcfCount = 2;
+	int iterations = 0;
 	
-	return 1.0;
+	for(int x = -pcfCount; x <= pcfCount; ++x)
+		for(int y = -pcfCount; y <= pcfCount; ++y)
+		{
+			const float closestDepth = texture(shadowMaps[index].shadowMap, projectedCoords.xy + vec2(x, y) * texelSize).x;
+			
+			if(closestDepth < projectedCoords.z + Epsilon || closestDepth < projectedCoords.z - Epsilon)
+			{
+				shadowAttenuation += 1.0;
+			}
+			
+			++iterations;
+		}
+	
+	return clamp(1.0 - (shadowAttenuation / iterations * vertexLightSpace.w) + lights[index].intensity * 0.5, 0.0, 1.0);
 }
 
 vec4 calculateLight(int index, vec4 normal)
@@ -160,41 +188,47 @@ vec4 calculateLight(int index, vec4 normal)
 	
 	const vec4 L = calculateNormalizedLightVector(index);
 	
-	//Calculate the cos of the angle of the fragment from the light's direction
-	const float currentAngleCos = dot(L, -normalize(lights[index].direction_cameraSpace));
-	
 	//Calculate the spotlight falloff intensity variable
 	//When inside the inner cone, the falloff is 1
 	//When outside the inner cone, but inside the outer cone, the falloff is between 0 and 1
 	//When outside the outer cone, then falloff is 0
 	float spotFalloff = 1.0;
 	
-	//If the fragment is inside the inner cone, the falloff is 1, otherwise, it decreases according to (angleCos - outerConeCos) / (innerConeCos - outerConeCos)
-	if(currentAngleCos <= lights[index].spotInnerAngleCos) //As cos increases, angle decreases
-	{
-		//Calculate the difference in cosine between both cones
-		const float innerMinusOuterAngleCos = lights[index].spotInnerAngleCos - lights[index].spotOuterAngleCos;
+	if(lights[index].type != 0.0)
+	{		
+		//Calculate the cos of the angle of the fragment from the light's direction
+		const float currentAngleCos = dot(L, -normalize(lights[index].direction_cameraSpace));
 		
-		//The falloff is the ratio between the current angle between both cones and the difference between both cones
-		spotFalloff = clamp((currentAngleCos - lights[index].spotOuterAngleCos) / innerMinusOuterAngleCos, 0.0, 1.0);
+		//If the fragment is inside the inner cone, the falloff is 1, otherwise, it decreases according to (angleCos - outerConeCos) / (innerConeCos - outerConeCos)
+		if(currentAngleCos <= lights[index].spotInnerAngleCos) //As cos increases, angle decreases
+		{
+			//Calculate the difference in cosine between both cones
+			const float innerMinusOuterAngleCos = lights[index].spotInnerAngleCos - lights[index].spotOuterAngleCos;
+			
+			//The falloff is the ratio between the current angle between both cones and the difference between both cones
+			spotFalloff = clamp((currentAngleCos - lights[index].spotOuterAngleCos) / innerMinusOuterAngleCos, 0.0, 1.0);
+		}
 	}
 
 	const float shadowAttenuation = calculateShadowAttenuation(index);
 	
-	const vec4 ambient = calculateAmbient(index);
-	const vec4 diffuse = calculateDiffuse(index, L, normal);
-	const vec4 specular = calculateSpecular(index, L, normal);
+	const vec3 ambient = calculateAmbient(index);
+	const vec3 diffuse = calculateDiffuse(index, L, normal);
+	const vec3 specular = calculateSpecular(index, L, normal);
 	
-	vec3 ambientAndDiffuse = ambient.xyz + diffuse.xyz * shadowAttenuation;
+	vec3 ambientAndDiffuse = ambient + diffuse;
+	float alpha = 1.0;
 	
 	//Decide whether to apply a diffuse texture or not
 	const vec4 diffuseTextureColor = pow(texture(diffuseTexture, frag_uv), gamma);
 	if(diffuseTextureColor != vec4(0.0))
 	{
-		ambientAndDiffuse *= diffuseTextureColor.xyz;
+		ambientAndDiffuse *= diffuseTextureColor.rgb;
+		alpha = diffuseTextureColor.a;
 	}
 	
-	return vec4((ambientAndDiffuse.xyz + specular.xyz * shadowAttenuation) * vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff), (ambient.a + diffuse.a + specular.a) * 0.34);
+	const vec3 lightContribution = (ambientAndDiffuse + specular) * vec3(lights[index].intensity * calculateAttenuation(index) * spotFalloff * shadowAttenuation);
+	return vec4(lightContribution, alpha);
 }
 
 vec4 calculateReflection(vec4 currentColor)
@@ -208,27 +242,7 @@ vec4 calculateReflection(vec4 currentColor)
 	const vec3 direction = vec3(transpose(viewMatrix) * vec4(reflect(vertex_cameraSpace, normal_cameraSpace).xyz, 0));
 	
 	//Calculate reflection of the environment map
-	return vec4(mix(currentColor, pow(texture(environmentMap, direction), gamma), materialReflectivity).xyz, currentColor.a);
-}
-
-vec4 calculateFog(vec4 currentColor)
-{
-	//Calculate the fog coord based on the z distance in cartesian plane of the fragment
-	const float fogCoord = abs(vertex_cameraSpace.z / vertex_cameraSpace.w);
-	
-	//Calculate the shift of the fogCoord from the origin
-	const float fogCoordShifted = fogCoord - fogStartDistance;
-	
-	//If the shifted coordinate is whitin the starting distance, there should be no fog
-	if(fogCoordShifted < 0)
-	{
-		return currentColor;
-	}
-	
-	//Calculate the fog factor using an exponential squared equation
-	const float factor = clamp(1.0 - ( exp( -pow(( fogDensity * ( fogCoordShifted )), 2.0) ) ), 0.0, 1.0);
-	
-	return vec4(mix(currentColor, fogColor, factor).xyz, currentColor.a);
+	return vec4(mix(currentColor, pow(texture(environmentMap, direction), gamma), materialReflectivity).rgb, currentColor.a);
 }
 
 void main ( void )
@@ -245,20 +259,10 @@ void main ( void )
 	}
 	
 	//Add the global ambient and emission color of the material
-	fragColor += vec4(globalAmbient.xyz + materialEmission.xyz, (globalAmbient.a + materialEmission.a + fragColor.a) * 0.34);
+	fragColor.rgb += globalAmbient.rgb + materialEmission.rgb;
 	
 	//Apply reflection
 	fragColor = calculateReflection(fragColor);
-	
-	//Apply fog
-	fragColor = calculateFog(fragColor);
-
-	/*vec4 vertexLightSpace = lights[1].vpMatrix * vec4(vertex_worldSpace.xyz, 1.0);
-	vec3 projectedCoords = 0.5 * (vertexLightSpace.xyz / vertexLightSpace.w) + vec3(0.5);
-	float closestDepth = texture(shadowMaps[1], projectedCoords.xy).x;
-	fragColor = vec4(closestDepth);*/
-	
-	//fragColor = texture(shadowMaps1, frag_uv);
 }
 
 

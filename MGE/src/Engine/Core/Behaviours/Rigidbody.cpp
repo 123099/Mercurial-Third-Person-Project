@@ -34,6 +34,8 @@ void Rigidbody::Awake()
 	const btRigidBody::btRigidBodyConstructionInfo rigidbodyInfo(m_mass, m_rigidbodyMotion.get(), collisionShape, inertia);
 	m_rigidbody = std::make_unique<btRigidBody>(rigidbodyInfo);
 
+	SetAlwaysActive(m_isAlwaysActive);
+
 	//Set friction
 	SetFriction(m_friction);
 
@@ -57,7 +59,7 @@ void Rigidbody::Update()
 	{
 		return;
 	}
-	
+
 	//Based on whether the rigidbody is kinematic or not, either update the engine's transform or the rigidbody's transform
 	if (m_isKinematic == false)
 	{
@@ -133,6 +135,16 @@ void Rigidbody::SetKinematic(bool kinematic)
 				SetMass(m_mass);
 			}
 		}
+	}
+}
+
+void Rigidbody::SetAlwaysActive(bool alwaysActive)
+{
+	m_isAlwaysActive = alwaysActive;
+
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->setActivationState(DISABLE_DEACTIVATION);
 	}
 }
 

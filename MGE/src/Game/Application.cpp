@@ -56,6 +56,7 @@
 
 void Application::OnInitialized()
 {
+	Physics::Instance().SetDebugMode(false);
 	SetFPSLimit(60);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
@@ -72,9 +73,9 @@ void Application::InitializeScene()
 	GameObject* skyboxObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("SkyBox");
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
 	skybox->SetSkyboxCubeMap(&LightManager::Instance().GetSkyBox());
-	skybox->SetExposure(5);
+	skybox->SetExposure(1);
 
-	LevelImporter::LoadLevel("Spaceship");
+	LevelImporter::LoadLevel("Spaceship"); 
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();

@@ -34,7 +34,7 @@ void Transform::SetLocalPosition(const glm::vec3 & position)
 	//If the transform is static, it is not allowed to move
 	if (m_isStatic == true)
 	{
-		std::cerr << "Transform marked as static cannot move!" << '\n';
+		Debug::Instance().LogError("Transform (" + m_gameObject->GetName() + ") marked as static cannot move!");
 		return;
 	}
 
@@ -46,7 +46,7 @@ void Transform::SetWorldPosition(const glm::vec3 & position)
 	//If the transform is static, it is not allowed to move
 	if (m_isStatic == true)
 	{
-		std::cerr << "Transform marked as static cannot move!" << '\n';
+		Debug::Instance().LogError("Transform (" + m_gameObject->GetName() + ") marked as static cannot move!");
 		return;
 	}
 
@@ -66,7 +66,7 @@ void Transform::SetLocalRotation(const Quaternion & rotation)
 	//If the transform is static, it is not allowed to rotate
 	if (m_isStatic == true)
 	{
-		std::cerr << "Transform marked as static cannot rotate!" << '\n';
+		Debug::Instance().LogError("Transform (" + m_gameObject->GetName() + ") marked as static cannot rotate!");
 		return;
 	}
 
@@ -78,7 +78,7 @@ void Transform::SetWorldRotation(const Quaternion & rotation)
 	//If the transform is static, it is not allowed to rotate
 	if (m_isStatic == true)
 	{
-		std::cerr << "Transform marked as static cannot rotate!" << '\n';
+		Debug::Instance().LogError("Transform (" + m_gameObject->GetName() + ") marked as static cannot rotate!");
 		return;
 	}
 
@@ -98,7 +98,7 @@ void Transform::SetLocalScale(const glm::vec3 & scale)
 	//If the transform is static, it is not allowed to scale
 	if (m_isStatic == true)
 	{
-		std::cerr << "Transform marked as static cannot be scaled!" << '\n';
+		Debug::Instance().LogError("Transform (" + m_gameObject->GetName() + ") marked as static cannot scale!");
 		return;
 	}
 
@@ -110,19 +110,10 @@ glm::vec3 Transform::GetLocalPosition() const
 	return m_localPosition;
 }
 
-glm::vec3 Transform::GetWorldPosition() const
+glm::vec3 Transform::GetWorldPosition()
 {
-	glm::vec3 position = m_localPosition;
-
-	//Go through all the parents until the root parent and add their positions together
-	Transform* currentParent = m_parent;
-	while (currentParent != nullptr)
-	{
-		position += currentParent->m_localPosition;
-		currentParent = currentParent->m_parent;
-	}
-
-	return position;
+	glm::mat4 modelMatrix = GetModelMatrix();
+	return glm::vec3(modelMatrix[3][0], modelMatrix[3][1], modelMatrix[3][2]);
 }
 
 Quaternion Transform::GetLocalRotation() const
@@ -190,7 +181,7 @@ void Transform::SetModelMatrix(const glm::mat4 & matrix, bool worldMatrix)
 	//If the transform is static, it is not allowed to change its matrix
 	if (m_isStatic == true)
 	{
-		std::cerr << "Transform marked as static cannot update its matrix!" << '\n';
+		Debug::Instance().LogError("Transform (" + m_gameObject->GetName() + ") marked as static cannot update its matrix!");
 		return;
 	}
 
@@ -256,10 +247,10 @@ void Transform::Translate(glm::vec3 translation, Space relativeTo)
 {
 	switch (relativeTo)
 	{
-	case Space::Self:
-		SetLocalPosition(m_localPosition + m_localRotation * translation);
-		break;
 	case Space::World:
+		SetWorldPosition(GetWorldPosition() + GetWorldRotation().Inverse() * translation);
+		break;
+	case Space::Self:
 		SetLocalPosition(m_localPosition + translation);
 		break;
 	}
@@ -314,7 +305,7 @@ void Transform::SetParent(Transform * parent, bool worldPositionStays)
 	//If the transform is static, it is not allowed to change its parent, since that would imply a different world matrix
 	if (m_isStatic == true)
 	{
-		std::cerr << "Transform marked as static cannot change its parent!" << '\n';
+		Debug::Instance().LogError("Transform (" + m_gameObject->GetName() + ") marked as static cannot change its parent!");
 		return;
 	}
 

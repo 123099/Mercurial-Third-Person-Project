@@ -6,7 +6,7 @@
 
 AudioSource::AudioSource() :
 	m_loop(false),
-	m_attenuation(1.0f),
+	m_attenuation(0.8f),
 	m_volume(1.0f),
 	m_pitch(1.0f),
 	m_spatialType(Type::ThreeD) {}

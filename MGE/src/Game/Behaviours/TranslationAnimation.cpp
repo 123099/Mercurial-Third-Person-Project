@@ -5,42 +5,53 @@
 
 void TranslationAnimation::Start()
 {
-	m_target = nullptr;
 	m_rigidbody = m_gameObject->GetBehaviour<Rigidbody>();
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->SetKinematic(true);
+	}
 }
 
 void TranslationAnimation::Update()
 {
-	if (m_target != nullptr)
+	if (m_isMoving == true)
 	{
 		if (m_timer.IsReady())
 		{
-			if (m_rigidbody != nullptr)
-			{
-				m_rigidbody->Translate(m_stepMovement);
-			}
-			else
-			{
-				m_gameObject->GetTransform()->Translate(m_stepMovement, Space::World);
-			}
+			m_gameObject->GetTransform()->Translate(m_stepMovement, Space::World);
 
 			//If the distance is close enough, we have arrived at our destination
-			const glm::vec3 vectorFromToTarget = m_targetLocation - m_gameObject->GetTransform()->GetWorldPosition();
-			if (glm::dot(vectorFromToTarget, vectorFromToTarget) < 0.1f)
+			const glm::vec3 vectorFromToStart = m_gameObject->GetTransform()->GetWorldPosition() - m_startLocation;
+			if (glm::length(vectorFromToStart) >= m_distance)
 			{
-				//We are done, target is no longer necessary
-				m_target = nullptr;
+				m_isMoving = false;
 			}
 		}
 	}
 }
 
-void TranslationAnimation::MoveTowards(float distance, Transform * target, float movementTime)
+void TranslationAnimation::MoveInDirection(float distance, glm::vec3 direction, float movementTime)
 {
-	m_target = target;
+	MoveTowards(distance, m_gameObject->GetTransform()->GetWorldPosition() + direction, movementTime);
+}
+
+void TranslationAnimation::MoveTowards(float distance, glm::vec3 position, float movementTime)
+{
+	m_isMoving = true;
+	m_distance = distance;
+	m_startLocation = m_gameObject->GetTransform()->GetWorldPosition();
 	m_timer = Timer(movementTime / m_movementSteps);
-	m_targetLocation = m_target->GetWorldPosition();
 
 	const float stepDistance = distance / m_movementSteps;
-	m_stepMovement = stepDistance * glm::normalize(m_targetLocation - m_gameObject->GetTransform()->GetWorldPosition());
+	m_stepMovement = stepDistance * glm::normalize(position - m_startLocation);
+}
+
+void TranslationAnimation::MoveTowards(float distance, Transform * target, float movementTime)
+{
+	MoveTowards(distance, target->GetWorldPosition(), movementTime);
+}
+
+bool TranslationAnimation::IsMoving()
+{
+	return m_isMoving;
 }

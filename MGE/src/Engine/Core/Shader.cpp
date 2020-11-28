@@ -4,9 +4,9 @@
 #include <Core\config.hpp>
 #include <Utils\File.hpp>
 #include <Managers\ShaderManager.hpp>
-#include <experimental\filesystem>
+#include <filesystem>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 #pragma region Shader Helpers Defs
 

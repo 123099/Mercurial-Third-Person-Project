@@ -1,0 +1,17 @@
+﻿  glew.c
+  BasicExample.cpp
+  main_sw_tinyrenderer_single_example.cpp
+  OpenGLGuiHelper.cpp
+  GL_ShapeDrawer.cpp
+  CollisionShape2TriangleMesh.cpp
+  geometry.cpp
+  model.cpp
+  tgaimage.cpp
+  our_gl.cpp
+  TinyRenderer.cpp
+..\..\examples\StandaloneMain\main_sw_tinyrenderer_single_example.cpp(119): warning C4316: 'TinyRenderObjectData': object allocated on the heap may not be aligned 16
+  b3ResourcePath.cpp
+  b3Clock.cpp
+..\..\examples\BasicDemo\BasicExample.cpp(143): warning C4316: 'BasicExample': object allocated on the heap may not be aligned 16
+  App_BasicExampleGuiWithSoftwareRenderer.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\bin\App_BasicExampleGuiWithSoftwareRenderer_vs2010_debug.exe
+  App_BasicExampleGuiWithSoftwareRenderer.vcxproj -> ..\..\bin\App_BasicExampleGuiWithSoftwareRenderer_vs2010_debug.pdb (Partial PDB)

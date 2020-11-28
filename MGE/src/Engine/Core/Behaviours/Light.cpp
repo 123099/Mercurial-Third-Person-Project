@@ -7,7 +7,7 @@
 
 Light::Light() :
 	m_type(Light::Type::Directional),
-	m_shadowMap(2048, 2048),
+	m_shadowMap(1024, 1024),
 	m_ambientColor(glm::vec4(0)),
 	m_diffuseColor(glm::vec4(0)),
 	m_specularColor(glm::vec4(0)),
@@ -23,12 +23,16 @@ Light::Light() :
 Light::~Light()
 {
 	LightManager::Instance().RemoveLight(this);
-	delete m_shadowBox;
 }
 
 void Light::Awake()
 {
-	m_shadowBox = new ShadowBox(*Camera::GetMainCamera(), 100.0f, 10.0f);
+	const glm::vec3 position = GetGameObject()->GetTransform()->GetWorldPosition();
+	const glm::vec3 forward = GetGameObject()->GetTransform()->GetForwardVector();
+	m_directionalLightViewMatrix = glm::lookAt(position, position - forward, glm::vec3(0, 1, 0));
+	m_directionalLightProjectionMatrix = glm::ortho<float>(-50, 50, -50, 50, 0.1f, 400);
+
+	m_vpMatrix = m_directionalLightProjectionMatrix * m_directionalLightViewMatrix;
 }
 
 void Light::SetType(Type type)
@@ -136,52 +140,12 @@ glm::vec3 Light::GetAttenuation()
 
 glm::mat4 Light::GetViewMatrix()
 {
-	const glm::vec3 position = GetGameObject()->GetTransform()->GetWorldPosition();
-	const glm::vec3 forward = GetGameObject()->GetTransform()->GetForwardVector();
-	if (m_type == Light::Type::Directional)
-	{
-		//Position light far behind and looking forward
-		return glm::lookAt(position + 80.0f * forward,  position, glm::vec3(0, 1, 0));
-	}
-	else
-	{
-		return glm::lookAt(position, position - forward, glm::vec3(0, 1, 0));
-	}
+	return m_directionalLightViewMatrix;
 }
 
-#include <Input\Input.hpp>
-float a = 50;
-float b = 400;
 glm::mat4 Light::GetProjectionMatrix()
 {
-	if (Input::IsKeyPressed(sf::Keyboard::Num1))
-	{
-		a++;
-		std::cout << "A: " << a << '\n';
-	}
-	if (Input::IsKeyPressed(sf::Keyboard::Num2))
-	{
-		a--;
-		std::cout << "A: " << a << '\n';
-	}
-	if (Input::IsKeyPressed(sf::Keyboard::Num3))
-	{
-		b++;
-		std::cout << "B: " << b << '\n';
-	}
-	if (Input::IsKeyPressed(sf::Keyboard::Num4))
-	{
-		b--;
-		std::cout << "B: " << b << '\n';
-	}
-	if (m_type == Light::Type::Directional)
-	{
-		return glm::ortho(-a, a, -a, a, 0.1f, b);
-	}
-	else
-	{
-		return glm::perspective(glm::radians(m_spotOuterAngle), 1.0f, 0.1f, 1000.0f);
-	}
+	return m_directionalLightProjectionMatrix;
 }
 
 Light::Data Light::GetLightData()
@@ -209,9 +173,6 @@ Light::Data Light::GetLightData()
 			direction = glm::vec4(-m_gameObject->GetTransform()->GetForwardVector(), 0.0f);
 		}
 
-		//Calculate the light's VP matrix for shadows
-		glm::mat4 vpMatrix = GetProjectionMatrix() * GetViewMatrix();//GetShadowBox().GetProjectionMatrix() * GetShadowBox().GetViewMatrix(direction);
-
 		return
 		{
 			position,
@@ -224,7 +185,7 @@ Light::Data Light::GetLightData()
 			m_intensity,
 			m_type == Light::Type::Spot ? glm::cos(glm::radians(m_spotInnerAngle * 0.5f)) : -1.0f, //-1 = cos(180)
 			m_type == Light::Type::Spot ? glm::cos(glm::radians(m_spotOuterAngle * 0.5f)) : -1.0f, //-1 = cos(180). Faster to check type and send -1 instead of calculating cos
-			vpMatrix
+			m_vpMatrix
 		};
 	}
 }

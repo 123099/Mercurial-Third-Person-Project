@@ -86,7 +86,7 @@ void Material::SetVector(const std::string & propertyName, glm::vec4 vector)
 	SetProperty(vectorProperty);
 }
 
-void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender, bool castShadows)
+void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender, bool castShadows, bool receiveShadows)
 {
 	if (simpleRender == true)
 	{
@@ -94,7 +94,7 @@ void Material::Render(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat
 	}
 	else
 	{
-		FullRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix);
+		FullRender(mesh, modelMatrix, viewMatrix, projectionMatrix, viewProjectionMatrix, receiveShadows);
 	}
 }
 
@@ -148,7 +148,7 @@ bool Material::CanBindExtraTexture()
 	return m_setTextureCount + 1 < maxTextures;
 }
 
-void Material::FullRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix)
+void Material::FullRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4 & viewProjectionMatrix, bool receiveShadows)
 {
 	//Bind the shader
 	m_shader.Bind();
@@ -174,11 +174,18 @@ void Material::FullRender(Mesh * mesh, const glm::mat4 & modelMatrix, const glm:
 	//Pass the environment map to the material
 	SetProperty(ShaderProperty("environmentMap", &LightManager::Instance().GetSkyBox()));
 
-	//Pass the shadow map textures to the shader at the latest texture unit
-	const std::vector<Light*> lights = LightManager::Instance().GetLights();
-	for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
+	//Pass whether the object should receive shadows or not
+	m_shader.SetProperty(ShaderProperty("receiveShadows", (float)receiveShadows));
+
+	if (receiveShadows == true)
 	{
-		SetProperty(ShaderProperty("shadowMaps[" + std::to_string(i) + "].shadowMap", &lights[i]->GetShadowMap()));
+		//Pass the shadow map textures to the shader at the latest texture unit
+		const std::vector<Light*> lights = LightManager::Instance().GetLights();
+		for (size_t i = 0; i < LightManager::Instance().GetLightCount(); ++i)
+		{
+			if(lights[i]->GetType() == Light::Type::Directional)
+				SetProperty(ShaderProperty("shadowMaps[" + std::to_string(i) + "].shadowMap", &lights[i]->GetShadowMap()));
+		}
 	}
 
 	//Since the default sampler2D value is 0, start from 1, and make 0 represent a non existent texture

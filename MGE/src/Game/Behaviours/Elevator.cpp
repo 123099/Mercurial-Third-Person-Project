@@ -42,15 +42,22 @@ void Elevator::GoToPointB()
 	m_targetPosition = m_positionB;
 }
 
+bool Elevator::IsAtPointA()
+{
+	return m_gameObject->GetTransform()->GetLocalPosition() == m_positionA;
+}
+
 void Elevator::Move()
 {
 	const glm::vec3 direction = glm::normalize(m_targetPosition - m_gameObject->GetTransform()->GetLocalPosition());
 	const glm::vec3 translation = direction * m_speed * Time::s_deltaTime;
-	
-	if (m_gameObject->GetTransform()->GetLocalPosition() + translation == m_targetPosition)
-	{
-		m_isAtTarget = true;
-	}
 
-	m_gameObject->GetTransform()->Translate(direction * m_speed * Time::s_deltaTime);
+	if (glm::distance(m_gameObject->GetTransform()->GetLocalPosition() + translation, m_targetPosition) < 0.02f)
+	{
+		m_gameObject->GetTransform()->SetLocalPosition(m_targetPosition);
+	}
+	else
+	{
+		m_gameObject->GetTransform()->Translate(direction * m_speed * Time::s_deltaTime);
+	}
 }

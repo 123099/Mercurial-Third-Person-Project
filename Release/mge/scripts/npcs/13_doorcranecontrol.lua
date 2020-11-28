@@ -1,1 +1,0 @@
---npc 13 controol room door--

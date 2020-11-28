@@ -45,6 +45,8 @@ layout (std430) buffer lightData
 	Light lights[];
 };
 
+uniform float receiveShadows;
+
 struct ShadowMapFix
 {
 	sampler2D shadowMap;
@@ -93,7 +95,15 @@ vec3 calculateSpecular(int lightIndex, vec4 normalizedLightVector, vec4 normal)
 	//Make sure shininess is positive, otherwise the pow behaviour is undefined.
 	const float shininess = materialShininess <= 0 ? 1.0 : materialShininess;
 	
-	return pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular.rgb * materialSpecular.rgb * texture(specularMap, frag_uv).rgb;
+	vec3 specular = pow(cosAngleReflectedView, shininess) * lights[lightIndex].specular.rgb * materialSpecular.rgb;
+	
+	const vec4 specularTextureColor = texture(specularMap, frag_uv);
+	if(specularTextureColor != vec4(0.0))
+	{
+		specular *= specularTextureColor.rgb;
+	}
+	
+	return specular;
 }
 
 float calculateAttenuation(int lightIndex)
@@ -134,7 +144,7 @@ vec4 calculateFragmentNormal()
 
 float calculateShadowAttenuation(int index)
 {
-	if(lights[index].type != 0.0)
+	if(lights[index].type != 0.0 || receiveShadows == 0.0)
 	{
 		return 1.0;
 	}
@@ -149,8 +159,8 @@ float calculateShadowAttenuation(int index)
 	
 	float shadowAttenuation = 0.0;
 	
-	float texelSize = 1.0 / 2048.0;
-	int pcfCount = 3;
+	float texelSize = 1.0 / 1024.0;
+	int pcfCount = 2;
 	int iterations = 0;
 	
 	for(int x = -pcfCount; x <= pcfCount; ++x)
@@ -166,7 +176,7 @@ float calculateShadowAttenuation(int index)
 			++iterations;
 		}
 	
-	return 1.0 - (shadowAttenuation / iterations * vertexLightSpace.w);
+	return clamp(1.0 - (shadowAttenuation / iterations * vertexLightSpace.w) + lights[index].intensity * 0.5, 0.0, 1.0);
 }
 
 vec4 calculateLight(int index, vec4 normal)
@@ -200,7 +210,7 @@ vec4 calculateLight(int index, vec4 normal)
 		}
 	}
 
-	const float shadowAttenuation = lights[index].type != 0.0 ? 1.0 : calculateShadowAttenuation(index);
+	const float shadowAttenuation = calculateShadowAttenuation(index);
 	
 	const vec3 ambient = calculateAmbient(index);
 	const vec3 diffuse = calculateDiffuse(index, L, normal);

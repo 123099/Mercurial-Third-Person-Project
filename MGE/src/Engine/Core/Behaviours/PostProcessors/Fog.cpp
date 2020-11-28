@@ -26,13 +26,7 @@ void Fog::ProcessTexture(RenderTexture & texture, RenderTexture& originalTexture
 	originalTexture.Bind(1);
 	m_shader.SetProperty(ShaderProperty("depthTexture", &originalTexture));
 
-	m_quad->StreamToOpenGL
-	(
-		m_shader.GetAttribute("vertex"),
-		-1,
-		m_shader.GetAttribute("uv"),
-		-1
-	);
+	DrawToTexture();
 
 	originalTexture.Unbind(1);
 	texture.Unbind(0);

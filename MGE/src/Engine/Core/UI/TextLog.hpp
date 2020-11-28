@@ -16,6 +16,8 @@ public:
 	void SetFontColor(sf::Color color);
 	void SetFontSize(unsigned size);
 
+	void SetMaxLines(int maxLines);
+
 	void AddText(const std::string& text);
 	void AddTextOnTop(const std::string& text);
 
@@ -31,5 +33,7 @@ private:
 	sf::Color m_fontColor;
 	sf::Sprite m_boxSprite;
 	sf::Texture m_boxTexture;
+
+	int m_maxLines;
 };
 

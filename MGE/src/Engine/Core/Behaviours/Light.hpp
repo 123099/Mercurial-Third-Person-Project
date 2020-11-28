@@ -84,5 +84,9 @@ private:
 
 	float m_spotInnerAngle;
 	float m_spotOuterAngle;
+
+	glm::mat4 m_directionalLightViewMatrix;
+	glm::mat4 m_directionalLightProjectionMatrix;
+	glm::mat4 m_vpMatrix;
 };
 

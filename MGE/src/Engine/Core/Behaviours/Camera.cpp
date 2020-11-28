@@ -10,6 +10,11 @@ Camera * Camera::GetMainCamera()
 	return s_mainCamera;
 }
 
+void Camera::SetMainCamera(Camera* camera) 
+{
+	s_mainCamera = camera;
+}
+
 Camera::Camera() :
 	m_fieldOfView(60.0f),
 	m_nearPlane(0.1f),
