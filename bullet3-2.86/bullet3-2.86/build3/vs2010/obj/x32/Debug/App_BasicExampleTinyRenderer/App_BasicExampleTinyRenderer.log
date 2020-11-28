@@ -1,0 +1,15 @@
+﻿  BasicExample.cpp
+  main_tinyrenderer_single_example.cpp
+  CollisionShape2TriangleMesh.cpp
+  SimpleCamera.cpp
+  geometry.cpp
+  model.cpp
+  tgaimage.cpp
+  our_gl.cpp
+  TinyRenderer.cpp
+  b3ResourcePath.cpp
+  b3Clock.cpp
+..\..\examples\StandaloneMain\main_tinyrenderer_single_example.cpp(279): warning C4316: 'TinyRenderObjectData': object allocated on the heap may not be aligned 16
+..\..\examples\BasicDemo\BasicExample.cpp(143): warning C4316: 'BasicExample': object allocated on the heap may not be aligned 16
+  App_BasicExampleTinyRenderer.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\bin\App_BasicExampleTinyRenderer_vs2010_debug.exe
+  App_BasicExampleTinyRenderer.vcxproj -> ..\..\bin\App_BasicExampleTinyRenderer_vs2010_debug.pdb (Partial PDB)

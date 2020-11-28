@@ -1,5 +1,6 @@
 #include <Behaviours\Camera.hpp>
 #include <Core\GameObject.hpp>
+#include <Utils\Screen.hpp>
 #include <gl\glew.h>
 
 Camera* Camera::s_mainCamera;
@@ -9,13 +10,18 @@ Camera * Camera::GetMainCamera()
 	return s_mainCamera;
 }
 
+void Camera::SetMainCamera(Camera* camera) 
+{
+	s_mainCamera = camera;
+}
+
 Camera::Camera() :
 	m_fieldOfView(60.0f),
-	m_aspect(16.0f/9.0f),
 	m_nearPlane(0.1f),
 	m_farPlane(1000.0)
 {
 	ResetProjectionMatrix();
+	SetAspect((float)Screen::Instance().GetWidth(), (float)Screen::Instance().GetHeight());
 
 	if (s_mainCamera == nullptr)
 	{

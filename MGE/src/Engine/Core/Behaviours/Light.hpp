@@ -2,6 +2,7 @@
 #include <Behaviours\AbstractBehaviour.hpp>
 #include <Textures\RenderTexture.hpp>
 #include <Utils\glm.hpp>
+#include <Utils\ShadowBox.hpp>
 #include <string>
 
 class Light final : public AbstractBehaviour
@@ -32,6 +33,8 @@ public:
 	Light();
 	~Light();
 
+	void Awake() override final;
+
 	void SetType(Type type);
 	
 	void SetColor(glm::vec4 color);
@@ -50,6 +53,7 @@ public:
 	Type GetType();
 
 	RenderTexture& GetShadowMap();
+	ShadowBox& GetShadowBox();
 
 	glm::vec4 GetAmbientColor();
 	glm::vec4 GetDiffuseColor();
@@ -69,6 +73,7 @@ private:
 	Type m_type;
 
 	RenderTexture m_shadowMap;
+	ShadowBox* m_shadowBox;
 
 	glm::vec4 m_ambientColor;
 	glm::vec4 m_diffuseColor;
@@ -79,5 +84,9 @@ private:
 
 	float m_spotInnerAngle;
 	float m_spotOuterAngle;
+
+	glm::mat4 m_directionalLightViewMatrix;
+	glm::mat4 m_directionalLightProjectionMatrix;
+	glm::mat4 m_vpMatrix;
 };
 

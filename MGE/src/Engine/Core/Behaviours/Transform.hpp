@@ -30,7 +30,7 @@ public:
 	void SetLocalScale(const glm::vec3& scale);
 
 	glm::vec3 GetLocalPosition() const;
-	glm::vec3 GetWorldPosition() const;
+	glm::vec3 GetWorldPosition();
 	Quaternion GetLocalRotation() const;
 	Quaternion GetWorldRotation() const;
 	glm::vec3 GetLocalScale() const;

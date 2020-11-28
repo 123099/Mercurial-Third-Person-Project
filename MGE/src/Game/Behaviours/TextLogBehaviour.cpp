@@ -2,10 +2,12 @@
 #include <Core\Time.hpp>
 #include <Input\Input.hpp>
 
-TextLogBehaviour::TextLogBehaviour() : m_textlog("arial.ttf") {}
+TextLogBehaviour::TextLogBehaviour() : m_textlog("hemi.ttf") {}
 
 void TextLogBehaviour::Awake()
 {
+	m_textlog.SetBackground("log.png");
+	m_textlog.SetVisible(false);
 	SetTimeToFade(10.0f);
 	SetTimeToErase(150.0f);
 	m_lastFadeTime = Time::s_gameTime;
@@ -28,19 +30,21 @@ void TextLogBehaviour::Update()
 	{
 		m_textlog.SetVisible(false);
 	}
-	if (Input::IsKeyPressed(sf::Keyboard::Return)) 
-	{
-		Appear();
-	}
 	if (Time::s_gameTime - m_lastEraseTime >= m_timeToErase)
 	{
 		m_textlog.SetText("");
+	}
+
+	if (Input::IsKeyPressed(sf::Keyboard::Return)) 
+	{
+		Appear();
 	}
 }
 
 void TextLogBehaviour::Appear()
 {
 	m_lastFadeTime = Time::s_gameTime;
+	m_lastEraseTime = Time::s_gameTime;
 	m_textlog.SetVisible(true);
 }
 

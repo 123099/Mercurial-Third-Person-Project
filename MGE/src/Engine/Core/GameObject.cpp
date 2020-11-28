@@ -75,6 +75,11 @@ void GameObject::Initialize()
 
 void GameObject::FixedUpdate()
 {
+	if (m_destroyed == true)
+	{
+		return;
+	}
+
 	//Update all the behaviours
 	for (const auto& behaviour : m_behaviours)
 	{
@@ -90,6 +95,11 @@ void GameObject::FixedUpdate()
 
 void GameObject::Update()
 {
+	if (m_destroyed == true)
+	{
+		return;
+	}
+
 	//Update all the behaviours
 	for (const auto& behaviour : m_behaviours)
 	{
@@ -99,6 +109,8 @@ void GameObject::Update()
 	//Go through all the children and update them
     for (int i = m_transform->GetChildCount()-1; i >= 0; --i ) 
 	{
+		if (m_transform->GetChildAt(i)->GetGameObject()->GetName() == "Spotlight (4)")
+			std::cout << m_transform->GetChildAt(i)->GetLocalRotation() << '\n';
         m_transform->GetChildAt(i)->GetGameObject()->Update();
     }
 }

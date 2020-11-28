@@ -12,15 +12,21 @@ public:
 	void Start() override;
 	void Update() override;
 
+	void MoveInDirection(float distance, glm::vec3 direction, float movementTime);
+	void MoveTowards(float distance, glm::vec3 position, float movementTime);
 	void MoveTowards(float distance, Transform* target, float movementTime);
+
+	bool IsMoving();
 private:
 	Timer m_timer;
 
-	const int m_movementSteps = 20;
+	const int m_movementSteps = 35;
 
-	Transform* m_target;
 	Rigidbody* m_rigidbody;
 
-	glm::vec3 m_targetLocation;
+	glm::vec3 m_startLocation;
 	glm::vec3 m_stepMovement;
+	float m_distance;
+
+	bool m_isMoving;
 };

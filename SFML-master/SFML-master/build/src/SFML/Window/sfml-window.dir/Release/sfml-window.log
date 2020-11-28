@@ -1,0 +1,7 @@
+﻿  Mouse.cpp
+  InputImpl.cpp
+  Window.cpp
+  WindowImpl.cpp
+  Generating Code...
+     Creating library C:/Users/alex/Desktop/SFML-master/SFML-master/build/lib/Release/sfml-window.lib and object C:/Users/alex/Desktop/SFML-master/SFML-master/build/lib/Release/sfml-window.exp
+  sfml-window.vcxproj -> C:\Users\alex\Desktop\SFML-master\SFML-master\build\lib\Release\sfml-window-2.dll

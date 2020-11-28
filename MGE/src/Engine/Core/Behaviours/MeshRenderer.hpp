@@ -17,6 +17,9 @@ public:
 	MeshRenderer();
 	~MeshRenderer() override;
 
+	void SetCastShadows(bool castShadows);
+	void SetReceiveShadows(bool receiveShadows);
+
 	void SetMesh(Mesh* mesh);
 	void SetSharedMesh(Mesh* sharedMesh);
 	void SetMaterial(Material* material);
@@ -36,9 +39,12 @@ private:
 	bool m_meshLinkedToShared;
 	bool m_materialLinkedToShared;
 
+	bool m_castShadows;
+	bool m_receiveShadows;
+
 	void UnlinkFromSharedMesh();
 	void UnlinkFromSharedMaterial();
 
-	void Render(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix) const;
+	void Render(const glm::mat4& viewMatrix, const glm::mat4& projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender = false) const;
 };
 

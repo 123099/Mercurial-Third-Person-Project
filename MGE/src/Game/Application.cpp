@@ -48,14 +48,22 @@
 #include <Behaviours\BoxCollider.hpp>
 #include <Behaviours\CapsuleCollider.hpp>
 #include <Behaviours\Rigidbody.hpp>
-#include <Behaviours\PlayerInput.hpp>
+#include <Game\Behaviours\Elevator.hpp>
+#include <Behaviours\PostProcessors\Fog.hpp>
+#include <Behaviours\PostProcessors\Vignette.hpp>
+#include <Behaviours\PostProcessors\Contrast.hpp>
+#include <Behaviours\PostProcessors\Transition.hpp>
 
 void Application::OnInitialized()
 {
+	Physics::Instance().SetDebugMode(false);
 	SetFPSLimit(60);
-	SetDebugHudEnabled(true);
 	Cursor::Instance().SetCursorMode(Cursor::Mode::LockedAndCentered);
 	Cursor::Instance().SetCursorVisible(false);
+
+#ifdef _DEBUG
+	SetDebugHudEnabled(true);
+#endif
 }
 
 void Application::InitializeScene()
@@ -65,9 +73,9 @@ void Application::InitializeScene()
 	GameObject* skyboxObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("SkyBox");
 	Skybox* skybox = skyboxObject->AddBehaviour<Skybox>();
 	skybox->SetSkyboxCubeMap(&LightManager::Instance().GetSkyBox());
-	skybox->SetExposure(5);
+	skybox->SetExposure(1);
 
-	LevelImporter::LoadLevel("Level 1");
+	LevelImporter::LoadLevel("Spaceship"); 
 
 	GameObject* quitter = SceneManager::Instance().GetActiveScene()->CreateGameObject("Quit");
 	quitter->AddBehaviour<QuitBehaviour>();

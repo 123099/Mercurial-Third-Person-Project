@@ -26,7 +26,9 @@ MeshRenderer::MeshRenderer() :
 	m_sharedMesh(nullptr),
 	m_sharedMaterial(nullptr),
 	m_meshLinkedToShared(true),
-	m_materialLinkedToShared(true)
+	m_materialLinkedToShared(true),
+	m_castShadows(true),
+	m_receiveShadows(true)
 {
 	Renderer::Instance().AddRenderable(this);
 }
@@ -34,6 +36,16 @@ MeshRenderer::MeshRenderer() :
 MeshRenderer::~MeshRenderer()
 {
 	Renderer::Instance().RemoveRenderable(this);
+}
+
+void MeshRenderer::SetCastShadows(bool castShadows)
+{
+	m_castShadows = castShadows;
+}
+
+void MeshRenderer::SetReceiveShadows(bool receiveShadows)
+{
+	m_receiveShadows = receiveShadows;
 }
 
 void MeshRenderer::SetMesh(Mesh* mesh)
@@ -170,13 +182,13 @@ void MeshRenderer::UnlinkFromSharedMaterial()
 	m_materialLinkedToShared = false;
 }
 
-void MeshRenderer::Render(const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix) const
+void MeshRenderer::Render(const glm::mat4 & viewMatrix, const glm::mat4 & projectionMatrix, const glm::mat4& viewProjectionMatrix, bool simpleRender) const
 {
 	Mesh* mesh = m_mesh == nullptr ? m_sharedMesh : m_mesh;
 	Material* material = m_material == nullptr ? m_sharedMaterial : m_material;
 
 	if (material != nullptr && mesh != nullptr)
 	{
-		material->Render(mesh, m_gameObject->GetTransform()->GetModelMatrix(), viewMatrix, projectionMatrix, viewProjectionMatrix);
+		material->Render(mesh, m_gameObject->GetTransform()->GetModelMatrix(), viewMatrix, projectionMatrix, viewProjectionMatrix, simpleRender, m_castShadows, m_receiveShadows);
 	}
 }

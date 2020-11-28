@@ -1,0 +1,10 @@
+﻿  test.c
+  PhysicsClient.cpp
+  PhysicsClientSharedMemory.cpp
+  PhysicsClientSharedMemory_C_API.cpp
+  PhysicsClientC_API.cpp
+  Win32SharedMemory.cpp
+  PosixSharedMemory.cpp
+  b3ResourcePath.cpp
+  Test_SharedMemoryPhysicsClient.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\bin\Test_SharedMemoryPhysicsClient_vs2010_debug.exe
+  Test_SharedMemoryPhysicsClient.vcxproj -> ..\..\bin\Test_SharedMemoryPhysicsClient_vs2010_debug.pdb (Partial PDB)

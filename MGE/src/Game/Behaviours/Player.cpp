@@ -15,7 +15,7 @@
 
 #include <Utils\Screen.hpp>
 
-Player::Player() : m_crosshair("crosshair.png")
+Player::Player() : m_crosshair("crosshair.png"), m_introLogo("logo.png")
 {
 	m_crosshair.SetPositionOnScreen(Screen::Instance().GetWidth() * 0.5f - 16, Screen::Instance().GetHeight() * 0.5f - 16);
 }
@@ -31,42 +31,63 @@ void Player::Awake()
 	LuaEnvironment::GetLua()->BindObject<Player>(this, "Player", "player");
 
 	m_textLogBehaviour = m_gameObject->GetBehaviour<TextLogBehaviour>();
-	m_textLogBehaviour->GetTextLog().SetPositionOnScreen(10, 400);
-	m_textLogBehaviour->GetTextLog().SetFontColor(sf::Color::Red);
+	m_textLogBehaviour->GetTextLog().SetPositionOnScreen(50, 400);
+	m_textLogBehaviour->GetTextLog().SetFontSize(16);
 
 	m_camera = m_gameObject->GetBehavioursInChildren<Camera>()[0];
 	glm::vec3 cameraEulers = m_camera->GetGameObject()->GetTransform()->GetLocalRotation().GetEulerAngles();
-	m_accumulatedCameraRotation = glm::vec2(cameraEulers.y, cameraEulers.x);
+	m_accumulatedCameraRotation = glm::vec2(cameraEulers.x, cameraEulers.y);
 
 	m_characterController = m_gameObject->GetBehaviour<CharacterController>();
 	m_characterController->SetWalkVelocity(m_walkVelocity);
 	m_characterController->SetStepHeight(0.35f);
 	m_characterController->SetSlopeLimit(45);
+
+	m_transitionFromBlack = m_gameObject->GetBehaviour<Transition>();
+	m_transitionFromBlack->SetColor(glm::vec3(0.0f));
+	m_transitionFromBlack->SetDirection(-1);
 }
 
 void Player::FixedUpdate()
 {
-	Move();
+	if (m_transitionFromBlack == nullptr)
+	{
+		Move();
+	}
 }
 
 void Player::Update()
 {
-	Look();
-	Interact();
-
-	if (Input::GetMouseButtonDown(sf::Mouse::Button::Right))
+	if (m_transitionFromBlack != nullptr && Input::GetMouseButtonDown(sf::Mouse::Button::Left))
 	{
-		DropCarriedObject();
+		m_transitionFromBlack->Play();
+		m_transitionFromBlack = nullptr;
+		m_introLogo.SetVisible(false);
 	}
-
-	if (m_carriedObject != nullptr)
+	else if(m_transitionFromBlack == nullptr)
 	{
-		m_carriedObject->SetWorldPosition(
-			m_camera->GetGameObject()->GetTransform()->GetWorldPosition() +
-			1.0f * m_camera->GetGameObject()->GetTransform()->GetForwardVector() +
-			0.6f * m_camera->GetGameObject()->GetTransform()->GetRightVector()
-		);
-		m_carriedObject->SetWorldRotation(m_camera->GetGameObject()->GetTransform()->GetWorldRotation());
+		Look();
+		Interact();
+
+		if (Input::GetMouseButtonDown(sf::Mouse::Button::Right))
+		{
+			DropCarriedObject();
+		}
+		else if (Input::IsKeyPressed(sf::Keyboard::E))
+		{
+			DropCarriedObject(500.0f);
+		}
+
+		if (m_carriedObject != nullptr)
+		{
+			m_carriedObject->SetWorldPosition(
+				m_camera->GetGameObject()->GetTransform()->GetWorldPosition() +
+				1.5f * m_camera->GetGameObject()->GetTransform()->GetForwardVector() +
+				0.6f * m_camera->GetGameObject()->GetTransform()->GetRightVector() -
+				0.5f * m_camera->GetGameObject()->GetTransform()->GetUpVector()
+			);
+			m_carriedObject->SetWorldRotation(m_camera->GetGameObject()->GetTransform()->GetWorldRotation());
+		}
 	}
 }
 
@@ -78,7 +99,7 @@ void Player::Move()
 
 	if (Input::GetAxis(InputAxes::s_jump))
 	{
-		m_characterController->Jump(8);
+		m_characterController->Jump(10);
 	}
 }
 
@@ -123,16 +144,22 @@ void Player::Interact()
 	}
 }
 
-void Player::DropCarriedObject()
+void Player::DropCarriedObject(float throwForce)
 {
 	if (m_carriedObject != nullptr)
 	{
 		m_carriedObject->SetParent(nullptr);
 
+		if (m_carriedObject->GetGameObject()->GetName() == "Small Box")
+		{
+			m_carriedObject->SetLocalScale(glm::vec3(1.0f));
+		}
+
 		Rigidbody* carriedObjectRigidbody = m_carriedObject->GetGameObject()->GetBehaviour<Rigidbody>();
 		if (carriedObjectRigidbody != nullptr)
 		{
 			carriedObjectRigidbody->SetKinematic(false);
+			carriedObjectRigidbody->AddForce(m_camera->GetGameObject()->GetTransform()->GetWorldRotation() * glm::vec3(0, 0, -throwForce));
 		}
 
 		m_carriedObject = nullptr;
@@ -169,6 +196,11 @@ int Player::Carry(lua_State * luaState)
 		m_carriedObject = objectToCarry->GetGameObject()->GetTransform();
 		m_carriedObject->SetParent(GetGameObject()->GetTransform());
 
+		if (m_carriedObject->GetGameObject()->GetName() == "Small Box")
+		{
+			m_carriedObject->SetLocalScale(glm::vec3(0.5f));
+		}
+
 		Rigidbody* carriedObjectRigidbody = m_carriedObject->GetGameObject()->GetBehaviour<Rigidbody>();
 		if (carriedObjectRigidbody != nullptr)
 		{
@@ -181,7 +213,9 @@ int Player::Carry(lua_State * luaState)
 
 int Player::IsCarrying(lua_State * luaState)
 {
-	lua_pushboolean(luaState, m_carriedObject != nullptr);
+	NPC* npc = lua_checkType<NPC>(luaState, 1);
+
+	lua_pushboolean(luaState, npc != nullptr && m_carriedObject == npc->GetGameObject()->GetTransform());
 
 	return 1;
 }

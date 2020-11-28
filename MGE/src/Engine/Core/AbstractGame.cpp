@@ -1,6 +1,8 @@
 #include "AbstractGame.hpp"
 #include <Behaviours\Camera.hpp>
 #include <Behaviours\MeshRenderer.hpp>
+#include <Behaviours\PostProcessors\PostProcessor.hpp>
+
 #include <Game\Behaviours\Player.hpp>
 
 #include <Core\GameObject.hpp>
@@ -11,6 +13,7 @@
 
 #include <Renderers\Renderer.hpp>
 #include <Renderers\UIRenderer.hpp>
+#include <Renderers\PostProcessRenderer.hpp>
 
 #include <Managers\ShaderManager.hpp>
 #include <Managers\SceneManager.hpp>
@@ -50,6 +53,7 @@ void AbstractGame::Initialize()
 	InitializePhysics();
 	InitializeLight();
 	InitializeRenderer();
+	InitializeRenderTexture();
 	InitializeScene();
 	PostInitializeScene();
 	OnInitialized();
@@ -77,8 +81,15 @@ void AbstractGame::OnInitialized() {}
 void AbstractGame::InitializeWindow()
 {
 	std::cout << "Initializing window..." << '\n';
-	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(800,600), "Mercurial", sf::Style::Default, sf::ContextSettings(24,8,0,3,3));
+	m_window = std::make_unique<sf::RenderWindow>(sf::VideoMode(1280,720), "Mercurial", sf::Style::Fullscreen, sf::ContextSettings(24,8,0,3,3));
 	std::cout << "Window initialized." << '\n' << '\n';
+}
+
+void AbstractGame::InitializeRenderTexture()
+{
+	std::cout << "Initialize screen render texture..." << '\n';
+	m_renderTexture = std::make_unique<RenderTexture>(m_window->getSize().x, m_window->getSize().y);
+	std::cout << "Render texture initialized." << '\n' << '\n';
 }
 
 void AbstractGame::InitializeHelperSingletons()
@@ -119,6 +130,7 @@ void AbstractGame::InitializeGlew()
 {
 	std::cout << "Initializing GLEW..." << '\n';
     const GLint glewStatus = glewInit();
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	std::cout << "GLEW Status: " << (glewStatus == GLEW_OK ? "Initialized" : "Failed to Initialize") << '\n' << '\n';
 }
 
@@ -155,13 +167,6 @@ void AbstractGame::Run()
 	//Initialize the engine
 	Initialize();
 
-	if (Camera::GetMainCamera() != nullptr)
-	{
-		Camera::GetMainCamera()->SetAspect((float)m_window->getSize().x / m_window->getSize().y);
-	}
-
-	m_renderTexture = std::make_unique<RenderTexture>(m_window->getSize().x, m_window->getSize().y);
-
 	//Create a game clock
 	sf::Clock clock;
 
@@ -173,14 +178,14 @@ void AbstractGame::Run()
 
 	while (m_window->isOpen())
 	{
-		Profiler::Instance().BeginSample("Events");
-		//Process Events
-		ProcessEvents();
-		Profiler::Instance().EndSample();
-
 		//Make sure the Fps is locked to the limit set
 		if (CheckFPSLimit(clock) == true)
 		{
+			Profiler::Instance().BeginSample("Events");
+			//Process Events
+			ProcessEvents();
+			Profiler::Instance().EndSample();
+
 			//Calculate time per frame
 			Time::s_deltaTime = clock.getElapsedTime().asSeconds() - Time::s_gameTime;
 
@@ -251,16 +256,16 @@ bool AbstractGame::CheckFPSLimit(const sf::Clock& gameClock)
 
 void AbstractGame::ProcessEvents()
 {
+	Profiler::Instance().BeginSample("Input Manager Reset");
+	//Reset the input manager
+	m_inputManager.Reset();
+	Profiler::Instance().EndSample();
+
 	sf::Event event;
 	
 	//Process all the accumulated events in the event queue
-	Profiler::Instance().BeginSample("Poll Event");
-	bool a = m_window->pollEvent(event);
-	Profiler::Instance().EndSample();
-
-	while( a ) 
+	while(m_window->pollEvent(event))
 	{
-
 		Profiler::Instance().BeginSample("Input Manager Update");
 		//Handle Input events by the Input Manager
 		m_inputManager.Update(*m_window, event);
@@ -280,7 +285,6 @@ void AbstractGame::ProcessEvents()
             break;
         }
 		Profiler::Instance().EndSample();
-		a = m_window->pollEvent(event);
 	}
 }
 
@@ -384,16 +388,73 @@ void AbstractGame::PreRender()
 	LightManager::Instance().UpdateLightData(Camera::GetMainCamera()->GetViewMatrix());
 	Profiler::Instance().EndSample();
 
+	Profiler::Instance().BeginSample("Render Shadow Maps");
 	LightManager::Instance().RenderShadowMaps();
+	Profiler::Instance().EndSample();
 }
 
 void AbstractGame::Render() 
 {
-	//Render pass
-	Renderer::Instance().Render(Camera::GetMainCamera()->GetViewMatrix(), Camera::GetMainCamera()->GetProjectionMatrix());
+#ifdef _DEBUG
+	Camera::GetMainCamera()->SetAspect((float)m_window->getSize().x / 2.0f, (float)m_window->getSize().y);
 
+	//Render pass
+	m_renderTexture->Activate();
+		Renderer::Instance().Render(Camera::GetMainCamera()->GetViewMatrix(), Camera::GetMainCamera()->GetProjectionMatrix());
+	m_renderTexture->Deactivate();
+
+	//Pre-post processing
+	glViewport(0, 0, m_window->getSize().x / 2, m_window->getSize().y);
+	RenderTextureToScreen();
+
+	Profiler::Instance().BeginSample("Post Process");
+	PostProcessRenderer::Instance().Render(*m_renderTexture.get());
+	Profiler::Instance().EndSample();
+
+	//Post-post processing
+	glViewport(m_window->getSize().x / 2, 0, m_window->getSize().x / 2, m_window->getSize().y);
+	RenderTextureToScreen();
+
+	Camera::GetMainCamera()->SetAspect((float)m_window->getSize().x, (float)m_window->getSize().y);
+	glViewport(0, 0, m_window->getSize().x, m_window->getSize().y);
+#else
+	//Render pass
+	m_renderTexture->Activate();
+		Renderer::Instance().Render(Camera::GetMainCamera()->GetViewMatrix(), Camera::GetMainCamera()->GetProjectionMatrix());
+	m_renderTexture->Deactivate();
+
+	PostProcessRenderer::Instance().Render(*m_renderTexture.get());
+	RenderTextureToScreen();
+#endif
 	//Render UI
 	UIRenderer::Instance().Render(*m_window);
+}
+
+void AbstractGame::RenderTextureToScreen()
+{
+	//Draw rendered texture to the screen
+	glDisable(GL_CULL_FACE);
+	glEnable(GL_TEXTURE_2D);
+	m_renderTexture->SetBindDepthTexture(false);
+	m_renderTexture->Bind();
+
+	glBegin(GL_QUADS);
+		glTexCoord2f(0.0f, 0.0f);
+		glVertex2f(-1.0, -1.0f);
+
+		glTexCoord2f(1.0f, 0.0f);
+		glVertex2f(1.0, -1.0f);
+
+		glTexCoord2f(1.0f, 1.0f);
+		glVertex2f(1.0, 1.0f);
+
+		glTexCoord2f(0.0f, 1.0f);
+		glVertex2f(-1.0, 1.0f);
+	glEnd();
+
+	m_renderTexture->Unbind();
+	glEnable(GL_CULL_FACE);
+
 }
 
 void AbstractGame::PostRender() 
@@ -403,11 +464,6 @@ void AbstractGame::PostRender()
 
 void AbstractGame::PostFrame()
 {
-	Profiler::Instance().BeginSample("Input Manager Reset");
-	//Reset the input manager
-	m_inputManager.Reset();
-	Profiler::Instance().EndSample();
-
 	//Update the cursor
 	if (m_window->hasFocus() == true)
 	{

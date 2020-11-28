@@ -3,7 +3,7 @@
 #include <Core\GameObject.hpp>
 #include <Behaviours\Transform.hpp>
 
-Rigidbody::Rigidbody() : m_mass(1.0f) {}
+Rigidbody::Rigidbody() : m_mass(1.0f), m_friction(0.5f) {}
 
 Rigidbody::~Rigidbody()
 {
@@ -34,6 +34,11 @@ void Rigidbody::Awake()
 	const btRigidBody::btRigidBodyConstructionInfo rigidbodyInfo(m_mass, m_rigidbodyMotion.get(), collisionShape, inertia);
 	m_rigidbody = std::make_unique<btRigidBody>(rigidbodyInfo);
 
+	SetAlwaysActive(m_isAlwaysActive);
+
+	//Set friction
+	SetFriction(m_friction);
+
 	//Set static
 	if (m_gameObject->GetTransform()->IsStatic() == true)
 	{
@@ -54,7 +59,7 @@ void Rigidbody::Update()
 	{
 		return;
 	}
-	
+
 	//Based on whether the rigidbody is kinematic or not, either update the engine's transform or the rigidbody's transform
 	if (m_isKinematic == false)
 	{
@@ -101,6 +106,16 @@ void Rigidbody::SetMass(float mass)
 	}
 }
 
+void Rigidbody::SetFriction(float friction)
+{
+	m_friction = friction;
+
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->setFriction(friction);
+	}
+}
+
 void Rigidbody::SetKinematic(bool kinematic)
 {
 	m_isKinematic = kinematic;
@@ -120,6 +135,16 @@ void Rigidbody::SetKinematic(bool kinematic)
 				SetMass(m_mass);
 			}
 		}
+	}
+}
+
+void Rigidbody::SetAlwaysActive(bool alwaysActive)
+{
+	m_isAlwaysActive = alwaysActive;
+
+	if (m_rigidbody != nullptr)
+	{
+		m_rigidbody->setActivationState(DISABLE_DEACTIVATION);
 	}
 }
 

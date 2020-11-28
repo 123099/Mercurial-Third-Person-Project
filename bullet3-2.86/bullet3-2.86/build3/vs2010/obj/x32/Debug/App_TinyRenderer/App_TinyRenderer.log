@@ -1,0 +1,10 @@
+﻿  glew.c
+  geometry.cpp
+  main.cpp
+  model.cpp
+  our_gl.cpp
+  tgaimage.cpp
+  TinyRenderer.cpp
+  b3ResourcePath.cpp
+  App_TinyRenderer.vcxproj -> C:\Users\alex\Desktop\bullet3-2.86\bullet3-2.86\build3\vs2010\..\..\bin\App_TinyRenderer_vs2010_debug.exe
+  App_TinyRenderer.vcxproj -> ..\..\bin\App_TinyRenderer_vs2010_debug.pdb (Partial PDB)

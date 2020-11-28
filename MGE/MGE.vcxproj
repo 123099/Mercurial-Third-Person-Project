@@ -29,46 +29,46 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F433A569-F560-4D9D-A87B-864F3A432479}</ProjectGuid>
     <RootNamespace>MGE</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='DefaultConfig|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v141</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -189,10 +189,10 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32s.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Rpcrt4.lib;GoogleTest.lib;BulletDynamics_vs2010.lib;BulletCollision_vs2010.lib;LinearMath_vs2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32s.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-system-s.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Rpcrt4.lib;BulletDynamics_vs2010.lib;BulletCollision_vs2010.lib;LinearMath_vs2010.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
       <AdditionalLibraryDirectories>$(SolutionDir)externals\lib</AdditionalLibraryDirectories>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <Profile>true</Profile>
       <EntryPointSymbol>mainCRTStartup</EntryPointSymbol>
     </Link>
@@ -235,7 +235,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>glew32sd.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Rpcrt4.lib;GoogleTest-d.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32sd.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;gdi32.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;ws2_32.lib;lua.lib;Rpcrt4.lib;BulletDynamics_vs2010_debug.lib;BulletCollision_vs2010_debug.lib;LinearMath_vs2010_debug.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>LIBCMT</IgnoreSpecificDefaultLibraries>
       <AdditionalLibraryDirectories>$(SolutionDir)externals\lib</AdditionalLibraryDirectories>
       <SubSystem>Console</SubSystem>
@@ -290,11 +290,17 @@
     <ClInclude Include="src\Engine\Core\Behaviours\BoxCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\ConvexMeshCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\PlayerInput.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Fog.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Transition.hpp" />
+    <ClInclude Include="src\Engine\Core\Behaviours\PostProcessors\Vignette.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\Rigidbody.hpp" />
     <ClInclude Include="src\Engine\Core\Behaviours\SphereCollider.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Physics.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\Ray.hpp" />
     <ClInclude Include="src\Engine\Core\Physics\RaycastHit.hpp" />
+    <ClInclude Include="src\Engine\Core\Renderers\PostProcessRenderer.hpp" />
     <ClInclude Include="src\Engine\Core\Renderers\UIRenderer.hpp" />
     <ClInclude Include="src\Engine\Core\Textures\RenderTexture.hpp" />
     <ClInclude Include="src\Engine\Core\UI\Crosshair.hpp" />
@@ -302,16 +308,24 @@
     <ClInclude Include="src\Engine\Core\UI\UI.h" />
     <ClInclude Include="src\Engine\Core\Utils\BulletDebugRenderer.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Cursor.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\Debug.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\glm.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\MeshFactory.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Quaternion.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Screen.hpp" />
+    <ClInclude Include="src\Engine\Core\Utils\ShadowBox.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Singleton.hpp" />
     <ClInclude Include="src\Engine\Core\Utils\Timer.hpp" />
+    <ClInclude Include="src\Game\Behaviours\Door.hpp" />
+    <ClInclude Include="src\Game\Behaviours\Elevator.hpp" />
     <ClInclude Include="src\Game\Behaviours\LightIdentifier.hpp" />
     <ClInclude Include="src\Game\Behaviours\NPC.hpp" />
     <ClInclude Include="src\Game\Behaviours\Player.hpp" />
+    <ClInclude Include="src\Game\Behaviours\RotationAnimation.hpp" />
+    <ClInclude Include="src\Game\Behaviours\Sun.hpp" />
     <ClInclude Include="src\Game\Behaviours\TextLogBehaviour.hpp" />
     <ClInclude Include="src\Game\Behaviours\TranslationAnimation.hpp" />
+    <ClInclude Include="src\Game\Behaviours\TV.hpp" />
     <ClInclude Include="src\Lua\Closure.hpp" />
     <ClInclude Include="src\Lua\Environment.hpp" />
     <ClInclude Include="src\Lua\LuaUtils.hpp" />
@@ -376,11 +390,17 @@
     <ClCompile Include="src\Engine\Core\Behaviours\Lua\LuaScript.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\ConvexMeshCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\PlayerInput.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Contrast.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Fog.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\PostProcessor.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Transition.cpp" />
+    <ClCompile Include="src\Engine\Core\Behaviours\PostProcessors\Vignette.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\Rigidbody.cpp" />
     <ClCompile Include="src\Engine\Core\Behaviours\SphereCollider.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Physics.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\Ray.cpp" />
     <ClCompile Include="src\Engine\Core\Physics\RaycastHit.cpp" />
+    <ClCompile Include="src\Engine\Core\Renderers\PostProcessRenderer.cpp" />
     <ClCompile Include="src\Engine\Core\Renderers\UIRenderer.cpp" />
     <ClCompile Include="src\Engine\Core\Textures\RenderTexture.cpp" />
     <ClCompile Include="src\Engine\Core\UI\Crosshair.cpp" />
@@ -388,14 +408,22 @@
     <ClCompile Include="src\Engine\Core\UI\UI.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\BulletDebugRenderer.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Cursor.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\Debug.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\MeshFactory.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Quaternion.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Screen.cpp" />
+    <ClCompile Include="src\Engine\Core\Utils\ShadowBox.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\Timer.cpp" />
+    <ClCompile Include="src\Game\Behaviours\Door.cpp" />
+    <ClCompile Include="src\Game\Behaviours\Elevator.cpp" />
     <ClCompile Include="src\Game\Behaviours\LightIdentifier.cpp" />
     <ClCompile Include="src\Game\Behaviours\NPC.cpp" />
     <ClCompile Include="src\Game\Behaviours\Player.cpp" />
+    <ClCompile Include="src\Game\Behaviours\RotationAnimation.cpp" />
+    <ClCompile Include="src\Game\Behaviours\Sun.cpp" />
     <ClCompile Include="src\Game\Behaviours\TextLogBehaviour.cpp" />
     <ClCompile Include="src\Game\Behaviours\TranslationAnimation.cpp" />
+    <ClCompile Include="src\Game\Behaviours\TV.cpp" />
     <ClCompile Include="src\Lua\Closure.cpp" />
     <ClCompile Include="src\Lua\Environment.cpp" />
     <ClCompile Include="src\Lua\LuaUtils.cpp" />
@@ -444,8 +472,6 @@
     <ClCompile Include="src\Engine\Core\Material.cpp" />
     <ClCompile Include="src\Game\Application.cpp" />
     <ClCompile Include="src\Engine\Core\Utils\DebugHud.cpp" />
-    <ClCompile Include="tests\Engine\Behaviours\TransformTest.cpp" />
-    <ClCompile Include="tests\Engine\Utils\QuaternionTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="MGE.rc" />

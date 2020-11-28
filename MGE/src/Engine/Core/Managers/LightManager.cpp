@@ -8,6 +8,8 @@
 #include <Managers\ShaderManager.hpp>
 #include <Renderers\Renderer.hpp>
 #include <Utils\Profiler.hpp>
+#include <Utils\ShadowBox.hpp>
+#include <Utils\Debug.hpp>
 #include <Core\config.hpp>
 #include <fstream>
 #include <memory>
@@ -17,10 +19,10 @@ LightManager::LightManager() :
 	m_globalAmbient(glm::vec4(0.2, 0.2, 0.15, 1)),
 	m_fogColor(glm::vec4(1.0)),
 	m_fogDensity(0.03f),
-	m_fogStartDistance(10.0f) 
+	m_fogStartDistance(0.0f) 
 {
 	//Load a default skybox
-	m_skybox.SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/Sunset/", ".png");
+	m_skybox.SetCubeFaces(config::MGE_TEXTURES_PATH + "skybox/Space/", ".png");
 }
 
 void LightManager::AddLight(Light * light)
@@ -163,48 +165,24 @@ void LightManager::UpdateLightData(glm::mat4 viewMatrix)
 	glUnmapBuffer(GL_SHADER_STORAGE_BUFFER);
 	UnbindLightBuffer();
 }
-#include <Input\Input.hpp>
-bool enabled = true;
+
 void LightManager::RenderShadowMaps()
 {
 	glCullFace(GL_FRONT);
-	if (Input::IsKeyPressed(sf::Keyboard::F1))
-		enabled = !enabled;
 	for (size_t i = 0; i < GetLightCount(); ++i)
 	{
 		//Get the light
 		Light* light = m_lights[i];
-
-		//Activate the shadow map render texture
-		light->GetShadowMap().Activate();
-
-		//Render the scene to the texture
-		Renderer::Instance().Render(light->GetViewMatrix(), light->GetProjectionMatrix());
-
-		//Finish with the render texture
-		light->GetShadowMap().Deactivate();
-	}
-
-	if (enabled)
-	{
-		glDisable(GL_CULL_FACE);
-		glEnable(GL_TEXTURE_2D);
-		for (size_t i = 0; i < GetLightCount(); ++i)
+		if (light->GetType() == Light::Type::Directional)
 		{
-			m_lights[i]->GetShadowMap().Bind();
-			glBegin(GL_QUADS);
-			glTexCoord2f(0.0, 0.0);
-			glVertex3f(-1.0f + i * 1.0f, -1, 0.0);
-			glTexCoord2f(1.0, 0.0);
-			glVertex3f(0.0f + i * 1.0f, -1, 0.0);
-			glTexCoord2f(1.0, 1.0);
-			glVertex3f(0.0f + i * 1.0f, 0.0f, 0.0);
-			glTexCoord2f(0.0, 1.0);
-			glVertex3f(-1.0f + i * 1.0f, 0.0f, 0.0);
-			glEnd();
-			m_lights[i]->GetShadowMap().Unbind();
+			//Activate the shadow map render texture
+			light->GetShadowMap().Activate();
+			//Render the scene to the texture
+
+			Renderer::Instance().Render(light->GetViewMatrix(), light->GetProjectionMatrix(), true);
+			//Finish with the render texture
+			light->GetShadowMap().Deactivate();
 		}
-		glEnable(GL_CULL_FACE);
 	}
 	glCullFace(GL_BACK);
 }
@@ -261,13 +239,13 @@ void LightManager::LoadFromConfig()
 
 			if (success == false)
 			{
-				std::cerr << "[Error] Reading light manager config property " << propertyName << "!\n";
+				Debug::Instance().LogError("Reading light manager config property " + propertyName + "!");
 			}
 		}
 	}
 	else
 	{
-		std::cerr << "Failed to open the config file for the light manager at " << fullPath << "!\n";
+		Debug::Instance().LogError("Failed to open the config file for the light manager at " + fullPath + "!");
 	}
 }
 

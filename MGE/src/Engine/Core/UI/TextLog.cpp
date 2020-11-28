@@ -1,5 +1,6 @@
 #include <UI\TextLog.hpp>
 #include <Core\config.hpp>
+#include <sstream>
 
 TextLog::TextLog(const std::string& fontFileName)
 {
@@ -9,6 +10,7 @@ TextLog::TextLog(const std::string& fontFileName)
 	SetText("");
 	SetFontSize(14);
 	SetFontColor(sf::Color::White);
+	SetMaxLines(10);
 }
 
 void TextLog::SetBackground(const std::string& boxFileName)
@@ -28,6 +30,11 @@ void TextLog::SetFontSize(unsigned size)
 	m_logText.setCharacterSize(size);
 }
 
+void TextLog::SetMaxLines(int maxLines)
+{
+	m_maxLines = maxLines;
+}
+
 void TextLog::AddText(const std::string & text)
 {
 	SetText(GetText() + text);
@@ -35,12 +42,30 @@ void TextLog::AddText(const std::string & text)
 
 void TextLog::AddTextOnTop(const std::string & text)
 {
-	SetText(text + GetText());
+	SetText(text + '\t' + GetText());
 }
 
 void TextLog::SetText(const std::string & text)
 {
-	m_logText.setString(text);
+	std::stringstream clippedText;
+	int lineCounter = 1;
+	for (size_t i = 0; i < text.length(); ++i)
+	{
+		if (text[i] == '\n')
+		{
+			++lineCounter;
+		}
+
+		if (lineCounter > m_maxLines)
+		{
+			break;
+		}
+		else
+		{
+			clippedText << text[i];
+		}
+	}
+	m_logText.setString(clippedText.str());
 }
 
 std::string TextLog::GetText()
@@ -51,7 +76,7 @@ std::string TextLog::GetText()
 void TextLog::SetPositionOnScreen(float x, float y)
 {
 	m_logText.setPosition(x, y);
-	m_boxSprite.setPosition(x, y);
+	m_boxSprite.setPosition(x - 30, y-50);
 }
 
 void TextLog::OnDraw(sf::RenderWindow& window)
@@ -59,10 +84,4 @@ void TextLog::OnDraw(sf::RenderWindow& window)
 	window.draw(m_boxSprite);
 	window.draw(m_logText);
 }
-
-void TextLog::ClearLogHistory() 
-{
-	m_logText.setString("");
-}
-
 

@@ -1,10 +1,17 @@
 #include <Game\Behaviours\NPC.hpp>
 #include <Core\GameObject.hpp>
+
 #include <Behaviours\Transform.hpp>
 #include <Behaviours\Lua\LuaEnvironment.hpp>
 #include <Behaviours\MeshRenderer.hpp>
+
 #include <Game\Behaviours\Player.hpp>
+#include <Game\Behaviours\Elevator.hpp>
 #include <Game\Behaviours\TranslationAnimation.hpp>
+#include <Game\Behaviours\Door.hpp>
+
+#include <Importers\ObjImporter.hpp>
+
 #include <Textures\Texture.hpp>
 #include <Managers\SceneManager.hpp>
 #include <Core\Scene.hpp>
@@ -13,9 +20,9 @@
 #include <string>
 
 #include <Utils\StringUtils.hpp>
-#include <experimental\filesystem>
+#include <filesystem>
 
-namespace fs = std::experimental::filesystem;
+namespace fs = std::filesystem;
 
 static std::string GetNpcScriptPath(int npcID)
 {
@@ -38,7 +45,6 @@ void NPC::Awake()
 {
 	LuaEnvironment::GetLua()->RegisterType<NPC>("NPC");
 	LuaEnvironment::GetLua()->BindObject<NPC>(this, "NPC", "npc" + std::to_string(m_ID));
-
 	
 	m_script = m_gameObject->GetBehaviour<LuaScript>();
 	m_script->SetScript(GetNpcScriptPath(m_ID));
@@ -57,9 +63,9 @@ void NPC::SetID(int ID)
 	m_ID = ID;
 }
 
-void NPC::SetInteractble(bool interactble)
+void NPC::SetEnabled(bool enabled)
 {
-	m_isInteractble = interactble;
+	m_isEnabled = enabled;
 }
 
 void NPC::SetRunEveryFrame(bool runEveryFrame)
@@ -69,6 +75,9 @@ void NPC::SetRunEveryFrame(bool runEveryFrame)
 
 void NPC::StartInteraction()
 {
+	//Bind the current NPC before execution, in case multiple objects share the same NPC ID
+	LuaEnvironment::GetLua()->BindObject<NPC>(this, "NPC", "npc" + std::to_string(m_ID));
+
 	m_script->Execute();
 }
 
@@ -105,7 +114,7 @@ int NPC::SetEnabled(lua_State * luaState)
 	//Retrieve whether enabled or not
 	const bool isInteractble = (bool)lua_toboolean(luaState, 1);
 
-	SetInteractble(isInteractble);
+	SetEnabled(isInteractble);
 
 	return 0;
 }
@@ -113,7 +122,7 @@ int NPC::SetEnabled(lua_State * luaState)
 int NPC::IsEnabled(lua_State * luaState)
 {
 	//Push whether npc is interactable
-	lua_pushboolean(luaState, m_isInteractble);
+	lua_pushboolean(luaState, m_isEnabled);
 
 	return 1;
 }
@@ -132,6 +141,21 @@ int NPC::SwapTexture(lua_State * luaState)
 		{
 			material->SetTexture("diffuseTexture", Texture::Load(textureFile, false));
 		}
+	}
+
+	return 0;
+}
+
+int NPC::SwapMesh(lua_State * luaState)
+{
+	//Retrieve the mesh name
+	const std::string meshName = luaL_checkstring(luaState, 1);
+
+	//Swap the mesh if the npc has a mesh renderer
+	MeshRenderer* meshRenderer = m_gameObject->GetBehaviour<MeshRenderer>();
+	if (meshRenderer != nullptr)
+	{
+		meshRenderer->SetSharedMesh(ObjImporter::LoadObj(meshName));
 	}
 
 	return 0;
@@ -174,17 +198,117 @@ int NPC::Translate(lua_State * luaState)
 	return 0;
 }
 
+int NPC::MoveElevatorToPointA(lua_State * luaState)
+{
+	Elevator* elevator = m_gameObject->GetBehaviour<Elevator>();
+	if (elevator != nullptr)
+	{
+		elevator->GoToPointA();
+	}
+
+	return 0;
+}
+
+int NPC::MoveElevatorToPointB(lua_State * luaState)
+{
+	Elevator* elevator = m_gameObject->GetBehaviour<Elevator>();
+	if (elevator != nullptr)
+	{
+		elevator->GoToPointB();
+	}
+
+	return 0;
+}
+
+int NPC::IsElevatorAtPointA(lua_State * luaState)
+{
+	Elevator* elevator = m_gameObject->GetBehaviour<Elevator>();
+	if (elevator != nullptr)
+	{
+		lua_pushboolean(luaState, elevator->IsAtPointA());
+	}
+	else
+	{
+		lua_pushboolean(luaState, false);
+	}
+
+	return 1;
+}
+
+int NPC::OpenDoor(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		door->Open();
+	}
+
+	return 0;
+}
+
+int NPC::CloseDoor(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		door->Close();
+	}
+
+	return 0;
+}
+
+int NPC::IsDoorOpen(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		lua_pushboolean(luaState, door->IsOpen());
+	}
+	else
+	{
+		lua_pushboolean(luaState, false);
+	}
+
+	return 1;
+}
+
+int NPC::IsDoorMoving(lua_State * luaState)
+{
+	Door* door = m_gameObject->GetBehaviour<Door>();
+
+	if (door != nullptr)
+	{
+		lua_pushboolean(luaState, door->IsMoving());
+	}
+	else
+	{
+		lua_pushboolean(luaState, false);
+	}
+
+	return 1;
+}
+
 static const luaL_Reg functions[]
 {
 	{"gettransform", lua_asmethod<NPC, &NPC::GetTransform>},
-	{"open", lua_asmethod<NPC, &NPC::DestroySelf> },
+	{"open", lua_asmethod<NPC, &NPC::OpenDoor> },
+	{"close", lua_asmethod<NPC, &NPC::CloseDoor> },
+	{"isopen", lua_asmethod<NPC, &NPC::IsDoorOpen>},
+	{"isdoormoving", lua_asmethod<NPC, &NPC::IsDoorMoving>},
 	{"destroyself", lua_asmethod<NPC, &NPC::DestroySelf> },
 	{"getposition", lua_asmethod<NPC, &NPC::GetPosition>},
 	{"setenabled", lua_asmethod<NPC, &NPC::SetEnabled>},
 	{"isenabled", lua_asmethod<NPC, &NPC::IsEnabled>},
 	{"settexture", lua_asmethod<NPC, &NPC::SwapTexture>},
+	{"setmesh", lua_asmethod<NPC, &NPC::SwapMesh>},
 	{"distanceTo", lua_asmethod<NPC, &NPC::DistanceTo>},
 	{"translate", lua_asmethod<NPC, &NPC::Translate>},
+	{"elevatorpointa", lua_asmethod<NPC, &NPC::MoveElevatorToPointA>},
+	{"elevatorpointb", lua_asmethod<NPC, &NPC::MoveElevatorToPointB>},
+	{"iselevatorpointa", lua_asmethod<NPC, &NPC::IsElevatorAtPointA>},
 	{NULL, NULL}
 };
 

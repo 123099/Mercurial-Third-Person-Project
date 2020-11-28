@@ -1,10 +1,10 @@
 #include "ObjImporter.hpp"
 #include <Core\config.hpp>
-#include <iostream>
+#include <Utils\glm.hpp>
+#include <Utils\Debug.hpp>
+#include <vector>
 #include <fstream>
 #include <sstream>
-#include <Utils\glm.hpp>
-#include <vector>
 #include <algorithm>
 #include <map>
 
@@ -19,7 +19,7 @@ Mesh* ObjImporter::LoadObj(const std::string & modelName)
 		return Mesh::GetCache().GetValue(modelFile);
 	}
 
-	std::cout << "Loading " << config::MGE_MODELS_PATH << modelFile << "... ";
+	Debug::Instance().Log("Loading " + config::MGE_MODELS_PATH + modelFile + "...");
 
 	//Open an input file stream
 	std::ifstream file(config::MGE_MODELS_PATH + modelFile, std::ios::in);
@@ -139,7 +139,7 @@ Mesh* ObjImporter::LoadObj(const std::string & modelName)
 
 			if (success == false)
 			{
-				std::cerr << "[Error] reading obj file " << modelFile << " at line " << lineNumber << ". Number of elements doesn't coincide with what is required.\n";
+				Debug::Instance().LogError("Reading obj file " + modelFile + " at line " + std::to_string(lineNumber) + ". Number of elements doesn't coincide with what is required.");
 				return nullptr;
 			}
 
@@ -184,7 +184,7 @@ Mesh* ObjImporter::LoadObj(const std::string & modelName)
 		//Close the file stream
 		file.close();
 
-		std::cout << "Mesh (" << modelFile << ") loaded and buffered: " << (mesh->GetTriangles().size() / 3.0f) << " triangles." << '\n';
+		Debug::Instance().LogSuccess("Mesh - " + modelFile + " loaded and buffered: " + std::to_string(mesh->GetTriangles().size() / 3.0f) + " triangles.");
 
 		//Add mesh to the cache
 		Mesh::GetCache().AddValue(mesh.get());
@@ -193,7 +193,7 @@ Mesh* ObjImporter::LoadObj(const std::string & modelName)
 	}
 	else 
 	{
-		std::cout << "[Error] Could not open OBJ file " << modelFile << '\n';
+		Debug::Instance().LogError("Could not open OBJ file " + modelFile);
 		return nullptr;
 	}
 }

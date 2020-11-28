@@ -1,0 +1,24 @@
+﻿Tests
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch Post-Processing
+# Changes to be committed:
+#	modified:   DefaultConfig/MGE.bsc
+#	modified:   DefaultConfig/MGE.exe
+#	modified:   DefaultConfig/MGE.pdb
+#	modified:   MGE/DefaultConfig/MGE.log
+#	modified:   MGE/DefaultConfig/MGE.tlog/MGE.write.1u.tlog
+#	modified:   MGE/DefaultConfig/vc141.pdb
+#	modified:   MGE/Release/MGE.log
+#	modified:   MGE/Release/MGE.tlog/CL.command.1.tlog
+#	modified:   MGE/Release/MGE.tlog/CL.read.1.tlog
+#	modified:   MGE/Release/MGE.tlog/CL.write.1.tlog
+#	modified:   MGE/Release/MGE.tlog/MGE.write.1u.tlog
+#	modified:   MGE/Release/MGE.tlog/link.read.1.tlog
+#	modified:   MGE/Release/vc141.pdb
+#	modified:   MGE/assets/mge/shaders/lit/lit.fs
+#	modified:   Release/MGE.bsc
+#	modified:   Release/MGE.exe
+#	modified:   Release/MGE.pdb
+#
+

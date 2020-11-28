@@ -9,6 +9,7 @@ class Camera final : public AbstractBehaviour
 {
 public:
 	static Camera* GetMainCamera();
+	static void SetMainCamera(Camera * camera);
 
 	Camera();
 

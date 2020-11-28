@@ -1,0 +1,12 @@
+shader lit/lit
+
+materialAmbient color 1 1 1 1
+materialDiffuse color 1 1 1 1
+materialSpecular color 1 1 1 1
+materialEmission color 0 0 0 1
+materialShininess float 1
+materialReflectivity float 0
+
+diffuseTexture texture mge/textures/Cockpit/Canopy/albedo.png
+normalMap texture mge/textures/Cockpit/Canopy/normal.png
+specularMap texture mge/textures/Cockpit/Canopy/metallic.png

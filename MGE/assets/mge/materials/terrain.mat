@@ -1,0 +1,19 @@
+shader lit/terrain
+
+heightMap texture mge/textures/Terrain_HeightMap.png
+splatMap texture mge/textures/splatmap.png
+
+diffuseTexture0 texture mge/textures/diffuse2.jpg
+diffuseTexture1 texture mge/textures/lava.jpg
+diffuseTexture2 texture mge/textures/diffuse4.jpg
+diffuseTexture3 texture mge/textures/tex.png
+
+materialAmbient color 1 1 1 1
+materialDiffuse color 1 1 1 1
+materialSpecular color 1 1 1 1
+materialEmission color 0.1 0 0 1
+materialShininess float 10
+
+waveSpeed float -5
+waveFrequency float 0.2
+waveHeight float 0.4

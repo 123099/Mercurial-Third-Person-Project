@@ -1,0 +1,4 @@
+shader unlit/wobble
+diffuseColor vector 0 1 0 1
+textureDiffuse texture mge/textures/land.jpg
+texture2 texture mge/textures/bricks.jpg

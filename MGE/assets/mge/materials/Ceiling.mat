@@ -1,0 +1,12 @@
+shader lit/lit
+
+materialAmbient color 0 0 0 1
+materialDiffuse color 0 0 0 1
+materialSpecular color 0 0 0 1
+materialEmission color 0.1 0 0 1
+materialShininess float 10
+materialReflectivity float 0
+
+#diffuseTexture texture mge/textures/Generator/albedo.png
+#normalMap texture mge/textures/Generator/normal.png
+#specularMap texture mge/textures/Generator/metallic.png

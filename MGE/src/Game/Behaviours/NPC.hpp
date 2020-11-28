@@ -10,7 +10,7 @@ class NPC final : public AbstractBehaviour, public RequireBehaviours<LuaScript>
 {
 public:
 	void SetID(int ID);
-	void SetInteractble(bool interactble);
+	void SetEnabled(bool enabled);
 	void SetRunEveryFrame(bool runEveryFrame);
 
 	void Awake() override final;
@@ -29,13 +29,23 @@ public:
 	int IsEnabled(lua_State* luaState);
 
 	int SwapTexture(lua_State* luaState);
+	int SwapMesh(lua_State* luaState);
 
 	int DistanceTo(lua_State* luaState);
 	int Translate(lua_State* luaState);
+
+	int MoveElevatorToPointA(lua_State* luaState);
+	int MoveElevatorToPointB(lua_State* luaState);
+	int IsElevatorAtPointA(lua_State* luaState);
+
+	int OpenDoor(lua_State* luaState);
+	int CloseDoor(lua_State* luaState);
+	int IsDoorOpen(lua_State* luaState);
+	int IsDoorMoving(lua_State* luaState);
 private:
 	int m_ID;
 	LuaScript* m_script;
 
-	bool m_isInteractble;
+	bool m_isEnabled;
 	bool m_runEveryFrame;
 };

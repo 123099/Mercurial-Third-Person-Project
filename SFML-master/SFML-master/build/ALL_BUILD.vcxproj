@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{E4CE55B8-AD76-32FD-B216-849DAA67EEA3}</ProjectGUID>
+    <WindowsTargetPlatformVersion>10.0.14393.0</WindowsTargetPlatformVersion>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v141</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\alex\Desktop\SFML-master\SFML-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\alex\Desktop\SFML-master\SFML-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\alex\Desktop\SFML-master\SFML-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>C:\Users\alex\Desktop\SFML-master\SFML-master\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+D:\Programs\CMake\bin\cmake.exe -HC:/Users/alex/Desktop/SFML-master/SFML-master -BC:/Users/alex/Desktop/SFML-master/SFML-master/build --check-stamp-file C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCCompiler.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCXXCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeRCCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\cmake\Config.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckTypeSize.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFileCXX.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+D:\Programs\CMake\bin\cmake.exe -HC:/Users/alex/Desktop/SFML-master/SFML-master -BC:/Users/alex/Desktop/SFML-master/SFML-master/build --check-stamp-file C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCCompiler.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCXXCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeRCCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\cmake\Config.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckTypeSize.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFileCXX.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+D:\Programs\CMake\bin\cmake.exe -HC:/Users/alex/Desktop/SFML-master/SFML-master -BC:/Users/alex/Desktop/SFML-master/SFML-master/build --check-stamp-file C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCCompiler.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCXXCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeRCCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\cmake\Config.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckTypeSize.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFileCXX.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+D:\Programs\CMake\bin\cmake.exe -HC:/Users/alex/Desktop/SFML-master/SFML-master -BC:/Users/alex/Desktop/SFML-master/SFML-master/build --check-stamp-file C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/alex/Desktop/SFML-master/SFML-master/CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCCompiler.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeCXXCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeSystemSpecificInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeGenericSystem.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\WindowsPaths.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-C.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\3.7.1\CMakeRCCompiler.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeRCInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCXXInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeLanguageInformation.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Compiler\MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC-CXX.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\Platform\Windows-MSVC.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\cmake\Config.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckTypeSize.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFile.cmake;D:\Programs\CMake\share\cmake-3.7\Modules\CheckIncludeFileCXX.cmake;C:\Users\alex\Desktop\SFML-master\SFML-master\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\alex\Desktop\SFML-master\SFML-master\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Users/alex/Desktop/SFML-master/SFML-master/build/ZERO_CHECK.vcxproj">
+      <Project>185D22E8-8AA8-3977-861B-F6F5602B8544</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/alex/Desktop/SFML-master/SFML-master/build/src/SFML/Audio/sfml-audio.vcxproj">
+      <Project>D0D80F6C-6170-338B-9A5E-EE13CC4D0793</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/alex/Desktop/SFML-master/SFML-master/build/src/SFML/Graphics/sfml-graphics.vcxproj">
+      <Project>44EA7631-7E63-3EFF-AC98-64149839C277</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/alex/Desktop/SFML-master/SFML-master/build/src/SFML/Main/sfml-main.vcxproj">
+      <Project>FA027401-2C73-35DB-BFCE-D38FA38487BA</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/alex/Desktop/SFML-master/SFML-master/build/src/SFML/Network/sfml-network.vcxproj">
+      <Project>B7907D41-A7AB-3881-B7D0-E9DAA0CFB912</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/alex/Desktop/SFML-master/SFML-master/build/src/SFML/System/sfml-system.vcxproj">
+      <Project>F5704FB3-37E4-3650-B886-0B971B133C7E</Project>
+    </ProjectReference>
+    <ProjectReference Include="C:/Users/alex/Desktop/SFML-master/SFML-master/build/src/SFML/Window/sfml-window.vcxproj">
+      <Project>D50AB087-557D-3F60-88B1-31D389BFE61C</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

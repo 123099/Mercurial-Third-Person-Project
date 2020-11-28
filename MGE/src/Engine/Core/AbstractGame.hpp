@@ -40,6 +40,9 @@ private:
 	//Initialize SFML rendering context
 	void InitializeWindow();
 
+	//Initialize the render texture to which the scene will be rendered
+	void InitializeRenderTexture();
+
 	//Initialize the helper singleton instances, such as Screen and Cursor
 	void InitializeHelperSingletons();
 
@@ -84,6 +87,9 @@ private:
 
 	//Renders the Scene and the UI
 	void Render();
+
+	//Renders the scene's render texture to the window
+	void RenderTextureToScreen();
 
 	//Cleans after itself after rendering, e.g. unbind light buffers
 	void PostRender();

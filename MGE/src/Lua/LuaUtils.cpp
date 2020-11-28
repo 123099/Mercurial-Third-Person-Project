@@ -62,6 +62,7 @@ static const luaL_Reg functions[]
 	{"startcoroutine", lua_asmethod<LuaUtils, &LuaUtils::AddCoroutine>},
 	{"getgametime", lua_asmethod<LuaUtils, &LuaUtils::GetGameTime>},
 	{"playsound", lua_asmethod<LuaUtils, &LuaUtils::PlayAudioSource>},
+	{"stopsound", lua_asmethod<LuaUtils, &LuaUtils::StopAudioSource>},
 	{"togglelight", lua_asmethod<LuaUtils, &LuaUtils::ToggleLight>},
 	{nullptr, nullptr}
 };
@@ -125,13 +126,16 @@ int LuaUtils::PlayAudioSource(lua_State * l_luaState)
 	//Get whether to loop the sound or not
 	const bool loop = (bool)lua_toboolean(l_luaState, 5);
 
+	//Get whether to stream the sound or not
+	const bool stream = (bool)lua_toboolean(l_luaState, 6);
+
 	//Get the volume
-	const float volume = (float)luaL_checknumber(l_luaState, 6);
+	const float volume = (float)luaL_checknumber(l_luaState, 7);
 
 	GameObject* gameObject = SceneManager::Instance().GetActiveScene()->CreateGameObject("Sound");
 	gameObject->GetTransform()->SetWorldPosition(glm::vec3(x, y, z));
 
-	AudioClip* audioClip = AudioClip::Load(fileName, false, true);
+	AudioClip* audioClip = AudioClip::Load(fileName, stream, false);
 	AudioSource* audioSource = gameObject->AddBehaviour<AudioSource>();
 	
 	audioSource->SetAudioClip(audioClip);
@@ -140,6 +144,18 @@ int LuaUtils::PlayAudioSource(lua_State * l_luaState)
 	audioSource->SetDestroyOnEnd(true);
 
 	audioSource->Play();
+
+	lua_pushlightuserdata(l_luaState, audioSource);
+
+	return 1;
+}
+int LuaUtils::StopAudioSource(lua_State * l_luaState)
+{
+	//Get the audio source
+	AudioSource* audioSource = (AudioSource*)lua_touserdata(l_luaState, 1);
+
+	//Destroy the game object with the audio source
+	SceneManager::Instance().GetActiveScene()->DestroyGameObject(audioSource->GetGameObject());
 
 	return 0;
 }
@@ -161,7 +177,7 @@ int LuaUtils::ToggleLight(lua_State * l_luaState)
 			Light* light = lightIdentifiers[i]->GetGameObject()->GetBehaviour<Light>();
 			if (light != nullptr)
 			{
-				light->SetIntensity((float)enabled);
+				light->SetIntensity((float)enabled * 2);
 			}
 		}
 	}
